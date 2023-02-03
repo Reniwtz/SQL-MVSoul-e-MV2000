@@ -1,0 +1,7 @@
+select * from desenv.src_ambsus a
+where a.comp = '06/2022'
+
+update desenv.src_ambsus a
+set a.pagto = 'S'
+where a.comp = 'informar competencia, por exemplo (06/2022)'
+and a.pagto is null
