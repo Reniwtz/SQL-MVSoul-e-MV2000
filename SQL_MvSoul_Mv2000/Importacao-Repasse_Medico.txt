@@ -1,7 +1,13 @@
-select * from desenv.src_ambsus a
-where a.comp = '06/2022';
+SELECT
+    *
+FROM
+    desenv.src_ambsus a
+WHERE
+    a.comp = '06/2022';
 
-update desenv.src_ambsus a
-set a.pagto = 'S'
-where a.comp = 'informar competencia, por exemplo (06/2022)'
-and a.pagto is null;
+UPDATE desenv.src_ambsus a
+SET
+    a.pagto = 'S'
+WHERE
+        a.comp = 'informar competencia, por exemplo (06/2022)'
+    AND a.pagto IS NULL;
