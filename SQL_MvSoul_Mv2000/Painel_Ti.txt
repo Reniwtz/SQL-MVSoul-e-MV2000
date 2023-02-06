@@ -2,7 +2,7 @@ select t.semana_ano,
        case
          when t.semana = '1' then 'DOMINGO'
          when t.semana = '2' then 'SEGUNDA'
-         when t.semana = '3' then 'TERÇA'
+         when t.semana = '3' then 'TERÃ‡A'
          when t.semana = '4' then 'QUARTA'
          when t.semana = '5' then 'QUINTA'
          when t.semana = '6' then 'SEXTA'
