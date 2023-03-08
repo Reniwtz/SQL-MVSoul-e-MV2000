@@ -3,8 +3,10 @@ SELECT
     t3.ds_procedimento                                     AS descrição,
     t2.qt_fisico                                           AS orçado,
     COUNT(t1.cd_procedimento)                              AS lançada,
-    ( t2.qt_fisico - COUNT(t1.cd_procedimento) )           AS resta,
-    ( ( COUNT(t1.cd_procedimento) / t2.qt_fisico ) * 100)  AS porcentagem
+    case when (t2.qt_fisico - COUNT(t1.cd_procedimento)) < 0 
+        then 0
+        else ( t2.qt_fisico - COUNT(t1.cd_procedimento) ) end AS resta,
+    ROUND( ( COUNT(t1.cd_procedimento) / t2.qt_fisico ) * 100, 2)  AS porcentagem
 FROM
     eve_siasus                   t1,
     teto_orcamentario_proced_sus t2,
@@ -41,4 +43,4 @@ GROUP BY
     t3.ds_procedimento,
     t2.qt_fisico
 ORDER BY
-    t1.cd_procedimento
+    t1.cd_procedimento    
