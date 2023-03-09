@@ -21,8 +21,8 @@ select a.cd_solsai_pro as Solicitacao,
        to_char(a.hr_solsai_pro, 'hh24:mm:ss') as Hora,
        a.cd_turno as I_Neces,
        case a.sn_emitido when 'S' then 'Sim '
-                         when 'N' then 'Não'
-                           else  'Não'
+                         when 'N' then 'NÃ£o'
+                           else  'NÃ£o'
                              end as Impres,
        case a.sn_urgente when 'N' then '<img src="imagens/verde.png" >'
                          when 'S' then '<img src="imagens/vermelho2.gif" >'
