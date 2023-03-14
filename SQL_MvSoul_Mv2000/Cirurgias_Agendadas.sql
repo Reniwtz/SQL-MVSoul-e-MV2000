@@ -15,7 +15,7 @@ select d.cd_atendimento,
           ''
        end tp_situacao,
        cirurgia.ds_cirurgia,
-       decode(b.sn_uti,'N','Não','S','Sim') as sn_uti,
+       decode(b.sn_uti,'N','NÃ£o','S','Sim') as sn_uti,
        b.tp_sanguineo
   from age_cir        a,
        aviso_cirurgia b,
