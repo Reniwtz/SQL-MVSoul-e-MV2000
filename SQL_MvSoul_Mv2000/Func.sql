@@ -186,7 +186,7 @@ Select 1 Evolucao_Med
                       and Documento.Tp_Uso_Documento = 'M'
                       and Registro_Documento.sn_impresso = 'S');*/
 
----Prescricao Médica---
+---Prescricao MÃ©dica---
 cursor cPrescricaoMedica is
 Select 1 Sn_Prescrito
   From Dbamv.Atendime
@@ -203,7 +203,7 @@ Select 1 Sn_Prescrito
                       and Pre_Med.Tp_Pre_Med = 'M'
                       and Pre_Med.Fl_Impresso = 'S');
 
---solicitação pendente de pedidos de farmacia---
+--solicitaÃ§Ã£o pendente de pedidos de farmacia---
 cursor cFarmaciaPedidos is
 Select Distinct Case when (Round(((Sysdate-HrItP.Dh_Medicacao)*24)*60,0)+20) > 0 then 2 else 1 end Pedidos --(2 Medicacao com Atraso igual ou >20min, 1 Pedido na farmacia)
                  From Dbamv.Solsai_Pro   Solsa
@@ -218,7 +218,7 @@ Select Distinct Case when (Round(((Sysdate-HrItP.Dh_Medicacao)*24)*60,0)+20) > 0
                   and Solsa.Tp_Situacao = 'P'
                   and Solsa.tp_solsai_pro in ('P','S');
 
---solicitação pendente de devolucoes de farmacia---
+--solicitaÃ§Ã£o pendente de devolucoes de farmacia---
 cursor cFarmaciaDevolucao is
 Select 1 Devolucao
   From Dbamv.Atendime
@@ -414,7 +414,7 @@ SELECT 1 Aprazamento
    AND Tip_Esq.Tp_Checagem             = 'CC'
    AND Nvl(ItPre_Med.Tp_Situacao,'N')  = 'N'
    AND Nvl(ItPre_Med.Sn_Cancelado,'N') = 'N'
-   AND HrItPre_Med.Cd_ItPre_Med Is NULL; -- Medicamentos Não Aprazados
+   AND HrItPre_Med.Cd_ItPre_Med Is NULL; -- Medicamentos NÃ£o Aprazados
 
 ---Prescricao Aberta---
 Cursor cPrescricaoaberta is
