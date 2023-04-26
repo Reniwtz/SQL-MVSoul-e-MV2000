@@ -6,9 +6,6 @@ SELECT
     END AS Convenio,
     SUBSTR(TO_CHAR(aviso_cirurgia.dt_realizacao, 'MONTH'),0,3) AS Mes_Atend,
     COUNT(cirurgia_aviso.cd_convenio) AS CONT_CONV
-    --SUM(CASE WHEN cirurgia_aviso.cd_convenio IN ('1', '2') THEN 1 ELSE 0 END) AS Saídas_SUS,
-    --SUM(CASE WHEN cirurgia_aviso.cd_convenio = '16' THEN 1 ELSE 0 END) AS Saídas_Particular,
-    --SUM(CASE WHEN cirurgia_aviso.cd_convenio NOT IN ('1', '2', '16') THEN 1 ELSE 0 END) AS Saídas_Convenio
 FROM 
     aviso_cirurgia aviso_cirurgia,
     cirurgia_aviso cirurgia_aviso,
