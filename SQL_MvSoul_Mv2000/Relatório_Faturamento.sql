@@ -11,7 +11,8 @@ SELECT
     reg_fat.cd_remessa AS Remessa,
     reg_fat.vl_total_conta AS Valor_da_Conta,
     remessa_fatura.ds_lote_tiss AS Lote,
-    tiss_mensagem.nr_protocolo_retorno AS Protocolo
+    tiss_mensagem.nr_protocolo_retorno AS Protocolo,
+    to_char(fatura.dt_competencia, 'mm-yyyy') AS Competência
 FROM
          atendime atendime
     INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
@@ -21,6 +22,7 @@ FROM
     INNER JOIN prestador ON atendime.cd_prestador = prestador.cd_prestador
     INNER JOIN remessa_fatura ON reg_fat.cd_remessa = remessa_fatura.cd_remessa
     INNER JOIN tiss_mensagem ON remessa_fatura.ds_lote_tiss = tiss_mensagem.nr_lote
+    INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
 WHERE
         atendime.dt_atendimento BETWEEN ( '01/04/2023' ) AND ( '30/04/2023')
      AND atendime.cd_convenio LIKE '3';
