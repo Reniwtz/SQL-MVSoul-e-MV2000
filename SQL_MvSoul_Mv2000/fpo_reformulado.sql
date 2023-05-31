@@ -56,25 +56,32 @@ ORDER BY
 -------------------------------------------------------------------------
 
 SELECT
-    atendime.cd_procedimento AS Procedimento,
-    procedimento_sus.ds_procedimento AS descricao,
-    teto_orcamentario_proced_sus.qt_fisico AS acordado,
-    count(atendime.cd_procedimento) AS Quantidade_Feita,
-    teto_orcamentario_proced_sus.vl_orcamento AS valor
+    atendime.cd_procedimento                  AS procedimento,
+    procedimento_sus.ds_procedimento          AS descricao,
+    teto_orcamentario_proced_sus.qt_fisico    AS acordado,
+    COUNT(atendime.cd_procedimento)           AS quantidade_feita,
+    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado,
+    CASE
+        WHEN ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) ) < 0 THEN
+            0
+        ELSE ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) )
+    END                                       AS resta,
+    CONCAT(ROUND(((COUNT(atendime.cd_procedimento)) / teto_orcamentario_proced_sus.qt_fisico) * 100, 2), '%') AS porcentagem
 FROM
-    atendime atendime
+         atendime atendime
     INNER JOIN teto_orcamentario_proced_sus ON atendime.cd_procedimento = teto_orcamentario_proced_sus.cd_procedimento
     INNER JOIN procedimento_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
     INNER JOIN fat_sia ON teto_orcamentario_proced_sus.cd_fat_sia = fat_sia.cd_fat_sia
 WHERE
-        atendime.dt_atendimento BETWEEN ( '01/04/2023' ) AND ( '30/04/2023' )
+    atendime.dt_atendimento BETWEEN ( '01/04/2023' ) AND ( '30/04/2023' )
     AND to_char(fat_sia.dt_periodo_inicial, 'MM/YYYY') = '04/2023'
     AND atendime.sn_atendimento_apac LIKE 'S'
 GROUP BY
     atendime.cd_procedimento,
     procedimento_sus.ds_procedimento,
-    teto_orcamentario_proced_sus.qt_fisico, 
+    teto_orcamentario_proced_sus.qt_fisico,
     teto_orcamentario_proced_sus.vl_orcamento
 ORDER BY
+    atendime.cd_procedimento;
     atendime.cd_procedimento;
     
