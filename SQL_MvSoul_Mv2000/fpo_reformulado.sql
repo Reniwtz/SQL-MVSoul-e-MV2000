@@ -66,7 +66,8 @@ SELECT
             0
         ELSE ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) )
     END                                       AS resta,
-    CONCAT(ROUND(((COUNT(atendime.cd_procedimento)) / teto_orcamentario_proced_sus.qt_fisico) * 100, 2), '%') AS porcentagem
+    CONCAT(ROUND(((COUNT(atendime.cd_procedimento)) / teto_orcamentario_proced_sus.qt_fisico) * 100, 2), '%') AS porcentagem,
+    ((teto_orcamentario_proced_sus.vl_orcamento/teto_orcamentario_proced_sus.qt_fisico)* COUNT(atendime.cd_procedimento)) AS Tttal_lançado
 FROM
          atendime atendime
     INNER JOIN teto_orcamentario_proced_sus ON atendime.cd_procedimento = teto_orcamentario_proced_sus.cd_procedimento
@@ -82,6 +83,5 @@ GROUP BY
     teto_orcamentario_proced_sus.qt_fisico,
     teto_orcamentario_proced_sus.vl_orcamento
 ORDER BY
-    atendime.cd_procedimento;
     atendime.cd_procedimento;
     
