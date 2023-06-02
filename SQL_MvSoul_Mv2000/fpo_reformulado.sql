@@ -85,3 +85,19 @@ GROUP BY
 ORDER BY
     atendime.cd_procedimento;
     
+-----------------------------------------------------------------------
+
+SELECT
+    eve_siasus.cd_procedimento        cod_procedimento,
+    COUNT(eve_siasus.cd_procedimento) qt_lancada
+FROM
+    eve_siasus eve_siasus,
+    fat_sia    fat_sia
+WHERE
+        eve_siasus.cd_fat_sia = fat_sia.cd_fat_sia
+    AND to_char(fat_sia.dt_periodo_inicial, 'MM/YYYY') = '01/2023'
+GROUP BY
+    eve_siasus.cd_procedimento
+ORDER BY
+    eve_siasus.cd_procedimento;
+    
