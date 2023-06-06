@@ -381,5 +381,25 @@ WHERE
           OR eve_siasus.cd_procedimento LIKE '0404010121' )
 GROUP BY
     eve_siasus.cd_procedimento
+    
+    
+------------------------------------------------------------
+
+SELECT
+    eve_siasus.cd_procedimento AS cod_procedimento,
+    SUM(1)                     AS qt_lancada
+FROM
+    eve_siasus eve_siasus,
+    fat_sia    fat_sia
+WHERE
+        eve_siasus.cd_fat_sia = fat_sia.cd_fat_sia
+    AND to_char(fat_sia.dt_periodo_inicial, 'MM/YYYY') = '01/2023'
+    AND tipo_fatura like 'BPA'
+    --AND tipo_fatura like 'SISM'
+    --AND tipo_fatura like 'APAC'
+GROUP BY
+    eve_siasus.cd_procedimento
+ORDER BY
+    eve_siasus.cd_procedimento; 
 ORDER BY
     eve_siasus.cd_procedimento;
