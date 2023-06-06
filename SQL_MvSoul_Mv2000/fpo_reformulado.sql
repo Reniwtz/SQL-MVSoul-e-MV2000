@@ -385,6 +385,7 @@ GROUP BY
     
 ------------------------------------------------------------
 
+
 SELECT
     eve_siasus.cd_procedimento AS cod_procedimento,
     SUM(1)                     AS qt_lancada
@@ -397,6 +398,7 @@ WHERE
     AND tipo_fatura like 'BPA'
     --AND tipo_fatura like 'SISM'
     --AND tipo_fatura like 'APAC'
+    AND (eve_siasus.cd_procedimento <> '204030030' OR eve_siasus.cd_procedimento <> '204030188')
 GROUP BY
     eve_siasus.cd_procedimento
 ORDER BY
