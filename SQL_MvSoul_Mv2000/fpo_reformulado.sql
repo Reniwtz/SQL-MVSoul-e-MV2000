@@ -401,5 +401,3 @@ GROUP BY
     eve_siasus.cd_procedimento
 ORDER BY
     eve_siasus.cd_procedimento; 
-ORDER BY
-    eve_siasus.cd_procedimento;
