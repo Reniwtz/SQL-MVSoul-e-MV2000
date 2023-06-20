@@ -1,4 +1,5 @@
 SELECT
+    atendime.cd_ori_ate AS Numero_Origem,
     ori_ate.ds_ori_ate AS Origem,
     atendime.cd_atendimento AS Atendimento,
     paciente.nm_paciente AS Paciente,
@@ -36,7 +37,7 @@ SELECT
         AND atendime.cd_convenio LIKE '3'
         AND atendime.CD_ATENDIMENTO LIKE '3581347'
         AND cd_lancamento like '9') AS VLR_HO, 
-        SUM(itreg_amb.vl_total_conta) AS Total
+    SUM(itreg_amb.vl_total_conta) AS Total
     --remessa_fatura.ds_lote_tiss AS Lote,
     --tiss_mensagem.nr_protocolo_retorno AS Protocolo,
     --to_char(fatura.dt_competencia, 'mm-yyyy') AS Competência
@@ -55,7 +56,8 @@ WHERE
      AND atendime.cd_convenio LIKE '3'
      AND atendime.CD_ATENDIMENTO LIKE '3581347'
 GROUP BY
-        ori_ate.ds_ori_ate,
+        atendime.cd_ori_ate,
+    ori_ate.ds_ori_ate,
     atendime.cd_atendimento,
     paciente.nm_paciente,
     atendime.cd_paciente,
