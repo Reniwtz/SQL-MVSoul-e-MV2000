@@ -52,7 +52,7 @@ FROM
     INNER JOIN remessa_fatura ON reg_amb.cd_remessa = remessa_fatura.cd_remessa
     INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
 WHERE
-        --atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
+            --atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
         to_char(fatura.dt_competencia, 'mm/yyyy') = '04/2023'
      AND atendime.cd_convenio LIKE '3'
      --AND atendime.cd_atendimento LIKE '3581347'
