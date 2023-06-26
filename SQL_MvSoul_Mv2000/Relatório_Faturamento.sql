@@ -15,10 +15,15 @@ SELECT
     FROM
             atendime atendime
         INNER JOIN itreg_amb ON atendime.cd_atendimento = itreg_amb.cd_atendimento
+        INNER JOIN itreg_amb ON atendime.cd_atendimento = itreg_amb.cd_atendimento
+        INNER JOIN reg_amb ON itreg_amb.cd_reg_amb = reg_amb.cd_reg_amb
+        INNER JOIN remessa_fatura ON reg_amb.cd_remessa = remessa_fatura.cd_remessa
+        INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
     WHERE
-            atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
+            --atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
+            to_char(fatura.dt_competencia, 'mm/yyyy') = '04/2023'
         AND atendime.cd_convenio LIKE '3'
-        AND atendime.CD_ATENDIMENTO LIKE '3581347'
+        --AND atendime.CD_ATENDIMENTO LIKE '3581347'
         AND (cd_lancamento like '1' 
         OR cd_lancamento LIKE '2'
         OR cd_lancamento LIKE '3'
@@ -32,10 +37,15 @@ SELECT
     FROM
             atendime atendime
         INNER JOIN itreg_amb ON atendime.cd_atendimento = itreg_amb.cd_atendimento
+        INNER JOIN itreg_amb ON atendime.cd_atendimento = itreg_amb.cd_atendimento
+        INNER JOIN reg_amb ON itreg_amb.cd_reg_amb = reg_amb.cd_reg_amb
+        INNER JOIN remessa_fatura ON reg_amb.cd_remessa = remessa_fatura.cd_remessa
+        INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
     WHERE
-            atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
+            --atendime.dt_atendimento BETWEEN ( '01/01/2023' ) AND ( '31/01/2023')
+            to_char(fatura.dt_competencia, 'mm/yyyy') = '04/2023'
         AND atendime.cd_convenio LIKE '3'
-        AND atendime.CD_ATENDIMENTO LIKE '3581347'
+        --AND atendime.CD_ATENDIMENTO LIKE '3581347'
         AND cd_lancamento like '9') AS VLR_HO, 
     SUM(itreg_amb.vl_total_conta) AS Total,
     itreg_amb.cd_reg_amb Conta,
