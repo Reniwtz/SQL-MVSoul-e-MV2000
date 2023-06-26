@@ -97,7 +97,7 @@ SELECT
     convenio.nm_convenio AS Convênio,
     prestador.nm_prestador AS Prestador,
     atendime.cd_pro_int AS Procedimento,   
-    itreg_amb.vl_total_conta AS Total,
+    itreg_amb.vl_total_conta AS Valores,
     itreg_amb.cd_reg_amb AS Conta,
     reg_amb.cd_remessa AS Remessa,
     to_char(fatura.dt_competencia, 'mm-yyyy') AS Competência
