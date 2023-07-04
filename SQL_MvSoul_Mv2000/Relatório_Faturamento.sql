@@ -193,3 +193,39 @@ WHERE
     --AND to_char(fatura.dt_competencia, 'mm/yyyy') = '04/2023'
 GROUP BY
     reg_fat.cd_atendimento; 
+
+---------------------------------------------------------------------------
+
+SELECT 
+    atendime.cd_ori_ate                       AS numero_origem,
+    ori_ate.ds_ori_ate                        AS origem,
+    itreg_amb_original.cd_atendimento         AS atendimento,
+    paciente.nm_paciente                      AS paciente,
+    atendime.cd_paciente                      AS cad_do_paciente,
+    paciente.nr_cpf                           AS cpf,
+    atendime.dt_atendimento                   AS data_do_atendimento,
+    atendime.dt_alta                          AS data_da_alta,
+    convenio.nm_convenio                      AS convênio,
+    prestador.nm_prestador                    AS prestador,
+    itreg_amb_original.cd_prestador           AS prestadorvalidar,
+    atendime.cd_pro_int                       AS procedimento,
+    itreg_amb_original.vl_total_conta         AS valor,
+    itreg_amb_original.cd_reg_amb             AS conta,
+    reg_amb.cd_remessa                        AS remessa,
+    to_char(fatura.dt_competencia, 'mm-yyyy') AS competência
+FROM
+         itreg_amb_original
+    INNER JOIN atendime ON itreg_amb_original.cd_atendimento = atendime.cd_atendimento
+    INNER JOIN ori_ate ON atendime.cd_ori_ate = ori_ate.cd_ori_ate
+    INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
+    INNER JOIN prestador ON atendime.cd_prestador = prestador.cd_prestador
+    INNER JOIN convenio ON atendime.cd_convenio = convenio.cd_convenio
+    INNER JOIN reg_amb ON itreg_amb_original.cd_reg_amb = reg_amb.cd_reg_amb
+    INNER JOIN remessa_fatura ON reg_amb.cd_remessa = remessa_fatura.cd_remessa
+    INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
+WHERE
+    atendime.dt_atendimento BETWEEN '01/04/2023' AND '30/04/2023'
+    --atendime.cd_atendimento like '3586246'
+    AND atendime.cd_convenio LIKE '3'
+ORDER BY
+    itreg_amb_original.cd_atendimento;
