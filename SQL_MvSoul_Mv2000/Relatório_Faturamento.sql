@@ -229,3 +229,40 @@ WHERE
     AND atendime.cd_convenio LIKE '3'
 ORDER BY
     itreg_amb_original.cd_atendimento;
+
+
+--------------------------------------------------------------------------------------------
+
+SELECT
+    atendime.cd_ori_ate                       AS numero_origem,
+    ori_ate.ds_ori_ate                        AS origem,
+    reg_fat.cd_atendimento                    AS atendimento,
+    paciente.nm_paciente                      AS paciente,
+    atendime.cd_paciente                      AS cad_do_paciente,
+    paciente.nr_cpf                           AS cpf,
+    atendime.dt_atendimento                   AS data_do_atendimento,
+    atendime.dt_alta                          AS data_da_alta,
+    convenio.nm_convenio                      AS convênio,
+    itreg_fat_original.cd_prestador           AS campo_de_validação,
+    prestador.nm_prestador                    AS prestador,
+    atendime.cd_pro_int                       AS procedimento,
+    itreg_fat_original.vl_total_conta         AS valor_total,
+    itreg_fat_original.cd_reg_fat             AS conta,
+    reg_fat.cd_remessa                        AS remessa,
+    to_char(fatura.dt_competencia, 'mm-yyyy') AS competência
+FROM
+         reg_fat reg_fat
+    INNER JOIN atendime ON reg_fat.cd_atendimento = atendime.cd_atendimento
+    INNER JOIN ori_ate ON atendime.cd_ori_ate = ori_ate.cd_ori_ate
+    INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
+    INNER JOIN prestador ON atendime.cd_prestador = prestador.cd_prestador
+    INNER JOIN convenio ON atendime.cd_convenio = convenio.cd_convenio
+    INNER JOIN itreg_fat_original ON reg_fat.cd_reg_fat = itreg_fat_original.cd_reg_fat
+    INNER JOIN remessa_fatura ON reg_fat.cd_remessa = remessa_fatura.cd_remessa
+    INNER JOIN fatura ON remessa_fatura.cd_fatura = fatura.cd_fatura
+WHERE
+        fatura.dt_competencia BETWEEN '01/04/2023' AND '30/04/2023'
+        --atendime.dt_atendimento BETWEEN '01/04/2023' AND '30/04/2023'
+    AND atendime.cd_convenio LIKE '3'
+ORDER BY
+    reg_fat.cd_atendimento;
