@@ -22,8 +22,8 @@ AS
     vTESTE_CD_PACIENTE NUMBER(8,0);
 BEGIN
         INSERT INTO faturamento_convenio
-            (numero_origemL, ds_ori_ate, cd_atendimento, nm_paciente, cd_paciente, nr_cpf, vdt_atendimento, dt_alta, nm_convenio, cd_prestador, nm_prestador, cd_pro_int, valor_hnl, valor_h, vl_total_conta, cd_reg_fat, cd_remessa, dt_competencia )
+            (numero_origem, ds_ori_ate, cd_atendimento, nm_paciente, cd_paciente, nr_cpf, vdt_atendimento, dt_alta, nm_convenio, cd_prestador, nm_prestador, cd_pro_int, valor_hnl, valor_h, vl_total_conta, cd_reg_fat, cd_remessa, dt_competencia )
         VALUES
-            (vnumero_origemL, vds_ori_ate, vcd_atendimento, vnm_paciente, vcd_paciente, vnr_cpf, vdt_atendimento, vdt_alta, vnm_convenio, vcd_prestador, vnm_prestador, vcd_pro_int, vvalor_hnl, vvalor_h, vvl_total_conta, vcd_reg_fat, vcd_remessa, vdt_competencia ));
+            (vnumero_origem, vds_ori_ate, vcd_atendimento, vnm_paciente, vcd_paciente, vnr_cpf, vdt_atendimento, vdt_alta, vnm_convenio, vcd_prestador, vnm_prestador, vcd_pro_int, vvalor_hnl, vvalor_h, vvl_total_conta, vcd_reg_fat, vcd_remessa, vdt_competencia ));
     END IF;
 END INSERE_FATURAMENTO_CONVENIO;
