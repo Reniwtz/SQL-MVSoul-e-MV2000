@@ -17,3 +17,15 @@ WHERE
     AND audit_coluna.cd_tabela LIKE 'EVE_SIASUS'
 ORDER BY
     audit_tabela.dt_transacao;
+
+----------------------------------------------------------------------------------------------------
+
+SELECT
+    to_char(audit_dt_registro, 'YYYY-MM-DD HH24:MI:SS'), atendime.*
+FROM
+    audit_dbamv.atendime
+WHERE
+    to char(audit_dt_registro BETWEEN '29/07/2023' AND '04/08/2023'
+    AND cd_atendimento LIKE 3711226
+ORDER BY
+    audit_dt_registro DESC;
