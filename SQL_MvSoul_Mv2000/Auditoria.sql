@@ -21,11 +21,12 @@ ORDER BY
 ----------------------------------------------------------------------------------------------------
 
 SELECT
-    to_char(audit_dt_registro, 'YYYY-MM-DD HH24:MI:SS'), atendime.*
+    TO_CHAR(audit_dt_registro, 'YYYY-MM-DD HH24:MI:SS') AS data_formatada,
+    atendime.*
 FROM
     audit_dbamv.atendime
 WHERE
-    to char(audit_dt_registro BETWEEN '29/07/2023' AND '04/08/2023'
-    AND cd_atendimento LIKE 3711226
+    audit_dt_registro BETWEEN TO_DATE('29/07/2023', 'DD/MM/YYYY') AND TO_DATE('04/08/2023', 'DD/MM/YYYY')
+    AND cd_atendimento LIKE '3711226%'
 ORDER BY
     audit_dt_registro DESC;
