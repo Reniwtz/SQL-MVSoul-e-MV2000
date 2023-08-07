@@ -21,8 +21,8 @@ ORDER BY
 ----------------------------------------------------------------------------------------------------
 
 SELECT
-    TO_CHAR(audit_dt_registro, 'YYYY-MM-DD HH24:MI:SS') AS data_formatada,
-    atendime.*
+   -- TO_CHAR(audit_dt_registro, 'YYYY-MM-DD HH24:MI:SS'), atendime.*
+   *
 FROM
     audit_dbamv.atendime
 WHERE
@@ -30,3 +30,4 @@ WHERE
     AND cd_atendimento LIKE '3711226%'
 ORDER BY
     audit_dt_registro DESC;
+    
