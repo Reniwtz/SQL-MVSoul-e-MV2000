@@ -1,6 +1,7 @@
 SELECT
     pre_med.cd_atendimento,
     atendime.cd_paciente,
+    paciente.nm_paciente,
     itpre_med.cd_tip_esq,
     tip_presc.ds_tip_presc,
     itpre_med.ds_itpre_med
