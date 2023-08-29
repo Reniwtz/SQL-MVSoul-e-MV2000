@@ -1,11 +1,15 @@
 SELECT
-    itpre_med.cd_tip_esq, cd_atendimento
+    pre_med.cd_atendimento,
+    atendime.cd_paciente,
+    itpre_med.cd_tip_esq,
+    tip_presc.ds_tip_presc,
+    itpre_med.ds_itpre_med
 FROM
-    itpre_med itpre_med
-    inner join pre_med on pre_med.cd_pre_med = itpre_med.cd_pre_med
-    inner join atendime on atendime.cd_atendimento = pre_med.cd_atendimento
-    inner join paciente on atendime.cd_paciente = paciente.cd_paciente
-    --tip_presc tip_presc
+         itpre_med itpre_med
+    INNER JOIN pre_med ON pre_med.cd_pre_med = itpre_med.cd_pre_med
+    INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
+    INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
+    INNER JOIN tip_presc ON itpre_med.cd_tip_presc = tip_presc.cd_tip_presc
 WHERE
         itpre_med.cd_tip_esq = 'DIE'
     AND dt_pre_med BETWEEN TO_DATE('29/08/2023', 'DD/MM/YYYY') AND TO_DATE('29/08/2023', 'DD/MM/YYYY')
