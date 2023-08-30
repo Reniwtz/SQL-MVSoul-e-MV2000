@@ -17,9 +17,3 @@ WHERE
     AND dt_pre_med BETWEEN TO_DATE('30/08/2023', 'DD/MM/YYYY') AND TO_DATE('30/08/2023', 'DD/MM/YYYY')
     AND leito.cd_unid_int in 1
     --AND dt_pre_med > (sysdate-1)
-    
-    
- 
-select * from tip_presc
-    
-select * from itpre_MED where dt_solsai_pro > '01/01/2023' cd_produto = '8246'
