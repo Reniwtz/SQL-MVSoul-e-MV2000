@@ -14,8 +14,9 @@ FROM
     INNER JOIN leito ON  atendime.cd_leito = leito.cd_leito
 WHERE
         itpre_med.cd_tip_esq = 'DIE'
-    AND dt_pre_med BETWEEN TO_DATE('29/08/2023', 'DD/MM/YYYY') AND TO_DATE('29/08/2023', 'DD/MM/YYYY')
+    AND dt_pre_med BETWEEN TO_DATE('30/08/2023', 'DD/MM/YYYY') AND TO_DATE('30/08/2023', 'DD/MM/YYYY')
     AND leito.cd_unid_int in 1
+    --AND dt_pre_med > (sysdate-1)
     
     
  
