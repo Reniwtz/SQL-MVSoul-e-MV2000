@@ -17,3 +17,10 @@ WHERE
     AND dt_pre_med BETWEEN TO_DATE('30/08/2023', 'DD/MM/YYYY') AND TO_DATE('30/08/2023', 'DD/MM/YYYY')
     AND leito.cd_unid_int in 1
     --AND dt_pre_med > (sysdate-1)
+group by
+        pre_med.cd_atendimento,
+    atendime.cd_paciente,
+    paciente.nm_paciente,
+    leito.ds_enfermaria,
+    tip_presc.ds_tip_presc,
+    itpre_med.ds_itpre_med
