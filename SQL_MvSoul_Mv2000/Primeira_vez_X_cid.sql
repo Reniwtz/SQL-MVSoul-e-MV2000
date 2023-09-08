@@ -1,10 +1,10 @@
 SELECT
-    *  
+    COUNT(paciente.cd_paciente)
 FROM
-    atendime atendime
-    INNER JOIN paciente on paciente.cd_paciente = atendime.cd_paciente
-    INNER JOIN same on same.cd_paciente = paciente.cd_paciente
+    paciente paciente,
+    same same
 WHERE
-        atendime.dt_atendimento BETWEEN TO_DATE('01/01/2021', 'DD/MM/YYYY') AND TO_DATE('31/12/2021', 'DD/MM/YYYY')
-    AND atendime.cd_cid like '%C50%'
-    AND same.dt_cadastro BETWEEN TO_DATE('01/01/2021', 'DD/MM/YYYY') AND TO_DATE('31/12/2021', 'DD/MM/YYYY')
+        paciente.dt_cadastro BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('08/09/2023', 'DD/MM/YYYY')
+    --AND paciente.dt_nascimento BETWEEN TO_DATE('08/09/1973', 'DD/MM/YYYY') AND TO_DATE('08/09/2008', 'DD/MM/YYYY')
+    and same.cd_paciente = paciente.cd_paciente
+    AND same.dt_cadastro BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('08/09/2023', 'DD/MM/YYYY')
