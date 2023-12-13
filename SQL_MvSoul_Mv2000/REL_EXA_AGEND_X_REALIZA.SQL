@@ -40,3 +40,17 @@ GROUP BY
         TO_CHAR(itped_rx.dt_realizado, 'MONTH', 'NLS_DATE_LANGUAGE=PORTUGUESE')
 ORDER BY
     TO_DATE(mes_atend, 'MONTH', 'NLS_DATE_LANGUAGE=PORTUGUESE');  
+
+
+-------------------------------------------------------------------------------------------------
+
+SELECT
+    COUNT(nm_paciente)
+FROM
+         it_agenda_central it_agenda_central
+    INNER JOIN agenda_central ON agenda_central.cd_agenda_central = it_agenda_central.cd_agenda_central
+WHERE
+    it_agenda_central.cd_item_agendamento LIKE '2'
+    AND dt_agenda BETWEEN TO_DATE('11/12/2023', 'DD/MM/YYYY') AND TO_DATE('11/12/2023', 'DD/MM/YYYY')
+GROUP BY
+    nm_paciente
