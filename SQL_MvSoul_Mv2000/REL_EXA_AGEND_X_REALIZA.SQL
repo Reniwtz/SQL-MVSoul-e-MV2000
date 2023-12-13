@@ -45,12 +45,13 @@ ORDER BY
 -------------------------------------------------------------------------------------------------
 
 SELECT
-    COUNT(nm_paciente)
+   (sum(count(nm_paciente))/2) AS Exames_Feitos
 FROM
          it_agenda_central it_agenda_central
     INNER JOIN agenda_central ON agenda_central.cd_agenda_central = it_agenda_central.cd_agenda_central
 WHERE
     it_agenda_central.cd_item_agendamento LIKE '2'
-    AND dt_agenda BETWEEN TO_DATE('11/12/2023', 'DD/MM/YYYY') AND TO_DATE('11/12/2023', 'DD/MM/YYYY')
-GROUP BY
+    AND dt_agenda BETWEEN TO_DATE('01/11/2023', 'DD/MM/YYYY') AND TO_DATE('30/11/2023', 'DD/MM/YYYY')
+group by
     nm_paciente
+
