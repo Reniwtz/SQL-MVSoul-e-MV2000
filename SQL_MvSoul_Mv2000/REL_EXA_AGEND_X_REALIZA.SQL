@@ -10,7 +10,7 @@ SELECT
         WHEN ped_rx.cd_set_exa IN ( '33' ) THEN 'GAMA'
     END AS EXAMES,
     TO_CHAR(itped_rx.dt_realizado, 'MONTH', 'NLS_DATE_LANGUAGE=PORTUGUESE') AS mes_atend,
-    COUNT(ped_rx.cd_convenio) AS Diagnóstico_por_Imagem
+    COUNT(ped_rx.cd_convenio) AS Exames_Feitos
 FROM
     itped_rx
     INNER JOIN exa_rx ON itped_rx.cd_exa_rx = exa_rx.cd_exa_rx
@@ -40,18 +40,28 @@ GROUP BY
         TO_CHAR(itped_rx.dt_realizado, 'MONTH', 'NLS_DATE_LANGUAGE=PORTUGUESE')
 ORDER BY
     TO_DATE(mes_atend, 'MONTH', 'NLS_DATE_LANGUAGE=PORTUGUESE');  
-
-
--------------------------------------------------------------------------------------------------
+    
+--------------------------------------------------------------------------------
 
 SELECT
-   (sum(count(nm_paciente))/2) AS Exames_Feitos
+    CASE
+        WHEN it_agenda_central.cd_item_agendamento IN ( '2' ) THEN 'MAMOGRAFIA'
+        WHEN it_agenda_central.cd_item_agendamento IN ( '55' ) THEN 'AM'
+    END AS EXAMES,
+    TO_CHAR(dt_agenda, 'MON', 'NLS_DATE_LANGUAGE=PORTUGUESE') AS mes_atend,
+    (count(nm_paciente)/2) AS Exames_Agendados
 FROM
          it_agenda_central it_agenda_central
     INNER JOIN agenda_central ON agenda_central.cd_agenda_central = it_agenda_central.cd_agenda_central
 WHERE
-    it_agenda_central.cd_item_agendamento LIKE '2'
-    AND dt_agenda BETWEEN TO_DATE('01/11/2023', 'DD/MM/YYYY') AND TO_DATE('30/11/2023', 'DD/MM/YYYY')
-group by
-    nm_paciente
-
+    dt_agenda BETWEEN TO_DATE('01/11/2023', 'DD/MM/YYYY') AND TO_DATE('30/11/2023', 'DD/MM/YYYY')
+    AND (it_agenda_central.cd_item_agendamento LIKE '2'
+    OR it_agenda_central.cd_item_agendamento LIKE '55')    
+GROUP BY
+        CASE
+            WHEN it_agenda_central.cd_item_agendamento IN ( '2' ) THEN 'MAMOGRAFIA'
+            WHEN it_agenda_central.cd_item_agendamento IN ( '55' ) THEN 'AM'
+        END,
+        TO_CHAR(dt_agenda, 'MON', 'NLS_DATE_LANGUAGE=PORTUGUESE')
+ORDER BY
+    TO_DATE(mes_atend, 'MON', 'NLS_DATE_LANGUAGE=PORTUGUESE'); 
