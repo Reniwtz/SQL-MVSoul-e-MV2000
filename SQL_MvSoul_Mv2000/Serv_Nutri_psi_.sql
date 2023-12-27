@@ -10,7 +10,7 @@ select sum(qt_lancada)
    and dt_eve_siasus between '01/01/2015' and '31/12/2015'
    and cd_convenio NOT in(1,2,16)
    
--- Fisioterapia: Convênios Ambulatório   
+-- Fisioterapia: ConvÃªnios AmbulatÃ³rio   
 select SUM(I.QT_LANCAMENTO) 
   from itreg_amb i, atendime a
  where i.cd_atendimento = a.cd_atendimento
@@ -18,7 +18,7 @@ select SUM(I.QT_LANCAMENTO)
    and a.dt_atendimento between '01/01/2015' and '31/12/2015'
    AND 
    -- SELECT * FROM ITREG_AMB
--- Fisioterapia: Convênios Internação
+-- Fisioterapia: ConvÃªnios InternaÃ§Ã£o
 select * --from itreg_fat where dt_lancamento between '01/01/2014' and '31/12/2014' and cd_gru_fat = 6
   from itreg_fat i, atendime a
  where i.cd_atendimento = a.cd_atendimento
