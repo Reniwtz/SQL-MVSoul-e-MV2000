@@ -9,7 +9,8 @@ SELECT
             0
         ELSE ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) )
     END                                       AS resta,
-    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado
+    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado,
+    (teto_orcamentario_proced_sus.vl_orcamento/teto_orcamentario_proced_sus.qt_fisico)* COUNT(atendime.cd_procedimento) AS total_lancado
 FROM
          atendime
     INNER JOIN procedimento_sus ON atendime.cd_procedimento = procedimento_sus.cd_procedimento
@@ -34,7 +35,7 @@ ORDER BY
     atendime.cd_procedimento;
 
 --------------------------------------------------------------------------------
---PROCEDIMENTO CIRÚRGICOS
+--PROCEDIMENTOS CIRÚRGICOS
 SELECT
     atendime.cd_procedimento         AS procedimento,
     procedimento_sus.ds_procedimento AS descricao,
@@ -45,7 +46,8 @@ SELECT
             0
         ELSE ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) )
     END                                       AS resta,
-    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado
+    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado,
+    (teto_orcamentario_proced_sus.vl_orcamento/teto_orcamentario_proced_sus.qt_fisico)* COUNT(atendime.cd_procedimento) AS total_lancado
 FROM
          atendime
     INNER JOIN procedimento_sus ON atendime.cd_procedimento = procedimento_sus.cd_procedimento
@@ -79,7 +81,8 @@ SELECT
             0
         ELSE ( teto_orcamentario_proced_sus.qt_fisico - COUNT(atendime.cd_procedimento) )
     END                                       AS resta,
-    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado
+    teto_orcamentario_proced_sus.vl_orcamento AS valor_orçado,
+    (teto_orcamentario_proced_sus.vl_orcamento/teto_orcamentario_proced_sus.qt_fisico)* COUNT(atendime.cd_procedimento) AS total_lancado
 FROM
          atendime
     INNER JOIN procedimento_sus ON atendime.cd_procedimento = procedimento_sus.cd_procedimento
@@ -97,3 +100,6 @@ GROUP BY
     teto_orcamentario_proced_sus.vl_orcamento
 ORDER BY
     atendime.cd_procedimento;
+
+
+
