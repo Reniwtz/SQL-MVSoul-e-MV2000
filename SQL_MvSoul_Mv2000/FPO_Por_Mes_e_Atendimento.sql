@@ -73,7 +73,3 @@ GROUP BY
     teto_orcamentario_proced_sus.qt_fisico 
 ORDER BY
     atendime.cd_procedimento;
-
-
-
-
