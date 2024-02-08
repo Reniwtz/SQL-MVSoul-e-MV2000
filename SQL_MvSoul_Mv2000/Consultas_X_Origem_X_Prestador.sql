@@ -10,7 +10,7 @@ FROM
 WHERE
         atendime.cd_prestador LIKE '226'
     AND atendime.dt_atendimento BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('31/01/2024', 'DD/MM/YYYY')
-    --AND atendime.tp_atendimento like 'A'
+    AND atendime.tp_atendimento like 'A'
     AND cd_procedimento like '0301010072'
 group by 
     prestador.nm_prestador,
