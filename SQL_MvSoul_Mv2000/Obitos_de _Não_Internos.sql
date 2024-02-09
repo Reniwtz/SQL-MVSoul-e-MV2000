@@ -14,7 +14,7 @@ FROM
     INNER JOIN ori_ate ON atendime.cd_ori_ate = ori_ate.cd_ori_ate
     INNER JOIN convenio ON atendime.cd_convenio  = convenio.cd_convenio
 WHERE
-    atendime.dt_alta BETWEEN TO_DATE('01/01/23', 'DD/MM/YY') AND TO_DATE('31/01/23', 'DD/MM/YY')
+        atendime.dt_alta BETWEEN TO_DATE('01/01/23', 'DD/MM/YY') AND TO_DATE('31/01/23', 'DD/MM/YY')
     AND atendime.tp_atendimento <> 'I'
     AND atendime.sn_obito = 'S'
 GROUP BY
