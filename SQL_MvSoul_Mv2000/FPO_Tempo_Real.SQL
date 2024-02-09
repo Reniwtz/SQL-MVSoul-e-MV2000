@@ -51,14 +51,14 @@ ORDER BY
 --BPA FATURA
 SELECT
     eve_siasus.cd_procedimento AS cod_procedimento,
-    COUNT(*)                   AS qlancada
+    COUNT(*)                   AS lancada
 FROM
          eve_siasus eve_siasus
     INNER JOIN fat_sia ON eve_siasus.cd_fat_sia = fat_sia.cd_fat_sia
     INNER JOIN atendime ON atendime.cd_atendimento = eve_siasus.cd_atendimento
 WHERE
         eve_siasus.cd_fat_sia = fat_sia.cd_fat_sia
-    AND to_char(fat_sia.dt_periodo_inicial, 'MM/YYYY') = '01/2024'
+    AND fat_sia.dt_periodo_inicial BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('31/01/2024', 'DD/MM/YYYY')
     AND atendime.dt_atendimento < TO_DATE('2024-01-01', 'YYYY-MM-DD')
     AND tipo_fatura LIKE 'BPA'
     AND ( eve_siasus.cd_procedimento <> '204030030'
@@ -66,18 +66,33 @@ WHERE
 GROUP BY
     eve_siasus.cd_procedimento
 ORDER BY
-    eve_siasus.cd_procedimento;  
+    eve_siasus.cd_procedimento;
     
-    
+
 --BPA PEDIDO 
 
+
     
-    
-    
-
-
-
-
+--TETO FPO
+SELECT
+    t1.cd_procedimento cod_procedimento,
+    t2.ds_procedimento descricao,
+    t1.qt_fisico       acordado   
+FROM
+    teto_orcamentario_proced_sus t1,
+    procedimento_sus             t2
+WHERE
+        t2.cd_procedimento = t1.cd_procedimento
+    AND t1.cd_fat_sia IN (
+        SELECT
+            cd_fat_sia
+        FROM
+            fat_sia
+        WHERE
+            to_char(dt_periodo_inicial, 'mm/yyyy') = '01/2024'
+    )
+ORDER BY
+    t1.cd_procedimento;
 
 --------------------------------------------------------------------------------
 --PROCEDIMENTOS CIRÚRGICOS
@@ -104,3 +119,6 @@ GROUP BY
     teto_orcamentario_proced_sus.vl_orcamento 
 ORDER BY
     atendime.cd_procedimento;
+
+
+
