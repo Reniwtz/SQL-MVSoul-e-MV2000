@@ -1,6 +1,7 @@
 SELECT
-    atendime.cd_atendimento                                     AS atendimento,
+    atendime.cd_paciente                                        AS Paciente,
     paciente.nm_paciente                                        AS nome_paciente,
+    atendime.cd_atendimento                                     AS atendimento,
     atendime.dt_alta                                            AS data_obito,
     paciente.dt_nascimento                                      AS data_nascimento,
     paciente.tp_sexo                                            AS sexo,
