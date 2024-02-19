@@ -19,7 +19,6 @@ WHERE
     atendime.dt_alta BETWEEN TO_DATE('01/12/23', 'DD/MM/YY') AND TO_DATE('31/12/23', 'DD/MM/YY')
     AND atendime.tp_atendimento LIKE 'U'
     AND atendime.sn_obito like 'N'
-    --AND prestador.cd_tip_presta like '8'
     AND CD_SERVICO <> '21'
 GROUP BY
     atendime.cd_paciente,
