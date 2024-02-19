@@ -1,5 +1,4 @@
 -- Altas
--- Altas
 SELECT
     atendime.cd_paciente                                        AS paciente,
     paciente.nm_paciente                                        AS nome_paciente,
