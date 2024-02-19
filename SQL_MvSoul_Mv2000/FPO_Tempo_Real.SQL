@@ -75,16 +75,15 @@ ORDER BY
 --------------------------------------------------------------------------------    
 --TETO FPO
 SELECT
-    teto_orcamentario_proced_sus.cd_procedimento cod_procedimento,
-    procedimento_sus.ds_procedimento             descricao,
-    teto_orcamentario_proced_sus.qt_fisico       acordado
+    teto_orcamentario_proced_sus.cd_procedimento AS cod_procedimento,
+    procedimento_sus.ds_procedimento             AS descricao,
+    teto_orcamentario_proced_sus.qt_fisico       AS acordado
 FROM
          teto_orcamentario_proced_sus teto_orcamentario_proced_sus
     INNER JOIN procedimento_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
     INNER JOIN fat_sia ON fat_sia.cd_fat_sia = teto_orcamentario_proced_sus.cd_fat_sia
 WHERE
     dt_periodo_inicial BETWEEN TO_DATE('01/01/24', 'DD/MM/YY') AND TO_DATE('31/01/24', 'DD/MM/YY');
-
     
 --------------------------------------------------------------------------------
 --PROCEDIMENTOS CIRÚRGICOS
