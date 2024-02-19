@@ -72,28 +72,20 @@ ORDER BY
 --BPA PEDIDO 
 
 
-    
+--------------------------------------------------------------------------------    
 --TETO FPO
 SELECT
-    t1.cd_procedimento cod_procedimento,
-    t2.ds_procedimento descricao,
-    t1.qt_fisico       acordado   
+    teto_orcamentario_proced_sus.cd_procedimento cod_procedimento,
+    procedimento_sus.ds_procedimento             descricao,
+    teto_orcamentario_proced_sus.qt_fisico       acordado
 FROM
-    teto_orcamentario_proced_sus t1,
-    procedimento_sus             t2
+         teto_orcamentario_proced_sus teto_orcamentario_proced_sus
+    INNER JOIN procedimento_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
+    INNER JOIN fat_sia ON fat_sia.cd_fat_sia = teto_orcamentario_proced_sus.cd_fat_sia
 WHERE
-        t2.cd_procedimento = t1.cd_procedimento
-    AND t1.cd_fat_sia IN (
-        SELECT
-            cd_fat_sia
-        FROM
-            fat_sia
-        WHERE
-            to_char(dt_periodo_inicial, 'mm/yyyy') = '01/2024'
-    )
-ORDER BY
-    t1.cd_procedimento;
+    dt_periodo_inicial BETWEEN TO_DATE('01/01/24', 'DD/MM/YY') AND TO_DATE('31/01/24', 'DD/MM/YY');
 
+    
 --------------------------------------------------------------------------------
 --PROCEDIMENTOS CIRÚRGICOS
 SELECT
@@ -119,6 +111,4 @@ GROUP BY
     teto_orcamentario_proced_sus.vl_orcamento 
 ORDER BY
     atendime.cd_procedimento;
-
-
-
+    
