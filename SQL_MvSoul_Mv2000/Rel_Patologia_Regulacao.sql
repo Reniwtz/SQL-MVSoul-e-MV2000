@@ -16,7 +16,8 @@ FROM
                  teto_orcamentario_proced_sus
             INNER JOIN fat_sia ON teto_orcamentario_proced_sus.cd_fat_sia = fat_sia.cd_fat_sia
         WHERE
-            to_char(fat_sia.dt_periodo_inicial, 'MM/YYYY') = '03/2024'
+            EXTRACT(MONTH FROM fat_sia.dt_periodo_inicial) = EXTRACT(MONTH FROM CURRENT_DATE)
+            AND EXTRACT(YEAR FROM fat_sia.dt_periodo_inicial) = EXTRACT(YEAR FROM CURRENT_DATE)
     ) valor ON valor.cd_procedimento = atendime.cd_procedimento
 WHERE
     ped_rx.ds_observacao LIKE 'REGU%'
