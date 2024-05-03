@@ -1,14 +1,3 @@
-SELECT distinct T1.CD_USUARIO, T1.NM_USUARIO, T3.CD_MODULO
-    FROM DBASGU.USUARIOS T1, DBASGU.PAPEL_USUARIOS T2, DBASGU.PAPEL_MOD T3, DBASGU.PAPEL T4
-WHERE
-    T1.CD_USUARIO = T2.CD_USUARIO AND
-    T3.CD_PAPEL = T2.CD_PAPEL AND
-    T1.SN_ATIVO = 'S' AND
-    T4.CD_PAPEL = T2.CD_PAPEL AND
-    T3.CD_MODULO = 'CON_ATE'
-ORDER BY T1.NM_USUARIO
-
-
 --Papel Gerencial
 SELECT
     usuarios.cd_usuario,
@@ -25,3 +14,4 @@ WHERE
         usuarios.sn_ativo LIKE 'S'
     AND usuarios.tp_privilegio LIKE 'U'
     AND papel.ds_papel like '%GERENCIAL%'
+    --AND papel_mod.cd_modulo = 'CON_ATE'
