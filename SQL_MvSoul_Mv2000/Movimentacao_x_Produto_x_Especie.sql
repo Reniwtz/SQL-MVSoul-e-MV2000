@@ -1,7 +1,9 @@
 SELECT
     itmvto_estoque_custo.cd_produto        AS código_do_produto,
     produto.ds_produto                     AS descrição,
-    SUM(itmvto_estoque_custo.qt_movimento) AS quantidade_movimentada
+    SUM(itmvto_estoque_custo.qt_movimento) AS quantidade_movimentada,
+    produto.vl_ultima_compra_ipi           AS valor_da_última_compra,
+    produto.vl_custo_medio                 AS valor_do_custo_médio
 FROM
          itmvto_estoque_custo itmvto_estoque_custo
     INNER JOIN produto ON produto.cd_produto = itmvto_estoque_custo.cd_produto
@@ -13,6 +15,8 @@ WHERE
           OR produto.cd_especie LIKE '22' )
 GROUP BY
     itmvto_estoque_custo.cd_produto,
-    produto.ds_produto
+    produto.ds_produto,
+    produto.vl_ultima_compra_ipi,
+    produto.vl_custo_medio 
 ORDER BY
     quantidade_movimentada
