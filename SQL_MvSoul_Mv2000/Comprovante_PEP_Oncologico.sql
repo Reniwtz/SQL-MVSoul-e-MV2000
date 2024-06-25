@@ -6,6 +6,7 @@ SELECT
     paciente.nr_ddd_fone                             AS dd,
     paciente.nr_fone                                 AS telefone,
     solic_agendamento.cd_solic_agendamento           AS número_da_solicitação,
+    atendime.nm_usuario                              AS usuario_do_agendamento,
     solic_agendamento.dt_solic_agendamento           AS data,
     solic_agendamento.cd_atendimento                 AS atendimento,
     prestador.nm_prestador                           AS médico,
@@ -16,7 +17,6 @@ SELECT
     solic_agendamento.cd_item_agendamento            AS item_de_agendamento,
     item_agendamento.ds_item_agendamento             AS descrição,
     agendamento_oncologico.dh_inicio_agendamento_onc AS data_de_inicio,
-    agendamento_oncologico.dh_final_agendamento_onc  AS data_de_final,
     recurso_oncologico.ds_recurso_oncologico         AS recurso
 FROM
          solic_agendamento solic_agendamento
