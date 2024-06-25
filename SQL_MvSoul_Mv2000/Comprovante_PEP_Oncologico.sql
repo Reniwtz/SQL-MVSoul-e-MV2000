@@ -31,5 +31,3 @@ FROM
     INNER JOIN tip_mar ON tip_mar.cd_tip_mar = atendime.cd_tip_mar
     INNER JOIN agendamento_oncologico ON agendamento_oncologico.cd_solic_agendamento = solic_agendamento.cd_solic_agendamento
     INNER JOIN recurso_oncologico ON recurso_oncologico.cd_recurso_oncologico = agendamento_oncologico.cd_recurso_oncologico
-WHERE
-    solic_agendamento.cd_atendimento LIKE '3922433'
