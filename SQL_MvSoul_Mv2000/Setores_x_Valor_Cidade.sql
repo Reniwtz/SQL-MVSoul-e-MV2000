@@ -148,3 +148,38 @@ WHERE
           OR paciente.cd_cidade LIKE '2257'
           OR paciente.cd_cidade LIKE '2201' )
     AND atendime.dt_atendimento  BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
+
+
+-------------------------------------------------------------------------------------------------------------
+--Cirurgias Ambulatoriais
+SELECT
+    cd_atendimento,
+    eve_siasus.cd_procedimento,
+    procedimento_sus.ds_procedimento,
+    procedimento_sus_valor.vl_total_ambulatorial
+FROM
+         eve_siasus eve_siasus
+    INNER JOIN paciente ON paciente.cd_paciente = eve_siasus.cd_paciente
+    INNER JOIN procedimento_sus ON eve_siasus.cd_procedimento = procedimento_sus.cd_procedimento
+    INNER JOIN procedimento_sus_valor ON procedimento_sus_valor.cd_procedimento = procedimento_sus.cd_procedimento
+WHERE
+    eve_siasus.dt_eve_siasus BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
+    AND eve_siasus.cd_procedimento LIKE ( '04%' )
+    AND eve_siasus.qt_lancada >= 1
+    AND ( paciente.cd_cidade LIKE '2359'
+          OR paciente.cd_cidade LIKE '2266'
+          OR paciente.cd_cidade LIKE '2285'
+          OR paciente.cd_cidade LIKE '2232'
+          OR paciente.cd_cidade LIKE '2341'
+          OR paciente.cd_cidade LIKE '2492'
+          OR paciente.cd_cidade LIKE '2370'
+          OR paciente.cd_cidade LIKE '2257'
+          OR paciente.cd_cidade LIKE '2201' )
+    AND procedimento_sus_valor.dt_vigencia BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
+GROUP BY
+    cd_atendimento,
+    eve_siasus.cd_procedimento,
+    procedimento_sus.ds_procedimento,
+    procedimento_sus_valor.vl_total_ambulatorial
+ORDER BY
+    procedimento_sus.ds_procedimento;
