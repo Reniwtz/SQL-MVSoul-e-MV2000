@@ -6,11 +6,13 @@ SELECT
     cidade.nm_cidade      AS cidade,
     apac.cd_cid_principal AS cid_principal,
     dt_diagnostico        AS data_do_diagnostico,
-    dt_inicio_tratamento  AS inicio_do_tratamento
+    dt_inicio_tratamento  AS inicio_do_tratamento,
+    ds_estadio            AS estadiamento
 FROM
          apac
     INNER JOIN paciente ON paciente.cd_paciente = apac.cd_paciente
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
+    INNER JOIN estadio ON estadio.cd_estadio = apac.cd_estadio
 WHERE
     dt_inicial BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('04/07/2024', 'DD/MM/YYYY')
 GROUP BY
@@ -21,6 +23,7 @@ GROUP BY
     cidade.nm_cidade,
     apac.cd_cid_principal,
     dt_diagnostico,
-    dt_inicio_tratamento
+    dt_inicio_tratamento,
+    ds_estadio
 ORDER BY
     paciente.cd_paciente
