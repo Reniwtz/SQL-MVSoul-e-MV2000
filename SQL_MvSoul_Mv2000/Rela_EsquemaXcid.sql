@@ -53,7 +53,7 @@ FROM
     INNER JOIN procedimento_sus ON procedimento_sus.cd_procedimento = laudo_sia_apac.cd_procedimento
 WHERE
     laudo_sia_apac.dt_competencia BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('11/07/2024', 'DD/MM/YYYY')
-    AND ( esquema.ds_esquema LIKE '%PERJETA (PERTUZUMABE%' )
+    AND ( esquema.ds_esquema LIKE '%PERJETA (PERTUZUMABE%' OR esquema.ds_esquema LIKE '%TRASTUZUMABE - HERCEPTIN%' )
 GROUP BY
     laudo_sia_apac.cd_paciente,
     paciente.nm_paciente,
@@ -66,4 +66,5 @@ GROUP BY
     esquema.cd_esquema,
     esquema.ds_esquema
 ORDER BY
+    paciente.nm_paciente,
     laudo_sia_apac.dt_competencia;
