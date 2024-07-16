@@ -57,3 +57,28 @@ FROM
 WHERE
     dt_prevista_recebimento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
  
+--------------------------------------------------------------------------------
+ 
+SELECT
+    cd_con_pag,
+    nr_documento,
+    dt_lancamento,
+    dt_emissao,
+    sn_contabiliza,
+    tp_vencimento
+    tp_vencimento,
+    ds_con_pag,
+    cd_fornecedor,
+    cd_tip_doc,
+    vl_bruto_conta,
+    ds_fornecedor,
+    cd_reduzido,
+    vl_base_irrf,
+    vl_moeda,
+    cd_processo,
+    cd_usuario_ins,
+    tp_status
+FROM
+    con_pag
+WHERE
+    dt_lancamento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
