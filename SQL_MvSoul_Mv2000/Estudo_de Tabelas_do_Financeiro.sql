@@ -82,3 +82,22 @@ FROM
     con_pag
 WHERE
     dt_lancamento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
+ 
+--------------------------------------------------------------------------------
+
+SELECT
+    cd_itcon_pag,
+    cd_con_pag,
+    nr_parcela,
+    dt_vencimento,
+    vl_duplicata,
+    tp_quitacao,
+    dt_quitacao,
+    vl_soma_pago,
+    dt_prevista_pag,
+    vl_soma_baixada,
+    vl_moeda
+FROM
+    itcon_pag
+Where
+    dt_vencimento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY'); 
