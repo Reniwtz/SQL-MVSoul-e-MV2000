@@ -14,8 +14,9 @@ SELECT
     dt_lancamento
 FROM
     con_rec con_rec
+   -- inner join caixa on caixa.cd_caixa = con_rec.cd_caixa
 WHERE
-    dt_emissao BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY')
+    dt_emissao BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY')
 ORDER BY
     cd_con_rec DESC;
     
@@ -40,7 +41,7 @@ SELECT
 FROM
     reccon_rec reccon_rec
 WHERE
-    dt_recebimento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
+    dt_recebimento BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY');
  
 --------------------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ SELECT
 FROM
     itcon_rec
 WHERE
-    dt_prevista_recebimento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
+    dt_prevista_recebimento BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY');
  
 --------------------------------------------------------------------------------
  
@@ -81,7 +82,7 @@ SELECT
 FROM
     con_pag
 WHERE
-    dt_lancamento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY');
+    dt_lancamento BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY');
  
 --------------------------------------------------------------------------------
 
@@ -100,4 +101,18 @@ SELECT
 FROM
     itcon_pag
 Where
-    dt_vencimento BETWEEN TO_DATE('01/07/2024', 'DD/MM/YYYY') AND TO_DATE('15/07/2024', 'DD/MM/YYYY'); 
+    dt_vencimento BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY'); 
+ 
+--------------------------------------------------------------------------------
+
+SELECT
+    *
+FROM
+    lote
+WHERE
+    ds_lote LIKE '%FOLHA%'
+ORDER BY
+    dt_inicial_lcto DESC
+    
+select * from lote ORDER BY DT_INICIAL_LCTO DESC
+    
