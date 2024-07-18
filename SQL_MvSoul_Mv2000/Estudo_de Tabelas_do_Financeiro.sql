@@ -112,7 +112,33 @@ FROM
 WHERE
     ds_lote LIKE '%FOLHA%'
 ORDER BY
-    dt_inicial_lcto DESC
+    dt_inicial_lcto DESC;
     
-select * from lote ORDER BY DT_INICIAL_LCTO DESC
+--------------------------------------------------------------------------------
+
+SELECT
+    *
+FROM
+    lote_caixa
+WHERE
+    dt_abertura BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY')
+ORDER BY
+    dt_abertura DESC;
     
+--------------------------------------------------------------------------------
+    
+SELECT
+    *
+FROM
+    lote_caixa
+WHERE
+    dt_abertura = (
+        SELECT
+            MAX(dt_abertura)
+        FROM
+            lote_caixa
+        WHERE
+            dt_abertura BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('30/06/2024', 'DD/MM/YYYY')
+    )
+ORDER BY
+    dt_abertura DESC;
