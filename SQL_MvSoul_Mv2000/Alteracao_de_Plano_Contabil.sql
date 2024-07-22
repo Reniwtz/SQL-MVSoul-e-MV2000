@@ -9,10 +9,6 @@ SELECT * FROM plano_contas where cd_contabil = '4.1.02.02'
 SELECT Max(cd_reduzido)+1 FROM plano_contas
 
 
-29004
-
-
-seq_plano_contas
 
 
 ALTER SEQUENCE seq_plano_contas  INCREMENT BY 28847;
