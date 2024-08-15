@@ -1,6 +1,6 @@
 -- Hematologia Macro 01     
 SELECT
-    atendime.cd_paciente
+    atendime.cd_atendimento
 FROM
          atendime atendime
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
@@ -25,11 +25,11 @@ WHERE
                               'SERTAOZINHO', 'SOBRADO', 'SOLANEA', 'TACIMA' )
     AND cd_uf LIKE 'PB'
 GROUP BY
-    atendime.cd_paciente;
+    atendime.cd_atendimento;
     
 -- Hematologia Macro 02     
 SELECT
-    atendime.cd_paciente
+     atendime.cd_atendimento
 FROM
          atendime atendime
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
@@ -55,11 +55,11 @@ WHERE
                               'TAPEROA', 'TENORIO', 'UMBUZEIRO', 'ZABELE' )
     AND cd_uf LIKE 'PB'
 GROUP BY
-    atendime.cd_paciente;
+     atendime.cd_atendimento;
 
 -- Hematologia Macro 03 
 SELECT
-    atendime.cd_paciente
+     atendime.cd_atendimento
 FROM
          atendime atendime
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
@@ -160,4 +160,4 @@ WHERE
           OR cidade.nm_cidade LIKE '%MAE% %AGUA%' )
     AND cd_uf LIKE 'PB'
 GROUP BY
-    atendime.cd_paciente;
+     atendime.cd_atendimento;
