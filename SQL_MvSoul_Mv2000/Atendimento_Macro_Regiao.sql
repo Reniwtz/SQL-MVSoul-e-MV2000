@@ -3,9 +3,7 @@ SELECT
     atendime.cd_atendimento
 FROM
          atendime atendime
-    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
-    INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
     AND (cd_ori_ate like '7'
@@ -32,9 +30,7 @@ SELECT
      atendime.cd_atendimento
 FROM
          atendime atendime
-    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
-    INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
     AND (cd_ori_ate like '7'
@@ -62,9 +58,7 @@ SELECT
      atendime.cd_atendimento
 FROM
          atendime atendime
-    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
-    INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
     AND (cd_ori_ate like '7'
