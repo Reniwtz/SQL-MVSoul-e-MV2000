@@ -8,7 +8,8 @@ FROM
     INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
-    AND cid.cd_cid IN ( 'C910', 'C920', 'C924', 'C925' )
+    AND (cd_ori_ate like '7'
+        OR cd_ori_ate like '10')
     AND cidade.nm_cidade IN ( 'ALAGOINHA', 'ALHANDRA', 'ARACAGI', 'ARARUNA', 'BAIA DA TRAICAO',
                               'BANANEIRAS', 'BAYEUX', 'BELEM', 'BORBOREMA', 'CAAPORA',
                               'CABEDELO', 'CACIMBA DE DENTRO', 'CAICARA', 'CALDAS BRANDAO', 'CAPIM',
@@ -36,7 +37,8 @@ FROM
     INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
-    AND cid.cd_cid IN ( 'C910', 'C920', 'C924', 'C925' )
+    AND (cd_ori_ate like '7'
+        OR cd_ori_ate like '10')
     AND cidade.nm_cidade IN ( 'ALAGOA GRANDE', 'ALAGOA NOVA', 'ALCANTIL', 'ALGODAO DE JANDAIRA', 'AMPARO',
                               'ARARA', 'AREIA', 'AREIAL', 'AROEIRAS', 'ASSUNCAO',
                               'BARAUNA', 'BARRA DE SANTA ROSA', 'BARRA DE SANTANA', 'BARRA DE SAO MIGUEL', 'BOA VISTA',
@@ -65,7 +67,8 @@ FROM
     INNER JOIN cid ON atendime.cd_cid = cid.cd_cid
 WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
-    AND cid.cd_cid IN ( 'C910', 'C920', 'C924', 'C925' )
+    AND (cd_ori_ate like '7'
+        OR cd_ori_ate like '10')
        AND ( cidade.nm_cidade LIKE 'AGUA BRANCA'
           OR cidade.nm_cidade LIKE 'AGUIAR'
           OR cidade.nm_cidade LIKE 'APARECIDA'
