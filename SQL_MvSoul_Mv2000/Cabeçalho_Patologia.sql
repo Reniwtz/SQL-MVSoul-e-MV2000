@@ -10,7 +10,7 @@ SELECT
     paciente.dt_nascimento  AS data_de_nasc_paciente,
     atendime.cd_atendimento AS codigo_do_atendimento,
     paciente.nm_mae         AS nome_da_mae,
-    ped_rx.nm_prestador  AS medico_solicitante,
+    ped_rx.nm_prestador     AS medico_solicitante,
     ped_rx.ds_observacao    AS procedencia
 FROM
          itped_rx
