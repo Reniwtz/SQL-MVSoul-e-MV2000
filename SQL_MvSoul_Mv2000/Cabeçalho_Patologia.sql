@@ -23,6 +23,7 @@ WHERE
     AND ped_rx.cd_setor = 43
     AND ped_rx.cd_set_exa = 13
     AND ped_rx.dt_pedido BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('21/08/2024', 'DD/MM/YYYY')
+    AND itped_rx.cd_ent_psdi IS NOT NULL
 GROUP BY
     itped_rx.cd_ped_rx,
     itped_rx.cd_laudo,
