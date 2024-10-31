@@ -1,4 +1,17 @@
 SELECT
+    con_pag.nr_documento,
+    itcon_pag.tp_quitacao,
+    itcon_pag.vl_duplicata
+FROM
+    ent_pro ent_pro
+    left join con_pag on con_pag.nr_documento = ent_pro.nr_documento 
+    left join itcon_pag on itcon_pag.cd_con_pag = con_pag.cd_con_pag
+WHERE
+    ent_pro.cd_ord_com LIKE '50245';
+
+--------------------------------------------------------------------------------
+    
+SELECT
     sol_com.cd_sol_com,
     sol_com.dt_sol_com,
     sol_com.cd_usuario,
@@ -38,7 +51,6 @@ FROM
 WHERE
     fornecedor.tp_cliente_forn IN ( 'F', 'A', 'R', 'T' )
     --AND sol_com.dt_sol_com BETWEEN TO_DATE('01/01/2023', 'DD/MM/YYYY') AND TO_DATE('31/12/2023', 'DD/MM/YYYY')
-    AND ent_pro.cd_ord_com LIKE '50245'
+    AND sol_com.cd_sol_com = 22007
 ORDER BY
     sol_com.cd_sol_com
- 
