@@ -196,8 +196,7 @@ SELECT decode(CD_CONVENIO, 1, 'SUS', 2, 'SUS', 16 , 'Particular', 'PSaude') NM_C
                   CONVENIO . NM_CONVENIO,
                   ITPED_RX . CD_EXA_RX,
                   EXA_RX   . DS_EXA_RX,
-                  ITPED_RX . SN_REALIZADO
-                  
+                  ITPED_RX . SN_REALIZADO            
         UNION ALL
         SELECT PED_RX . CD_CONVENIO,
                CONVENIO . NM_CONVENIO,
@@ -258,8 +257,3 @@ SELECT decode(CD_CONVENIO, 1, 'SUS', 2, 'SUS', 16 , 'Particular', 'PSaude') NM_C
                   ITPED_RX . SN_REALIZADO)
  GROUP BY CD_CONVENIO, NM_CONVENIO, CD_EXA_RX, DS_EXA_RX
  ORDER BY 1 ASC, 2 ASC;
-
-
-
-    
-    
