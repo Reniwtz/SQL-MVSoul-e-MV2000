@@ -25,7 +25,9 @@ SELECT
     trunc(months_between(sysdate, paciente.dt_nascimento) / 12) AS idade,
     paciente.tp_sexo                                            AS genero,
     atendime.cd_procedimento                                    AS cdg_do_proced_sus,
+    procedimento_sus.ds_procedimento                            AS descrição,
     atendime.cd_pro_int                                         AS cdg_do_proced_conv_partic,
+    pro_fat.ds_pro_fat                                          AS descrição,
     leito.cd_leito                                              AS codigo_do_leito,
     leito.ds_leito                                              AS nome_do_leito,
     mov_int.hr_mov_int                                          AS horario_da_movimentacao,
@@ -35,6 +37,8 @@ FROM
     INNER JOIN mov_int ON leito.cd_leito = mov_int.cd_leito
     INNER JOIN atendime ON mov_int.cd_atendimento = atendime.cd_atendimento
     INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
+    LEFT JOIN procedimento_sus ON atendime.cd_procedimento = procedimento_sus.cd_procedimento
+    LEFT JOIN pro_fat ON atendime.cd_pro_int = pro_fat.cd_pro_fat
 WHERE
     leito.ds_leito LIKE '%UTI 00%'
     AND leito.tp_situacao LIKE '%A%'
@@ -46,7 +50,9 @@ GROUP BY
     trunc(months_between(sysdate, paciente.dt_nascimento) / 12),
     paciente.tp_sexo,
     atendime.cd_procedimento,
+    procedimento_sus.ds_procedimento,
     atendime.cd_pro_int,
+    pro_fat.ds_pro_fat,
     paciente.nm_paciente,
     leito.cd_leito,
     leito.ds_leito,
@@ -55,3 +61,4 @@ GROUP BY
 ORDER BY
     mov_int.cd_atendimento,
     mov_int.hr_mov_int DESC
+
