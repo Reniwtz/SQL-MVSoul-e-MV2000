@@ -89,3 +89,41 @@ ORDER BY
     COUNT(*);
 
 
+
+
+--Atendimentos para o kanban da farmácia
+SELECT
+    atendime.cd_atendimento  AS codigo_do_atendimento,
+    ori_ate.ds_ori_ate       AS origem_do_atendimento,
+    atendime.cd_paciente     AS codigo_do_paciente,
+    paciente.nm_paciente     AS nome_do_paceinte,
+    prestador.nm_prestador   AS prestador,
+    especialid.ds_especialid AS especialidade
+FROM
+         atendime atendime
+    INNER JOIN paciente ON atendime.cd_paciente = paciente.cd_paciente
+    INNER JOIN prestador ON atendime.cd_prestador = prestador.cd_prestador
+    INNER JOIN esp_med ON atendime.cd_prestador = esp_med.cd_prestador
+    INNER JOIN especialid ON esp_med.cd_especialid = especialid.cd_especialid
+    INNER JOIN ori_ate ON atendime.cd_ori_ate = ori_ate.cd_ori_ate
+WHERE
+    dt_atendimento BETWEEN TO_DATE('07/01/2025', 'DD/MM/YYYY') AND TO_DATE('07/01/2025', 'DD/MM/YYYY')
+    AND ( atendime.cd_ser_dis LIKE '22'
+          OR atendime.cd_ser_dis LIKE '25'
+          OR atendime.cd_ser_dis LIKE '28'
+          OR atendime.cd_ser_dis LIKE '40' )
+    AND esp_med.sn_especial_principal LIKE 'S'
+    AND atendime.tp_atendimento LIKE 'A'
+    AND atendime.cd_ori_ate <> '12'
+GROUP BY
+    atendime.cd_atendimento,
+    ori_ate.ds_ori_ate,
+    atendime.cd_paciente,
+    paciente.nm_paciente,
+    prestador.nm_prestador,
+    especialid.ds_especialid
+ORDER BY
+    ori_ate.ds_ori_ate,
+    atendime.cd_atendimento;
+
+
