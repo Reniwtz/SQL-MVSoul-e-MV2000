@@ -28,6 +28,7 @@ SELECT
     mvto_estoque.hr_mvto_estoque           AS data_da_movimentação,
     unid_int.ds_unid_int                   AS unidade_de_internação,
     produto.ds_produto                     AS descrição_do_produto,
+    SUM(itmvto_estoque_custo.qt_movimento) AS Quantidade_movimentada,
     produto.vl_ultima_compra_ipi           AS valor_da_última_compra,
     produto.vl_custo_medio                 AS valor_do_custo_médio
 FROM
