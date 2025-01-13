@@ -38,7 +38,7 @@ SELECT
         NVL(TO_CHAR(atendime.dt_alta_medica, 'YYYY-MM-DD'), '1900-01-01') || ' ' ||
         NVL(TO_CHAR(atendime.hr_alta_medica, 'HH24:MI:SS'), '00:00:00'),
         'YYYY-MM-DD HH24:MI:SS'
-    )                                                           AS nova_data_hora,
+    )                                                           AS data_da_alta,
     mot_alt.ds_mot_alt                                          AS tipo_de_alta
 FROM
          leito
@@ -96,7 +96,7 @@ union
         NVL(TO_CHAR(atendime.dt_alta_medica, 'YYYY-MM-DD'), '1900-01-01') || ' ' ||
         NVL(TO_CHAR(atendime.hr_alta_medica, 'HH24:MI:SS'), '00:00:00'),
         'YYYY-MM-DD HH24:MI:SS'
-    )                                                           AS nova_data_hora,
+    )                                                           AS data_da_alta,
     mot_alt.ds_mot_alt                                          AS tipo_de_alta
 FROM
          leito
