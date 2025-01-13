@@ -32,8 +32,8 @@ SELECT
     pro_fat.ds_pro_fat                                          AS descrição_proced_partic,
     leito.cd_leito                                              AS codigo_do_leito,
     leito.ds_leito                                              AS nome_do_leito,
-    TO_CHAR(atendime.hr_atendimento, 'MM/DD/YYYY')              AS data_do_atendimento,
-    TO_CHAR(mov_int.hr_mov_int, 'HH24:MI:SS')                   AS horario_da_movimentacao,
+    atendime.hr_atendimento                                     AS data_do_atendimento,
+    mov_int.hr_mov_int                                          AS horario_da_movimentacao,
     TO_TIMESTAMP(
         NVL(TO_CHAR(atendime.dt_alta_medica, 'YYYY-MM-DD'), '1900-01-01') || ' ' ||
         NVL(TO_CHAR(atendime.hr_alta_medica, 'HH24:MI:SS'), '00:00:00'),
@@ -90,8 +90,8 @@ union
     pro_fat.ds_pro_fat                                          AS descrição_proced_partic,
     leito.cd_leito                                              AS codigo_do_leito,
     leito.ds_leito                                              AS nome_do_leito,
-    TO_CHAR(atendime.hr_atendimento, 'MM/DD/YYYY')              AS data_do_atendimento,
-    TO_CHAR(mov_int.hr_mov_int, 'HH24:MI:SS')                   AS horario_da_movimentacao,
+    atendime.hr_atendimento                                    AS data_do_atendimento,
+    mov_int.hr_mov_int                                          AS horario_da_movimentacao,
     TO_TIMESTAMP(
         NVL(TO_CHAR(atendime.dt_alta_medica, 'YYYY-MM-DD'), '1900-01-01') || ' ' ||
         NVL(TO_CHAR(atendime.hr_alta_medica, 'HH24:MI:SS'), '00:00:00'),
