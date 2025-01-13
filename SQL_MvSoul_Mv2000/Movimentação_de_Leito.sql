@@ -34,7 +34,8 @@ SELECT
     leito.ds_leito                                              AS nome_do_leito,
     atendime.hr_atendimento                                     AS data_do_atendimento,
     mov_int.hr_mov_int                                          AS horario_da_movimentacao,
-    atendime.dt_alta_medica                                     AS data_da_alta,
+    to_char(atendime.dt_alta_medica, 'MM/DD/YYYY')              AS data_da_alta,
+    to_char(atendime.hr_alta_medica, 'HH24:MI:SS')              AS hora_da_alta,
     mot_alt.ds_mot_alt                                          AS tipo_de_alta
 FROM
          leito leito
@@ -65,7 +66,8 @@ GROUP BY
     leito.ds_leito,
     atendime.hr_atendimento,
     mov_int.hr_mov_int,
-    atendime.dt_alta_medica,
+    to_char(atendime.dt_alta_medica, 'MM/DD/YYYY'),
+    to_char(atendime.hr_alta_medica, 'HH24:MI:SS'),
     mot_alt.ds_mot_alt
 UNION
 SELECT
@@ -84,7 +86,8 @@ SELECT
     leito.ds_leito                                              AS nome_do_leito,
     atendime.hr_atendimento                                     AS data_do_atendimento,
     mov_int.hr_mov_int                                          AS horario_da_movimentacao,
-    atendime.dt_alta_medica                                     AS data_da_alta,
+    to_char(atendime.dt_alta_medica, 'MM/DD/YYYY')              AS data_da_alta,
+    to_char(atendime.hr_alta_medica, 'HH24:MI:SS')              AS hora_da_alta,
     mot_alt.ds_mot_alt                                          AS tipo_de_alta
 FROM
          leito leito
@@ -122,7 +125,8 @@ GROUP BY
     leito.ds_leito,
     atendime.hr_atendimento,
     mov_int.hr_mov_int,
-    atendime.dt_alta_medica,
+    to_char(atendime.dt_alta_medica, 'MM/DD/YYYY'),
+    to_char(atendime.hr_alta_medica, 'HH24:MI:SS'),
     mot_alt.ds_mot_alt
 ORDER BY
     código_do_atendimento,
