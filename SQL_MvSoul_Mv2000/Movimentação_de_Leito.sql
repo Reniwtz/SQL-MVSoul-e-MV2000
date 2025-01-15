@@ -18,7 +18,7 @@ ORDER BY
     leito.ds_leito;
 
 -----------------------------------------------------------------------------
-SELECT
+SSELECT
     mov_int.cd_atendimento                                      AS código_do_atendimento,
     paciente.cd_paciente                                        AS código_do_paciente,
     paciente.nm_paciente                                        AS nome_do_paciente,
@@ -50,7 +50,7 @@ FROM
     LEFT JOIN cid ON atendime.cd_cid = cid.cd_cid
     LEFT JOIN mot_alt ON atendime.cd_mot_alt = mot_alt.cd_mot_alt
 WHERE
-    leito.ds_leito LIKE '%UTI 00%'
+    (leito.ds_leito LIKE '%UTI 00%' or  leito.ds_leito LIKE '%UTI 010%')
     AND leito.tp_situacao = 'A'
     AND mov_int.hr_mov_int BETWEEN TO_DATE('01/12/2024', 'DD/MM/YYYY') AND TO_DATE('31/12/2024', 'DD/MM/YYYY')
 GROUP BY
@@ -109,7 +109,7 @@ FROM
     LEFT JOIN mot_alt ON atendime.cd_mot_alt = mot_alt.cd_mot_alt
 WHERE
         atendime.dt_atendimento BETWEEN TO_DATE('01/12/2024', 'DD/MM/YYYY') AND TO_DATE('31/12/2024', 'DD/MM/YYYY')
-    AND atendime.cd_leito IN ('351', '352', '216', '194', '195', '196', '197', '199', '200')
+    AND atendime.cd_leito IN ('351', '352', '216', '194', '195', '196', '197', '199', '200', '353')
 GROUP BY
     mov_int.cd_atendimento,
     paciente.cd_paciente,
