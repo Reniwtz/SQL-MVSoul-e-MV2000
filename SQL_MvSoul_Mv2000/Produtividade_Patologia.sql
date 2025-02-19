@@ -6,7 +6,7 @@ SELECT * FROM (
         ped_rx ped_rx
     WHERE 
         ped_rx.cd_set_exa LIKE '13'
-        AND TRUNC(ped_rx.dt_pedido) BETWEEN TRUNC(@INICIAL) AND TRUNC(@FINAL)
+        AND TRUNC(ped_rx.dt_pedido) BETWEEN TO_DATE('01/12/2024', 'DD/MM/YYYY') AND TO_DATE('31/12/2024', 'DD/MM/YYYY')
     GROUP BY 
         nm_usuario
 
@@ -22,7 +22,7 @@ SELECT * FROM (
             ped_rx ped_rx
         WHERE 
             ped_rx.cd_set_exa LIKE '13'
-            AND TRUNC(ped_rx.dt_pedido) BETWEEN TRUNC(@INICIAL) AND TRUNC(@FINAL)
+            AND TRUNC(ped_rx.dt_pedido) BETWEEN TO_DATE('01/12/2024', 'DD/MM/YYYY') AND TO_DATE('31/12/2024', 'DD/MM/YYYY')
         GROUP BY 
             nm_usuario
     )
