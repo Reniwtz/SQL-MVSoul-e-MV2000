@@ -23,7 +23,6 @@ WHERE
 GROUP BY
     'P',
     con_rec.dt_emissao;
-
 --------------------------------------------------------------------------------
 --Convênio
 SELECT
@@ -157,7 +156,7 @@ GROUP BY
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
-
+    
 --------------------------------------------------------------------------------
 --Camisas e Eventos
 
