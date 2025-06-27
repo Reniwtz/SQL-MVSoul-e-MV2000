@@ -1,23 +1,28 @@
 --Particular
 SELECT
     caucao.tp_pagamento   AS tipo_de_recebimento,
-    SUM(caucao.vl_caucao) AS valor
+    SUM(caucao.vl_caucao) AS valor,
+    caucao.dt_caucao      AS compentencia
 FROM
     caucao
 WHERE
     caucao.dt_caucao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
 GROUP BY
-    caucao.tp_pagamento
+    caucao.tp_pagamento,
+    caucao.dt_caucao
 UNION ALL
 SELECT
-    'P'              AS tipo_de_recebimento,
-    SUM(vl_previsto) AS valor
+    'P'                AS tipo_de_recebimento,
+    SUM(vl_previsto)   AS valor,
+    con_rec.dt_emissao AS compentencia
 FROM
     con_rec
 WHERE
-    cd_reduzido LIKE '2915'
-    AND dt_emissao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
-    
+    con_rec.cd_reduzido LIKE '2915'
+    AND con_rec.dt_emissao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+GROUP BY
+    'P',
+    con_rec.dt_emissao;
 --------------------------------------------------------------------------------
 --Convênio
 SELECT
@@ -100,7 +105,7 @@ WHERE
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
 
 --------------------------------------------------------------------------------
---ALUGUÉIS
+--Aluguéis
 SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     reccon_rec.vl_recebido                           AS valor_recebido,
@@ -117,9 +122,37 @@ WHERE
     con_rec.cd_reduzido IN ('1433', '1428', '1432', '1426', '1425')
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
 
+--------------------------------------------------------------------------------
+--Camisas e Eventos
 
 
-select * from reccon_rec where cd_itcon_rec like '138815'
+
+--------------------------------------------------------------------------------
+--Doações
+
+
+
+--------------------------------------------------------------------------------
+SELECT
+    *
+FROM
+    reccon_rec
+WHERE
+    cd_itcon_rec LIKE '138815';
+
 
 select * from con_rec where cd_con_rec like '138911'
 select * from itcon_rec where cd_con_rec like '138911'
+
+
+
+SELECT
+    *
+FROM
+    mov_concor
+WHERE
+    dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+order by
+    dt_movimentacao desc;
+    
+select * from controle
