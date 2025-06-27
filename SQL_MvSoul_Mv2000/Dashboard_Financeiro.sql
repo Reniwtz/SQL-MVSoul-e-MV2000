@@ -17,12 +17,11 @@ FROM
 WHERE
     cd_reduzido LIKE '2915'
     AND dt_emissao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
-
-
-
---Convênio
+    
+--------------------------------------------------------------------------------
 --Convênio
 SELECT
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     reccon_rec.vl_recebido                           AS valor_recebido,
     con_rec.cd_reduzido,
@@ -36,20 +35,88 @@ SELECT
            '1326', 'MEDSERVICE', '1328', 'HAPVIDA', '1332',
            'FUSMA', '1333', 'GAMA', '1336', 'FCA',
            '1341', 'PREFEITURAS', '1346', 'ASTRAZENECA', '1424',
-           'UNIMED CEDAPP', 'DESCONHECIDO' -- valor default
-           )          AS convenio,
+           'UNIMED CEDAPP', 'DESCONHECIDO')          AS convenio,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.cd_con_rec LIKE '138911'
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido IN ( '1302', '1303', '1305', '1306', '1307',
                                  '1308', '1311', '1313', '1314', '1315',
                                  '1316', '1317', '1318', '1319', '1323',
                                  '1324', '1325', '1326', '1328', '1332',
-                                 '1333', '1336', '1341', '1346', '1424' );
+                                 '1333', '1336', '1341', '1346', '1424' )
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido,
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
+           '1305', 'FACENE BAYEUX / VALENTINA / HUNE', '1306', 'POSTAL SAÚDE', '1307',
+           'CAMED', '1308', 'FUNCEF', '1311', 'FUNASA',
+           '1313', 'AFRAFEP', '1314', 'GEAP', '1315',
+           'CAPESAÚDE', '1316', 'AMI SAÚDE', '1317', 'PETROBRAS',
+           '1318', 'SUL AMÉRICA', '1319', 'CASSI', '1323',
+           'COMSEDER', '1324', 'BRADESCO SAÚDE / OPERADORA', '1325', 'AMIL',
+           '1326', 'MEDSERVICE', '1328', 'HAPVIDA', '1332',
+           'FUSMA', '1333', 'GAMA', '1336', 'FCA',
+           '1341', 'PREFEITURAS', '1346', 'ASTRAZENECA', '1424',
+           'UNIMED CEDAPP', 'DESCONHECIDO'),
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
+
+--------------------------------------------------------------------------------
+--Convênio - escolas superiores
+SELECT
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    reccon_rec.vl_recebido                           AS valor_recebido,
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1339', 'FACULDADE DE CIÊNCIAS MÉDICAS', '1343', 'UNIESP',
+           '1340', 'FACENE', 'DESCONHECIDO')         AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ( '1339', '1343', '1340' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
+
+--------------------------------------------------------------------------------
+--SUS
+SELECT
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                                              AS competencia,
+    reccon_rec.vl_recebido                                                                 AS valor_recebido,
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO') AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')                                       AS data_do_recebimento
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ( '1301' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('10/05/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
+
+--------------------------------------------------------------------------------
+--ALUGUÉIS
+SELECT
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    reccon_rec.vl_recebido                           AS valor_recebido,
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA',
+           '1432', 'SAL DA TERRA', '1426', 'ALEXANDRE CEDAP', '1425',
+           'ANA CEDAP', 'DESCONHECIDO')                    AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ('1433', '1428', '1432', '1426', '1425')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
+
 
 
 select * from reccon_rec where cd_itcon_rec like '138815'
