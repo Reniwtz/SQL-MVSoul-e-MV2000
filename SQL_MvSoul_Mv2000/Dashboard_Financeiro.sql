@@ -81,7 +81,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
     con_rec.cd_reduzido IN ( '1339', '1343', '1340' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
 
 --------------------------------------------------------------------------------
 --SUS
@@ -97,7 +97,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
     con_rec.cd_reduzido IN ( '1301' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('10/05/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
 
 --------------------------------------------------------------------------------
 --ALUGUÉIS
