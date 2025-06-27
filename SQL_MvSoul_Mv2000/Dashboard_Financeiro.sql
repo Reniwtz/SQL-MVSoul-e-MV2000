@@ -156,15 +156,101 @@ GROUP BY
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
-    
+ 
+--------------------------------------------------------------------------------
+--Estacionamento
+SELECT
+    con_rec.cd_con_rec                               AS id_da_operação,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
+           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ( '1429', '1312' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
+           'DESCONHECIDO'),
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'); 
+ 
 --------------------------------------------------------------------------------
 --Camisas e Eventos
-
-
+SELECT
+    con_rec.cd_con_rec                               AS id_da_operação,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
+           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ( '1429' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS',
+           'DESCONHECIDO'),
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
+    
+--------------------------------------------------------------------------------
+--Energisa
+SELECT
+    con_rec.cd_con_rec                               AS id_da_operação,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    decode(con_rec.cd_reduzido, '1312', 'ENERGISA',
+           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.cd_reduzido IN ( '1429', '1312' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1312', 'ENERGISA',
+           'DESCONHECIDO'),
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
 --------------------------------------------------------------------------------
 --Doações
-
+SELECT
+    *
+FROM
+    mov_concor
+WHERE
+    dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+order by
+    dt_movimentacao desc;
 
 
 --------------------------------------------------------------------------------
@@ -180,14 +266,3 @@ select * from con_rec where cd_con_rec like '138911'
 select * from itcon_rec where cd_con_rec like '138911'
 
 
-
-SELECT
-    *
-FROM
-    mov_concor
-WHERE
-    dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
-order by
-    dt_movimentacao desc;
-    
-select * from controle
