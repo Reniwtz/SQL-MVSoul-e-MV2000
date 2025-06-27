@@ -21,9 +21,10 @@ WHERE
 
 
 --Convênio
+--Convênio
 SELECT
-    con_rec.dt_emissao                      AS competencia,
-    reccon_rec.vl_recebido                  AS valor_recebido,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    reccon_rec.vl_recebido                           AS valor_recebido,
     con_rec.cd_reduzido,
     decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
            '1305', 'FACENE BAYEUX / VALENTINA / HUNE', '1306', 'POSTAL SAÚDE', '1307',
@@ -36,7 +37,8 @@ SELECT
            'FUSMA', '1333', 'GAMA', '1336', 'FCA',
            '1341', 'PREFEITURAS', '1346', 'ASTRAZENECA', '1424',
            'UNIMED CEDAPP', 'DESCONHECIDO' -- valor default
-           ) AS convenio
+           )          AS convenio,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
