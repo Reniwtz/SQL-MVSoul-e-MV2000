@@ -29,7 +29,7 @@ SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     reccon_rec.vl_recebido                           AS valor_recebido,
-    con_rec.cd_reduzido,
+    con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
            '1305', 'FACENE BAYEUX / VALENTINA / HUNE', '1306', 'POSTAL SAÚDE', '1307',
            'CAMED', '1308', 'FUNCEF', '1311', 'FUNASA',
@@ -76,7 +76,7 @@ GROUP BY
 SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     reccon_rec.vl_recebido                           AS valor_recebido,
-    con_rec.cd_reduzido,
+    con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1339', 'FACULDADE DE CIÊNCIAS MÉDICAS', '1343', 'UNIESP',
            '1340', 'FACENE', 'DESCONHECIDO')         AS convenio_escolas_superiores,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
@@ -93,7 +93,7 @@ WHERE
 SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                                              AS competencia,
     reccon_rec.vl_recebido                                                                 AS valor_recebido,
-    con_rec.cd_reduzido,
+    con_rec.cd_reduzido                                                                    AS conta_contábil,
     decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO') AS convenio_escolas_superiores,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')                                       AS data_do_recebimento
 FROM
@@ -109,17 +109,17 @@ WHERE
 SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     reccon_rec.vl_recebido                           AS valor_recebido,
-    con_rec.cd_reduzido,
+    con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA',
            '1432', 'SAL DA TERRA', '1426', 'ALEXANDRE CEDAP', '1425',
-           'ANA CEDAP', 'DESCONHECIDO')                    AS convenio_escolas_superiores,
+           'ANA CEDAP', 'DESCONHECIDO')              AS convenio_escolas_superiores,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.cd_reduzido IN ('1433', '1428', '1432', '1426', '1425')
+    con_rec.cd_reduzido IN ( '1433', '1428', '1432', '1426', '1425' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY');
 
 --------------------------------------------------------------------------------
