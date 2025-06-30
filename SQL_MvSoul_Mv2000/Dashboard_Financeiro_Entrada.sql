@@ -1,8 +1,8 @@
 --Particular
 SELECT
-    caucao.dt_caucao      AS compentencia,
-    caucao.tp_pagamento   AS tipo_de_recebimento,
-    SUM(caucao.vl_caucao) AS valor_recebido
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy') AS compentencia,
+    caucao.tp_pagamento                     AS tipo_de_recebimento,
+    SUM(caucao.vl_caucao)                   AS valor_recebido
 FROM
     caucao
 WHERE
@@ -12,9 +12,9 @@ GROUP BY
     caucao.dt_caucao
 UNION ALL
 SELECT
-    con_rec.dt_emissao AS compentencia,
-    'P'                AS tipo_de_recebimento,
-    SUM(vl_previsto)   AS valor
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy') AS compentencia,
+    'P'                                       AS tipo_de_recebimento,
+    SUM(vl_previsto)                          AS valor
 FROM
     con_rec
 WHERE
