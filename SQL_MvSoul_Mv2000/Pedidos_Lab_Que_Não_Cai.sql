@@ -1,3 +1,6 @@
+--Conferir Pedido
+SELECT * FROM ped_lab WHERE cd_atendimento IN (4146297)
+
 --Atribuir a empresa
            begin dbamv.pkg_mv2000.atribui_empresa(1); end;
 --Da um update no pedido de exame 
