@@ -350,7 +350,7 @@ ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
     
 --------------------------------------------------------------------------------
---ORDEM JUDICIAL
+--Ordem Judicial
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                         AS competência,
