@@ -2,11 +2,11 @@
 SELECT
     caucao.dt_caucao      AS compentencia,
     caucao.tp_pagamento   AS tipo_de_recebimento,
-    SUM(caucao.vl_caucao) AS valor_recebido  
+    SUM(caucao.vl_caucao) AS valor_recebido
 FROM
     caucao
 WHERE
-    caucao.dt_caucao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+    caucao.dt_caucao BETWEEN TO_DATE('17/06/2025', 'DD/MM/YYYY') AND TO_DATE('30/06/2025', 'DD/MM/YYYY')
 GROUP BY
     caucao.tp_pagamento,
     caucao.dt_caucao
@@ -19,11 +19,13 @@ FROM
     con_rec
 WHERE
     con_rec.cd_reduzido LIKE '2915'
-    AND con_rec.dt_emissao BETWEEN TO_DATE('10/06/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+    AND con_rec.dt_emissao BETWEEN TO_DATE('17/06/2025', 'DD/MM/YYYY') AND TO_DATE('30/06/2025', 'DD/MM/YYYY')
 GROUP BY
     'P',
-    con_rec.dt_emissao;
-
+    con_rec.dt_emissao
+ORDER BY
+    compentencia DESC;
+    
 --------------------------------------------------------------------------------
 --Convênio
 SELECT
