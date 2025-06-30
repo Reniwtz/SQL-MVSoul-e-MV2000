@@ -12,9 +12,9 @@ GROUP BY
     caucao.dt_caucao
 UNION ALL
 SELECT
+    con_rec.dt_emissao AS compentencia,
     'P'                AS tipo_de_recebimento,
-    SUM(vl_previsto)   AS valor,
-    con_rec.dt_emissao AS compentencia
+    SUM(vl_previsto)   AS valor
 FROM
     con_rec
 WHERE
@@ -23,8 +23,7 @@ WHERE
 GROUP BY
     'P',
     con_rec.dt_emissao;
-    
-    SELECT * FROM CAUCAO;
+
 --------------------------------------------------------------------------------
 --Convênio
 SELECT
