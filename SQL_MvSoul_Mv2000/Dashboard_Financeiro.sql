@@ -242,15 +242,47 @@ ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
 --------------------------------------------------------------------------------
---Doações
+--Doações 
 SELECT
-    *
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES GERAIS', '3504', 'DOAÇÕES TELEMARKETING',
+           '3508', 'DOAÇÕES PREFEITURAS', '3507', 'DOAÇÕES CAGEPA', '3502',
+           'DOAÇÕES CAMPANHAS', '3801', 'DOAÇÕES CAIXA', 'DESCONHECIDO') AS tipo_doacao,
+    mov_concor.cd_reduzido,
+    mov_concor.dt_movimentacao
 FROM
     mov_concor
 WHERE
     dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
-order by
-    dt_movimentacao desc;
+    AND cd_reduzido IN ( '3501', '3504', '3508', '3507', '3502',
+                         '3801' )
+ORDER BY
+    dt_movimentacao DESC;
+
+--Doações 
+SELECT
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES CORREIOS', 'DESCONHECIDO') AS tipo_doacao,
+    mov_concor.cd_reduzido,
+    mov_concor.dt_movimentacao
+FROM
+    mov_concor
+WHERE
+    dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+    AND cd_reduzido LIKE ( '3501')
+ORDER BY
+    dt_movimentacao DESC;
+
+--Doações 
+SELECT
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES ASSEMBLEIA', 'DESCONHECIDO') AS tipo_doacao,
+    mov_concor.cd_reduzido,
+    mov_concor.dt_movimentacao
+FROM
+    mov_concor
+WHERE
+    dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
+    AND cd_reduzido LIKE ( '3501' )
+ORDER BY
+    dt_movimentacao DESC;
 
 
 --------------------------------------------------------------------------------
