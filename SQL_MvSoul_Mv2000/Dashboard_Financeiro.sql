@@ -244,28 +244,40 @@ ORDER BY
 --------------------------------------------------------------------------------
 --Outras Doações 
 SELECT
+    cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
     decode(mov_concor.cd_reduzido, '3504', 'DOAÇÕES TELEMARKETING', '3508', 'DOAÇÕES PREFEITURAS',
            '3507', 'DOAÇÕES CAGEPA', '3502', 'DOAÇÕES CAMPANHAS', '3801',
            'DOAÇÕES CAIXA', 'DESCONHECIDO')           AS tipo_doacao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
-    vl_movimentacao                                   AS valor
+    vl_movimentacao                                   AS valor,
+    cd_reduzido                                       AS conta_contábil
 FROM
     mov_concor
 WHERE
     dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('10/06/2025', 'DD/MM/YYYY')
-    AND cd_reduzido IN ( '3504', '3508', '3507', '3502',
-                         '3801' )
+    AND cd_reduzido IN ( '3504', '3508', '3507', '3502', '3801' )
+GROUP BY
+    cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    decode(mov_concor.cd_reduzido, '3504', 'DOAÇÕES TELEMARKETING', '3508', 'DOAÇÕES PREFEITURAS',
+           '3507', 'DOAÇÕES CAGEPA', '3502', 'DOAÇÕES CAMPANHAS', '3801',
+           'DOAÇÕES CAIXA', 'DESCONHECIDO'),
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    vl_movimentacao,
+    cd_reduzido
 ORDER BY
-    dt_movimentacao DESC;
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
 
 --Doações Gerais
 SELECT
+    cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                        AS competência,
     decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES GERAIS', 'DESCONHECIDO') AS tipo_doacao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                        AS data_do_recebimento,
-    vl_movimentacao                                                          AS valor
+    vl_movimentacao                                                          AS valor,
+    cd_reduzido                                                              AS conta_contábil
 FROM
     mov_concor
 WHERE
@@ -274,15 +286,24 @@ WHERE
     AND cd_lan_concor LIKE '22'
     AND cd_setor LIKE '1'
     AND ds_movimentacao LIKE '%GERAIS%'
+GROUP BY
+    cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES GERAIS', 'DESCONHECIDO'),
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    vl_movimentacao,
+    cd_reduzido
 ORDER BY
-    dt_movimentacao DESC;
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
 --Doações correios
 SELECT
-    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                          AS competência,
+    cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                            AS competência,
     decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES CORREIOS', 'DESCONHECIDO') AS tipo_doacao,
-    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                          AS data_do_recebimento,
-    vl_movimentacao                                                            AS valor
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                            AS data_do_recebimento,
+    vl_movimentacao                                                              AS valor,
+    cd_reduzido                                                                 AS conta_contábil
 FROM
     mov_concor
 WHERE
@@ -291,15 +312,24 @@ WHERE
     AND cd_lan_concor LIKE '153'
     AND cd_setor LIKE '38'
     AND ds_movimentacao LIKE '%CORREIOS%'
+GROUP BY
+    cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES CORREIOS', 'DESCONHECIDO'),
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    vl_movimentacao,
+    cd_reduzido
 ORDER BY
-    dt_movimentacao DESC;
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
 --Doações Assembleia
 SELECT
+    cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                            AS competência,
     decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES ASSEMBLEIA', 'DESCONHECIDO') AS tipo_doacao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy')                            AS data_do_recebimento,
-    vl_movimentacao                                                              AS valor
+    vl_movimentacao                                                              AS valor,
+    cd_reduzido                                                                 AS conta_contábil
 FROM
     mov_concor
 WHERE
@@ -308,9 +338,16 @@ WHERE
     AND cd_lan_concor LIKE '22'
     AND cd_setor LIKE '1'
     AND ds_movimentacao LIKE '%ASSEMBLE%'
+GROUP BY
+    cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    decode(mov_concor.cd_reduzido, '3501', 'DOAÇÕES ASSEMBLEIA', 'DESCONHECIDO'),
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    vl_movimentacao,
+    cd_reduzido
 ORDER BY
-    dt_movimentacao DESC;
-
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+    
 --------------------------------------------------------------------------------
 SELECT
     *
