@@ -1,8 +1,8 @@
 --Particular
 SELECT
+    caucao.dt_caucao      AS compentencia,
     caucao.tp_pagamento   AS tipo_de_recebimento,
-    SUM(caucao.vl_caucao) AS valor,
-    caucao.dt_caucao      AS compentencia
+    SUM(caucao.vl_caucao) AS valor_recebido  
 FROM
     caucao
 WHERE
@@ -23,10 +23,12 @@ WHERE
 GROUP BY
     'P',
     con_rec.dt_emissao;
+    
+    SELECT * FROM CAUCAO;
 --------------------------------------------------------------------------------
 --Convênio
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
@@ -76,7 +78,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 --Convênio - escolas superiores
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1339', 'FACULDADE DE CIÊNCIAS MÉDICAS', '1343', 'UNIESP',
@@ -104,7 +106,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 --SUS
 SELECT
-    con_rec.cd_con_rec                                                                     AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                                              AS competencia,
     con_rec.cd_reduzido                                                                    AS conta_contábil,
     decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO') AS convenio_escolas_superiores,
@@ -130,7 +132,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 --Aluguéis
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA',
@@ -160,7 +162,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 --Estacionamento
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
@@ -183,12 +185,12 @@ GROUP BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'); 
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
  
 --------------------------------------------------------------------------------
 --Camisas e Eventos
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
@@ -216,7 +218,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 --Energisa
 SELECT
-    con_rec.cd_con_rec                               AS id_da_operação,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '1312', 'ENERGISA',
