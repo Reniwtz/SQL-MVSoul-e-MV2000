@@ -280,7 +280,7 @@ SELECT
     con_rec.cd_reduzido                              AS conta_contábil,
     decode(con_rec.cd_reduzido, '3504', 'DOAÇÕES TELEMARKETING', '3508', 'DOAÇÕES PREFEITURAS',
            '3507', 'DOAÇÕES CAGEPA', '3502', 'DOAÇÕES CAMPANHAS', '3801',
-           'DOAÇÕES CAIXA', 'DESCONHECIDO')        AS tipo_doacao,
+           'DOAÇÕES CAIXA', 'DESCONHECIDO')          AS tipo_doacao,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
@@ -299,21 +299,32 @@ GROUP BY
            'DOAÇÕES CAIXA', 'DESCONHECIDO'),
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
-ORDER BY
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
-    
-
+UNION ALL
 SELECT
-    *
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    decode(con_rec.cd_reduzido, '1431', 'DOAÇÕES TELEMARKETING', '1341', 'DOAÇÕES PREFEITURAS',
+           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
-    Con_rec
-    --INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
-    --INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.cd_reduzido IN ( '3504', '3508', '3507', '3502', '3801' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY');
-
-
+    con_rec.cd_reduzido IN ( '1431', '1341' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    decode(con_rec.cd_reduzido, '1431', 'DOAÇÕES TELEMARKETING', '1341', 'DOAÇÕES PREFEITURAS',
+           'DESCONHECIDO'),
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+    data_do_recebimento;
 
 
 --Doações Gerais
