@@ -27,63 +27,19 @@ ORDER BY
     compentencia DESC;
     
 --------------------------------------------------------------------------------
---Convênio
+/* Convênios: 
+   1302 - UNIMED, 1303 - ASSEFAZ, 1305 - FACENE BAYEUX / VALENTINA / HUNE, 1306 - POSTAL SAÚDE,
+   1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
+   1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
+   1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1341 - PREFEITURAS, 1346 - ASTRAZENECA, 1424 - UNIMED CEDAPP */
 SELECT
     con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
-           '1305', 'FACENE BAYEUX / VALENTINA / HUNE', '1306', 'POSTAL SAÚDE', '1307',
-           'CAMED', '1308', 'FUNCEF', '1311', 'FUNASA',
-           '1313', 'AFRAFEP', '1314', 'GEAP', '1315',
-           'CAPESAÚDE', '1316', 'AMI SAÚDE', '1317', 'PETROBRAS',
-           '1318', 'SUL AMÉRICA', '1319', 'CASSI', '1323',
-           'COMSEDER', '1324', 'BRADESCO SAÚDE / OPERADORA', '1325', 'AMIL',
-           '1326', 'MEDSERVICE', '1328', 'HAPVIDA', '1332',
-           'FUSMA', '1333', 'GAMA', '1336', 'FCA',
-           '1341', 'PREFEITURAS', '1346', 'ASTRAZENECA', '1424',
-           'UNIMED CEDAPP', 'DESCONHECIDO')          AS convenio,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido
-FROM
-         con_rec
-    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
-    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
-WHERE
-    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
-    AND con_rec.cd_reduzido IN ( '1302', '1303', '1305', '1306', '1307',
-                                 '1308', '1311', '1313', '1314', '1315',
-                                 '1316', '1317', '1318', '1319', '1323',
-                                 '1324', '1325', '1326', '1328', '1332',
-                                 '1333', '1336', '1341', '1346', '1424' )
-GROUP BY
-    con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
-    con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1302', 'UNIMED', '1303', 'ASSEFAZ',
-           '1305', 'FACENE BAYEUX / VALENTINA / HUNE', '1306', 'POSTAL SAÚDE', '1307',
-           'CAMED', '1308', 'FUNCEF', '1311', 'FUNASA',
-           '1313', 'AFRAFEP', '1314', 'GEAP', '1315',
-           'CAPESAÚDE', '1316', 'AMI SAÚDE', '1317', 'PETROBRAS',
-           '1318', 'SUL AMÉRICA', '1319', 'CASSI', '1323',
-           'COMSEDER', '1324', 'BRADESCO SAÚDE / OPERADORA', '1325', 'AMIL',
-           '1326', 'MEDSERVICE', '1328', 'HAPVIDA', '1332',
-           'FUSMA', '1333', 'GAMA', '1336', 'FCA',
-           '1341', 'PREFEITURAS', '1346', 'ASTRAZENECA', '1424',
-           'UNIMED CEDAPP', 'DESCONHECIDO'),
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
-    reccon_rec.vl_recebido
-ORDER BY
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
-
---Facene e hune
-SELECT
-    con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
-    con_rec.cd_reduzido                              AS conta_contábil,
+    con_rec.nm_cliente                               AS nome_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido,
-    con_rec.nm_cliente                               AS nome_do_cliente,
     fornecedor.cd_fornecedor                         AS código_do_fornecedor,
     fornecedor.nm_fornecedor                         AS nome_de_fornecedor,
     fornecedor.nr_cgc_cpf                            AS cpf_fgts
@@ -93,7 +49,40 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido IN ( '1302', '1303', '1306', '1307', '1308',
+                                 '1311', '1313', '1314', '1315', '1316',
+                                 '1317', '1318', '1319', '1323', '1324',
+                                 '1325', '1326', '1328', '1332', '1333',
+                                 '1336', '1341', '1346', '1424' )
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    con_rec.nm_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido,
+    fornecedor.cd_fornecedor,
+    fornecedor.nm_fornecedor,
+    fornecedor.nr_cgc_cpf
+UNION ALL
+SELECT
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido,
+    fornecedor.cd_fornecedor                         AS código_do_fornecedor,
+    fornecedor.nm_fornecedor                         AS nome_de_fornecedor,
+    fornecedor.nr_cgc_cpf                            AS cpf_fgts
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+WHERE
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido IN ( '1305' )
     AND ( con_rec.nm_cliente LIKE ( '%FACENE%' )
           OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' ) )
@@ -101,14 +90,14 @@ GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
+    con_rec.nm_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido,
-    con_rec.nm_cliente,
     fornecedor.cd_fornecedor,
     fornecedor.nm_fornecedor,
     fornecedor.nr_cgc_cpf
 ORDER BY
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')
+    data_do_recebimento; 
 
 --------------------------------------------------------------------------------
 --Convênio - escolas superiores
