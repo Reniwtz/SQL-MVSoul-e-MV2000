@@ -76,6 +76,40 @@ GROUP BY
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
+--Facene e hune
+SELECT
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.cd_fornecedor                         AS código_do_fornecedor,
+    fornecedor.nm_fornecedor                         AS nome_de_fornecedor,
+    fornecedor.nr_cgc_cpf                            AS cpf_fgts
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+WHERE
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido IN ( '1305' )
+    AND ( con_rec.nm_cliente LIKE ( '%FACENE%' )
+          OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' ) )
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido,
+    con_rec.nm_cliente,
+    fornecedor.cd_fornecedor,
+    fornecedor.nm_fornecedor,
+    fornecedor.nr_cgc_cpf
+ORDER BY
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')
+
 --------------------------------------------------------------------------------
 --Convênio - escolas superiores
 SELECT
