@@ -266,6 +266,7 @@ ORDER BY
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
+         
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
@@ -469,7 +470,7 @@ ORDER BY
     
 --------------------------------------------------------------------------------
 /*  Ordem Judicial
-    3504 - DOAÇÕES DA ASSEMBLEIA - LCTO 121 E SETOR 38    */
+    22931 - DOAÇÕES DA ASSEMBLEIA - LCTO 121 E SETOR 38  */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -496,3 +497,200 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
+--------------------------------------------------------------------------------
+/*  SUS
+    6909 - DOAÇÕES DA ASSEMBLEIA - LCTO 146 E SETOR 37  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '6909' )
+    AND mov_concor.cd_lan_concor LIKE '146'
+    AND mov_concor.cd_setor LIKE '37'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+
+--------------------------------------------------------------------------------
+/*  Redimento de Aplicações
+    3602 - DOAÇÕES DA ASSEMBLEIA - LCTO 68 E SETOR 38  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '3602' )
+    AND mov_concor.cd_lan_concor LIKE '68'
+    AND mov_concor.cd_setor LIKE '38'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+    
+/*  Piso de Enfermagem
+    22905 - CONV PISO DA ENFERMAGEM - LCTO 88 E SETOR 192  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '22905' )
+    AND mov_concor.cd_lan_concor LIKE '88'
+    AND mov_concor.cd_setor LIKE '192'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
+    
+/*  Convênio
+    8012 - CONV 006/2025 - LCTO 88 E SETOR 192  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '8012' )
+    AND mov_concor.cd_lan_concor LIKE '88'
+    AND mov_concor.cd_setor LIKE '192'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC; 
+    
+/*  Convênio
+    8009 - CONV 072/2024 - LCTO 88 E SETOR 192  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '8009' )
+    AND mov_concor.cd_lan_concor LIKE '88'
+    AND mov_concor.cd_setor LIKE '192'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+    
+/*  Convênio
+    8008 - CONV 059/2024 - LCTO 88 E SETOR 141  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '8008' )
+    AND mov_concor.cd_lan_concor LIKE '88'
+    AND mov_concor.cd_setor LIKE '141'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
+    
+/*  Convênio
+    8010 - CONV 087/2024 - LCTO 88 E SETOR 192  */
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '8010' )
+    AND mov_concor.cd_lan_concor LIKE '88'
+    AND mov_concor.cd_setor LIKE '192'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;      
