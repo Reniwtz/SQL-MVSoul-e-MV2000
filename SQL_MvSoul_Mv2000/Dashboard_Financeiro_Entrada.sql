@@ -267,7 +267,7 @@ ORDER BY
  
 --------------------------------------------------------------------------------
 /*  OUTROS
-    '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA PARAIBA*/
+    1429 - CAMISAS E EVENTOS, 1312 - ENERGISA PARAIBA */
 SELECT
      con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
@@ -298,34 +298,31 @@ ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
 --------------------------------------------------------------------------------
---Doações 
+/*  Doações 
+    3504 - DOAÇÕES TELEMARKETING, 3508 - DOAÇÕES PREFEITURAS, 3507 - DOAÇÕES CAGEPA,
+    3502 - DOAÇÕES CAMPANHAS, 3801 - DOAÇÕES CAIXA */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
-    decode(mov_concor.cd_reduzido, '3504', 'DOAÇÕES TELEMARKETING', '3508', 'DOAÇÕES PREFEITURAS',
-           '3507', 'DOAÇÕES CAGEPA', '3502', 'DOAÇÕES CAMPANHAS', '3801',
-           'DOAÇÕES CAIXA', 'DESCONHECIDO')           AS tipo_doacao,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
-    mov_concor.vl_movimentacao                                   AS valor,
-    mov_concor.cd_reduzido                                       AS conta_contábil
+    mov_concor.vl_movimentacao                        AS valor_recebido
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
     AND cd_reduzido IN ( '3504', '3508', '3507', '3502', '3801' )
 GROUP BY
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
-    decode(mov_concor.cd_reduzido, '3504', 'DOAÇÕES TELEMARKETING', '3508', 'DOAÇÕES PREFEITURAS',
-           '3507', 'DOAÇÕES CAGEPA', '3502', 'DOAÇÕES CAMPANHAS', '3801',
-           'DOAÇÕES CAIXA', 'DESCONHECIDO'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
-    mov_concor.vl_movimentacao,
-    mov_concor.cd_reduzido
+    mov_concor.vl_movimentacao
 ORDER BY
-    tipo_doacao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
-
+    
 --Outras Doações 
 SELECT
     con_rec.cd_con_rec,
@@ -483,4 +480,3 @@ GROUP BY
     mov_concor.cd_reduzido
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
-
