@@ -100,8 +100,7 @@ SELECT
     con_rec.nm_cliente                               AS nome_do_cliente,
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido,
-    'convênio'                                       AS convênio
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -134,8 +133,7 @@ SELECT
     con_rec.nm_cliente                               AS nome_do_cliente,
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido,
-    'convênio'                                       AS convênio
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
