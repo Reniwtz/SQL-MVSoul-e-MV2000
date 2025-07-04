@@ -1,17 +1,58 @@
---Particular
+--Particular: Cartão de Crédito, Débito e PIX
 SELECT
-    to_char(caucao.dt_caucao, 'dd/mm/yyyy') AS compentencia,
-    caucao.tp_pagamento                     AS tipo_de_recebimento,
-    SUM(caucao.vl_caucao)                   AS valor_recebido
+    cd_caucao,
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS compentencia,
+    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CRÉDITO') AS tipo_de_recebimento,
+    caucao.nm_proprietário as nome_do_cliente,
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS data_do_recebimento,
+    caucao.vl_caucao                                           AS valor_recebido,
+    caucao.cd_atendimento as código_do_cliente
 FROM
     caucao
 WHERE
-    caucao.dt_caucao BETWEEN TO_DATE('17/06/2025', 'DD/MM/YYYY') AND TO_DATE('30/06/2025', 'DD/MM/YYYY')
+    caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
 GROUP BY
-    caucao.tp_pagamento,
-    caucao.dt_caucao
-UNION ALL
+    cd_caucao,
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
+    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CARTÃO'),
+    caucao.vl_caucao;                       
+    
+    SELECT * FROM CAUCAO WHERE caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY');
+    
+--Particular: PIX
 SELECT
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+    con_rec
+    left JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    left JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    left JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+WHERE
+    con_rec.dt_emissao  BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido LIKE '2915'
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+     data_do_recebimento;
+     
+     
+     
+     
+     SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy') AS compentencia,
     'P'                                       AS tipo_de_recebimento,
     SUM(vl_previsto)                          AS valor
@@ -19,13 +60,13 @@ FROM
     con_rec
 WHERE
     con_rec.cd_reduzido LIKE '2915'
-    AND con_rec.dt_emissao BETWEEN TO_DATE('17/06/2025', 'DD/MM/YYYY') AND TO_DATE('30/06/2025', 'DD/MM/YYYY')
+    AND con_rec.dt_emissao  BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
 GROUP BY
     'P',
     con_rec.dt_emissao
 ORDER BY
     compentencia DESC;
-    
+       
 --------------------------------------------------------------------------------
 /* Convênios: 
    1302 - UNIMED, 1303 - ASSEFAZ, 1305 - FACENE BAYEUX / VALENTINA / HUNE, 1306 - POSTAL SAÚDE,
@@ -37,12 +78,11 @@ SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
     con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido,
-    fornecedor.cd_fornecedor                         AS código_do_fornecedor,
-    fornecedor.nm_fornecedor                         AS nome_de_fornecedor,
-    fornecedor.nr_cgc_cpf                            AS cpf_fgts
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -59,23 +99,21 @@ GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    con_rec.nm_cliente,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
-    reccon_rec.vl_recebido,
     fornecedor.cd_fornecedor,
-    fornecedor.nm_fornecedor,
-    fornecedor.nr_cgc_cpf
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
 UNION ALL
 SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
     con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido,
-    fornecedor.cd_fornecedor                         AS código_do_fornecedor,
-    fornecedor.nm_fornecedor                         AS nome_de_fornecedor,
-    fornecedor.nr_cgc_cpf                            AS cpf_fgts
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -90,17 +128,16 @@ GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    con_rec.nm_cliente,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
-    reccon_rec.vl_recebido,
     fornecedor.cd_fornecedor,
-    fornecedor.nm_fornecedor,
-    fornecedor.nr_cgc_cpf
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
 ORDER BY
-    data_do_recebimento; 
-
+    data_do_recebimento;
+    
 --------------------------------------------------------------------------------
---Convênio - escolas superiores
+--Convênio - Escolas Superiores
 SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
@@ -130,12 +167,12 @@ ORDER BY
 --------------------------------------------------------------------------------
 --SUS
 SELECT
-    con_rec.cd_con_rec,
+    /*con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                                              AS competencia,
     con_rec.cd_reduzido                                                                    AS conta_contábil,
     decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO') AS convenio_escolas_superiores,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')                                       AS data_do_recebimento,
-    reccon_rec.vl_recebido                                                                 AS valor_recebido
+    reccon_rec.vl_recebido                                                                 AS valor_recebido*/*
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -453,3 +490,4 @@ GROUP BY
     mov_concor.cd_reduzido
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+
