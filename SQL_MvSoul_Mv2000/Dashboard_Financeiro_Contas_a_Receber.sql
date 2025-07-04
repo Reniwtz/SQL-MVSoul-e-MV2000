@@ -93,6 +93,7 @@ ORDER BY
    1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1341 - PREFEITURAS, 1346 - ASTRAZENECA, 1424 - UNIMED CEDAPP  */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -100,7 +101,7 @@ SELECT
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido,
-     'convênio'                           AS convênio
+    'convênio'                                       AS convênio
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -115,6 +116,7 @@ WHERE
                                  '1336', '1341', '1346', '1424' )
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -125,6 +127,7 @@ GROUP BY
 UNION ALL
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -132,7 +135,7 @@ SELECT
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido,
-    'convênio'                           AS convênio
+    'convênio'                                       AS convênio
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -145,6 +148,7 @@ WHERE
           OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' ) )
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -160,6 +164,7 @@ ORDER BY
     1339 - FACULDADE DE CIÊNCIAS MÉDICAS, 1343 - UNIESP, 1340 - FACENE/FAMEN    */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -177,6 +182,7 @@ WHERE
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -192,6 +198,7 @@ ORDER BY
     1301 - JPA FUNDO MUNICIPAL DE SAÚDE */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -209,6 +216,7 @@ WHERE
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -225,6 +233,7 @@ ORDER BY
     '1426', 'ALEXANDRE CEDAP', '1425','ANA CEDAP'   */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -241,7 +250,8 @@ WHERE
     con_rec.cd_reduzido IN ( '1433', '1428', '1432', '1426', '1425' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
-con_rec.cd_con_rec,
+    con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -257,6 +267,7 @@ ORDER BY
     1422 - ESTAPAR  */
     SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -275,6 +286,7 @@ WHERE
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -290,6 +302,7 @@ ORDER BY
     1429 - CAMISAS E EVENTOS, 1312 - ENERGISA PARAIBA   */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -307,6 +320,7 @@ WHERE
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -352,6 +366,7 @@ ORDER BY
     1431 - DOAÇÕES TELEMARKETING, 1341 - DOAÇÕES PREFEITURAS  */
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -366,9 +381,10 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1431', '1341' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('07/01/2025', 'DD/MM/YYYY') AND TO_DATE('07/01/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
@@ -499,7 +515,7 @@ ORDER BY
 
 --------------------------------------------------------------------------------
 /*  SUS
-    6909 - DOAÇÕES DA ASSEMBLEIA - LCTO 146 E SETOR 37  */
+    6909 - ADIANT DA PRODUÇÃO AMB DO SUS - LCTO 146 E SETOR 37  */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -527,8 +543,8 @@ ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
 --------------------------------------------------------------------------------
-/*  Redimento de Aplicações
-    3602 - DOAÇÕES DA ASSEMBLEIA - LCTO 68 E SETOR 38  */
+/*  Redimentos de Aplicações
+    3602 - RENDIMENTO - LCTO 68 E SETOR 38  */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -541,7 +557,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '3602' )
     AND mov_concor.cd_lan_concor LIKE '68'
     AND mov_concor.cd_setor LIKE '38'
