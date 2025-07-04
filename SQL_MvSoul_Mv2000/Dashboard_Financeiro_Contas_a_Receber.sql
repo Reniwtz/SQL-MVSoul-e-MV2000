@@ -29,14 +29,14 @@ ORDER BY
 --Particular: PIX
 SELECT
     con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy') AS competência,
-    'PIX'                                     AS tipo_de_recebimento,
-    con_rec.cd_reduzido                       AS conta_contábil,
-    ''                                        AS código_do_cliente,
-    con_rec.nm_cliente                        AS nome_do_cliente,
-    ''                                        AS cpf_cnpj_do_cliente,
-    --to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento
-    con_rec.vl_previsto                       AS valor_recebido
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')    AS competência,
+    'PIX'                                        AS tipo_de_recebimento,
+    con_rec.cd_reduzido                          AS conta_contábil,
+    ''                                           AS código_do_cliente,
+    con_rec.nm_cliente                           AS nome_do_cliente,
+    ''                                           AS cpf_cnpj_do_cliente,
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy') AS data_do_recebimento,
+    con_rec.vl_previsto                          AS valor_recebido
 FROM
     con_rec
     LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -49,14 +49,14 @@ GROUP BY
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     con_rec.nm_cliente,
-    --to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
     con_rec.vl_previsto
 ORDER BY
     data_do_recebimento;
     
 /*  Total Particular:
     Cartão de Crédito e Débito 
-    1302 - PIX  */
+    1302 - PIX  
 SELECT
     to_char(caucao.dt_caucao, 'dd/mm/yyyy') AS compentencia,
     caucao.tp_pagamento                     AS tipo_de_recebimento,
@@ -82,7 +82,7 @@ GROUP BY
     'P',
     con_rec.dt_emissao
 ORDER BY
-    compentencia DESC;
+    compentencia DESC; */
        
 --------------------------------------------------------------------------------
 /* Convênios: 
