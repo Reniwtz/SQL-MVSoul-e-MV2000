@@ -137,46 +137,54 @@ ORDER BY
     data_do_recebimento;
     
 --------------------------------------------------------------------------------
---Convênio - Escolas Superiores
+/* Escola Superiores:
+    1339 - FACULDADE DE CIÊNCIAS MÉDICAS, 1343 - UNIESP, 1340 - FACENE/FAMEN */
 SELECT
     con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1339', 'FACULDADE DE CIÊNCIAS MÉDICAS', '1343', 'UNIESP',
-           '1340', 'FACENE', 'DESCONHECIDO')         AS convenio_escolas_superiores,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1339', '1343', '1340' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1339', 'FACULDADE DE CIÊNCIAS MÉDICAS', '1343', 'UNIESP',
-           '1340', 'FACENE', 'DESCONHECIDO'),
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
     
 --------------------------------------------------------------------------------
---SUS
+/*  SUS:
+    1301 - JPA FUNDO MUNICIPAL DE SAÚDE */
 SELECT
-    /*con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                                              AS competencia,
-    con_rec.cd_reduzido                                                                    AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO') AS convenio_escolas_superiores,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy')                                       AS data_do_recebimento,
-    reccon_rec.vl_recebido                                                                 AS valor_recebido*/*
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido            
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1301' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
@@ -184,112 +192,96 @@ GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1301', 'FUNDO MUNICIPAL DE SAÚDE DE JPA', 'DESCONHECIDO'),
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
 --------------------------------------------------------------------------------
---Aluguéis
+/*  Aluguéis
+    '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA','1432', 'SAL DA TERRA',
+    '1426', 'ALEXANDRE CEDAP', '1425','ANA CEDAP'*/
 SELECT
     con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA',
-           '1432', 'SAL DA TERRA', '1426', 'ALEXANDRE CEDAP', '1425',
-           'ANA CEDAP', 'DESCONHECIDO')              AS convenio_escolas_superiores,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1433', '1428', '1432', '1426', '1425' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
-    con_rec.cd_con_rec,
+con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA',
-           '1432', 'SAL DA TERRA', '1426', 'ALEXANDRE CEDAP', '1425',
-           'ANA CEDAP', 'DESCONHECIDO'),
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
  
 --------------------------------------------------------------------------------
---Estacionamento
-SELECT
+/*  Estacionamento
+    1422 - ESTAPAR */
+    SELECT
     con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
-           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    con_rec.cd_reduzido IN ( '1429', '1312' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    con_rec.cd_reduzido LIKE ( '1422' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
-           'DESCONHECIDO'),
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
  
 --------------------------------------------------------------------------------
---Camisas e Eventos
+/*  OUTROS
+    '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA PARAIBA*/
 SELECT
-    con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
+     con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS', '1312', 'ENERGISA',
-           'DESCONHECIDO')                           AS convenio_escolas_superiores,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
-WHERE
-    con_rec.cd_reduzido IN ( '1429' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
-GROUP BY
-    con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
-    con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1429', 'CAMISAS E EVENTOS',
-           'DESCONHECIDO'),
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
-    reccon_rec.vl_recebido
-ORDER BY
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
-    
---------------------------------------------------------------------------------
---Energisa
-SELECT
-    con_rec.cd_con_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competencia,
-    con_rec.cd_reduzido                              AS conta_contábil,
-    decode(con_rec.cd_reduzido, '1312', 'ENERGISA',
-           'DESCONHECIDO')                           AS convenio_escolas_superiores,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido
-FROM
-         con_rec
-    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
-    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1429', '1312' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
@@ -297,15 +289,16 @@ GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    decode(con_rec.cd_reduzido, '1312', 'ENERGISA',
-           'DESCONHECIDO'),
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
 
 --------------------------------------------------------------------------------
---Outras Doações 
+--Doações 
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
