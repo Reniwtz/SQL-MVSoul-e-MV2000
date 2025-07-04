@@ -1,4 +1,4 @@
---Particular: Cartão de Crédito, Débito e PIX
+--Particular: Cartão de Crédito, Débito
 SELECT
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS compentencia,
@@ -13,7 +13,7 @@ FROM
     INNER JOIN atendime ON atendime.cd_atendimento = caucao.cd_atendimento
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
 WHERE
-    caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+    caucao.dt_caucao BETWEEN TO_DATE('02/07/2025', 'DD/MM/YYYY') AND TO_DATE('02/07/2025', 'DD/MM/YYYY')
 GROUP BY
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
@@ -42,7 +42,7 @@ FROM
     LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     --LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.dt_emissao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+    con_rec.dt_emissao BETWEEN TO_DATE('02/07/2025', 'DD/MM/YYYY') AND TO_DATE('02/07/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido LIKE '2915'
 GROUP BY
     con_rec.cd_con_rec,
@@ -211,7 +211,7 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1301' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -263,7 +263,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 /*  Estacionamento
     1422 - ESTAPAR  */
-    SELECT
+SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
@@ -379,7 +379,7 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1431', '1341' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('07/01/2025', 'DD/MM/YYYY') AND TO_DATE('07/01/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -484,7 +484,7 @@ ORDER BY
     
 --------------------------------------------------------------------------------
 /*  Ordem Judicial
-    22931 - DOAÇÕES DA ASSEMBLEIA - LCTO 121 E SETOR 38  */
+    22931 - ORDEM JUDICIAL - LCTO 121 E SETOR 38  */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -497,7 +497,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('10/06/2024', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2024', 'DD/MM/YYYY') AND TO_DATE('31/12/2024', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '22931' )
     AND mov_concor.cd_lan_concor LIKE '121'
     AND mov_concor.cd_setor LIKE '38'
@@ -555,7 +555,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('31/01/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '3602' )
     AND mov_concor.cd_lan_concor LIKE '68'
     AND mov_concor.cd_setor LIKE '38'
@@ -611,7 +611,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('01/06/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '8012' )
     AND mov_concor.cd_lan_concor LIKE '88'
     AND mov_concor.cd_setor LIKE '192'
@@ -639,7 +639,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('01/06/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '8009' )
     AND mov_concor.cd_lan_concor LIKE '88'
     AND mov_concor.cd_setor LIKE '192'
@@ -667,7 +667,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('01/06/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '8008' )
     AND mov_concor.cd_lan_concor LIKE '88'
     AND mov_concor.cd_setor LIKE '141'
@@ -695,7 +695,7 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('28/06/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/06/2024', 'DD/MM/YYYY') AND TO_DATE('01/06/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '8010' )
     AND mov_concor.cd_lan_concor LIKE '88'
     AND mov_concor.cd_setor LIKE '192'
