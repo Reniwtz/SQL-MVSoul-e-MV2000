@@ -3,56 +3,71 @@ SELECT
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS compentencia,
     decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CRÉDITO') AS tipo_de_recebimento,
-    caucao.nm_proprietário as nome_do_cliente,
+    caucao.cd_atendimento                                      AS código_do_cliente,
+    caucao.nm_proprietario                                     AS nome_do_cliente,
+    paciente.nr_cpf                                            AS cpf,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS data_do_recebimento,
-    caucao.vl_caucao                                           AS valor_recebido,
-    caucao.cd_atendimento as código_do_cliente
+    caucao.vl_caucao                                           AS valor_recebido
 FROM
-    caucao
+         caucao
+    INNER JOIN atendime ON atendime.cd_atendimento = caucao.cd_atendimento
+    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
 WHERE
     caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
 GROUP BY
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
-    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CARTÃO'),
-    caucao.vl_caucao;                       
-    
-    SELECT * FROM CAUCAO WHERE caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY');
+    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CRÉDITO'),
+    caucao.nm_proprietario,
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
+    caucao.vl_caucao,
+    paciente.nr_cpf,
+    caucao.cd_atendimento
     
 --Particular: PIX
 SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
-    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    ''                                               AS código_do_cliente,
     con_rec.nm_cliente                               AS nome_do_cliente,
-    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
+    ''                                               AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
     con_rec
-    left JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
-    left JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
-    left JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+    LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.dt_emissao  BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+    con_rec.dt_emissao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido LIKE '2915'
 GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
-    fornecedor.cd_fornecedor,
     con_rec.nm_cliente,
-    fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
-     data_do_recebimento;
-     
-     
-     
-     
-     SELECT
+    data_do_recebimento;
+  
+      
+/*  Total Particular:
+    Cartão de Crédito e Débito 
+    1302 - PIX  */
+SELECT
+    to_char(caucao.dt_caucao, 'dd/mm/yyyy') AS compentencia,
+    caucao.tp_pagamento                     AS tipo_de_recebimento,
+    SUM(caucao.vl_caucao)                   AS valor_recebido
+FROM
+    caucao
+WHERE
+    caucao.dt_caucao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+GROUP BY
+    caucao.tp_pagamento,
+    caucao.dt_caucao
+UNION ALL
+SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy') AS compentencia,
     'P'                                       AS tipo_de_recebimento,
     SUM(vl_previsto)                          AS valor
@@ -60,7 +75,7 @@ FROM
     con_rec
 WHERE
     con_rec.cd_reduzido LIKE '2915'
-    AND con_rec.dt_emissao  BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
+    AND con_rec.dt_emissao BETWEEN TO_DATE('01/07/2025', 'DD/MM/YYYY') AND TO_DATE('01/07/2025', 'DD/MM/YYYY')
 GROUP BY
     'P',
     con_rec.dt_emissao
@@ -271,7 +286,7 @@ ORDER BY
 /*  OUTROS
     1429 - CAMISAS E EVENTOS, 1312 - ENERGISA PARAIBA   */
 SELECT
-     con_rec.cd_con_rec,
+    con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
@@ -478,3 +493,4 @@ GROUP BY
     mov_concor.vl_movimentacao
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+
