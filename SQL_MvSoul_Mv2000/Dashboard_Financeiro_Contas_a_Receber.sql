@@ -17,7 +17,7 @@ WHERE
 GROUP BY
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
-    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CRÉDITO'),
+    decode(caucao.tp_pagamento, 'D', 'DINHEIRO', 'C', 'CARTÃO'),
     caucao.nm_proprietario,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
     caucao.vl_caucao,
@@ -25,6 +25,7 @@ GROUP BY
     caucao.cd_atendimento
 ORDER BY
     data_do_recebimento;
+    
     
 --Particular: PIX
 SELECT
