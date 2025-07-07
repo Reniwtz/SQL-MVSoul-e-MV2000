@@ -25,33 +25,37 @@ GROUP BY
     caucao.cd_atendimento
 ORDER BY
     data_do_recebimento;
-    
-    
---Particular: PIX
+       
+--Particular Adiantamento: Cartão, Dinheiro e PIX/TED
 SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')    AS competência,
-    'PIX'                                        AS tipo_de_recebimento,
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+           '4', 'PIX/TED', '', 'DINHEIRO')       AS tipo_de_recebimento,
     con_rec.cd_reduzido                          AS conta_contábil,
     ''                                           AS código_do_cliente,
     con_rec.nm_cliente                           AS nome_do_cliente,
     ''                                           AS cpf_cnpj_do_cliente,
     to_char(con_rec.dt_lancamento, 'dd/mm/yyyy') AS data_do_recebimento,
-    con_rec.vl_previsto                          AS valor_recebido
+    con_rec.vl_previsto                          AS valor_recebido,
+    reccon_rec.tp_recebimento
 FROM
     con_rec
     LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
-    --LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.dt_emissao BETWEEN TO_DATE('02/07/2025', 'DD/MM/YYYY') AND TO_DATE('02/07/2025', 'DD/MM/YYYY')
+    con_rec.dt_emissao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido LIKE '2915'
 GROUP BY
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+           '4', 'PIX/TED', '', 'DINHEIRO'),
     con_rec.cd_reduzido,
     con_rec.nm_cliente,
     to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
-    con_rec.vl_previsto
+    con_rec.vl_previsto,
+    reccon_rec.tp_recebimento
 ORDER BY
     data_do_recebimento;
     
