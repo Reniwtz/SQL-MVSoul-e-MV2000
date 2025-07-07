@@ -361,7 +361,9 @@ ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
     
 /*  Doações 
-    1431 - DOAÇÕES TELEMARKETING, 1341 - DOAÇÕES PREFEITURAS  */
+    1431 - DOAÇÕES TELEMARKETING,
+    1341 - DOAÇÕES PREFEITURAS,
+    1438 - DOAÇOES URNA CAPELA*/
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -378,7 +380,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    con_rec.cd_reduzido IN ( '1431', '1341' )
+    con_rec.cd_reduzido IN ( '1431', '1341', '1438' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
