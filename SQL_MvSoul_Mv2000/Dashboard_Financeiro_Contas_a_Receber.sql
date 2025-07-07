@@ -2,7 +2,7 @@
 SELECT
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS compentencia,
-    decode(caucao.tp_pagamento, 'D', 'DÉBITO', 'C', 'CRÉDITO') AS tipo_de_recebimento,
+    decode(caucao.tp_pagamento, 'D', 'DINHEIRO', 'C', 'CARTÃO') AS tipo_de_recebimento,
     caucao.cd_atendimento                                      AS código_do_cliente,
     caucao.nm_proprietario                                     AS nome_do_cliente,
     paciente.nr_cpf                                            AS cpf,
@@ -13,7 +13,7 @@ FROM
     INNER JOIN atendime ON atendime.cd_atendimento = caucao.cd_atendimento
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
 WHERE
-    caucao.dt_caucao BETWEEN TO_DATE('02/07/2025', 'DD/MM/YYYY') AND TO_DATE('02/07/2025', 'DD/MM/YYYY')
+    caucao.dt_caucao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy'),
