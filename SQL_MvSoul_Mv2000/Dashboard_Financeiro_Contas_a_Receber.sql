@@ -366,7 +366,7 @@ ORDER BY
     1431 - DOAÇÕES TELEMARKETING,
     1341 - DOAÇÕES PREFEITURAS,
     1438 - DOAÇOES URNA CAPELA
-    1439 - DOAÇOES URNA CAPELA*/
+    1439 - DOAÇOES CAIXA*/
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
