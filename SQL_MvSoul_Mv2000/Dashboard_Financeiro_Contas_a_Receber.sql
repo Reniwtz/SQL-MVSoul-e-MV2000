@@ -91,7 +91,7 @@ ORDER BY
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
-   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1341 - PREFEITURAS, 1346 - ASTRAZENECA, 1424 - UNIMED CEDAPP  */
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1346 - ASTRAZENECA, 1424 - UNIMED CEDAPP  */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -113,7 +113,7 @@ WHERE
                                  '1311', '1313', '1314', '1315', '1316',
                                  '1317', '1318', '1319', '1323', '1324',
                                  '1325', '1326', '1328', '1332', '1333',
-                                 '1336', '1341', '1346', '1424' )
+                                 '1336', '1346', '1424' )
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -158,7 +158,7 @@ GROUP BY
     reccon_rec.vl_recebido
 ORDER BY
     data_do_recebimento;
-    
+
 --------------------------------------------------------------------------------
 /*  Escola Superiores:
     1339 - FACULDADE DE CIÊNCIAS MÉDICAS, 1343 - UNIESP, 1340 - FACENE/FAMEN    */
