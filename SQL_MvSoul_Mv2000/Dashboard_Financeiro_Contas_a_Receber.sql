@@ -412,11 +412,13 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('03/02/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('12/02/2025', 'DD/MM/YYYY') AND TO_DATE('12/02/2025', 'DD/MM/YYYY')
     AND mov_concor.cd_reduzido LIKE ( '3501' )
     AND mov_concor.cd_lan_concor LIKE '22'
     AND mov_concor.cd_setor LIKE '1'
-    AND (mov_concor.ds_movimentacao LIKE '%GERAIS%' or mov_concor.ds_movimentacao LIKE '%GERAL%')
+    AND ( mov_concor.ds_movimentacao LIKE '%GERAIS%'
+          OR mov_concor.ds_movimentacao LIKE '%GERAL%'
+          OR mov_concor.ds_movimentacao LIKE '%MENOR%' )
 GROUP BY
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
