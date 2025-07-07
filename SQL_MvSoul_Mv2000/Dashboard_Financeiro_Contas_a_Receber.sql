@@ -107,7 +107,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('14/02/2025', 'DD/MM/YYYY') AND TO_DATE('14/02/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido IN ( '1302', '1303', '1306', '1307', '1308',
                                  '1311', '1313', '1314', '1315', '1316',
                                  '1317', '1318', '1319', '1323', '1324',
@@ -140,10 +140,11 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('14/02/2025', 'DD/MM/YYYY') AND TO_DATE('14/02/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido IN ( '1305' )
     AND ( con_rec.nm_cliente LIKE ( '%FACENE%' )
-          OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' ) )
+          OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' )
+          OR con_rec.nm_cliente LIKE ( '%PREF%' ))
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
