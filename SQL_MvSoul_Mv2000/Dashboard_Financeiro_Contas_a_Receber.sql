@@ -1,4 +1,4 @@
---Particular: Cartão de Crédito, Débito
+--Particular: Cartão e Dinheiro
 SELECT
     cd_caucao,
     to_char(caucao.dt_caucao, 'dd/mm/yyyy')                    AS compentencia,
