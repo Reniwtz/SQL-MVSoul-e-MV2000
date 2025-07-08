@@ -37,8 +37,7 @@ SELECT
     con_rec.nm_cliente                           AS nome_do_cliente,
     ''                                           AS cpf_cnpj_do_cliente,
     to_char(con_rec.dt_lancamento, 'dd/mm/yyyy') AS data_do_recebimento,
-    con_rec.vl_previsto                          AS valor_recebido,
-    reccon_rec.tp_recebimento
+    con_rec.vl_previsto                          AS valor_recebido
 FROM
     con_rec
     LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -54,8 +53,7 @@ GROUP BY
     con_rec.cd_reduzido,
     con_rec.nm_cliente,
     to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
-    con_rec.vl_previsto,
-    reccon_rec.tp_recebimento
+    con_rec.vl_previsto
 ORDER BY
     data_do_recebimento;
     
