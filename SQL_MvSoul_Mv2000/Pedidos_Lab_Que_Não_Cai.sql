@@ -1,5 +1,10 @@
 --Conferir Pedido
-SELECT * FROM ped_lab WHERE cd_atendimento IN (4146297)
+SELECT
+    *
+FROM
+    ped_lab
+WHERE
+    cd_atendimento LIKE '4145343';
 
 --Atribuir a empresa
            begin dbamv.pkg_mv2000.atribui_empresa(1); end;
