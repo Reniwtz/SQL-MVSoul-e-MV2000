@@ -609,7 +609,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
     
-/*  Convênio
+/*  Emendas
     8012 - CONV 006/2025 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
@@ -637,7 +637,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC; 
     
-/*  Convênio
+/*  Emendas
     8009 - CONV 072/2024 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
@@ -665,7 +665,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
     
-/*  Convênio
+/*  Emendas
     8008 - CONV 059/2024 - LCTO 88 E SETOR 141  */
 SELECT
     mov_concor.cd_mov_concor,
@@ -693,7 +693,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
     
-/*  Convênio
+/*  Emendas
     8010 - CONV 087/2024 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
