@@ -28,7 +28,7 @@ GROUP BY
 ORDER BY
     data_do_recebimento;
     
---Particular Adiantamento: Cartão, Dinheiro e crédito em conta corrente
+--Particular Adiantamento em Caixa: Cartão, Dinheiro e crédito em conta corrente
 SELECT
     con_rec.cd_con_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                AS competência,
@@ -337,11 +337,9 @@ ORDER BY
 
 --------------------------------------------------------------------------------
 /*  Doações 
-    3504 - DOAÇÕES TELEMARKETING - LCTO 80 E SETOR 127,
     3508 - DOAÇÕES PREFEITURAS - LCTO 143 E SETOR 38,
     3507 - DOAÇÕES CAGEPA - LCTO 141 E SETOR 38,
-    3502 - DOAÇÕES CAMPANHAS - LCTO 76 E SETOR 1,
-    3801 - DOAÇÕES CAIXA - LCTO 7 E SETOR 38    */
+    3502 - DOAÇÕES CAMPANHAS - LCTO 76 E SETOR 1 */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -355,7 +353,7 @@ FROM
     mov_concor
 WHERE
     mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
-    AND cd_reduzido IN ( '3504', '3508', '3507', '3502', '3801' )
+    AND cd_reduzido IN ( '3508', '3507', '3502' )
 GROUP BY
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
@@ -367,10 +365,8 @@ ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
     
 /*  Doações 
-    1431 - DOAÇÕES TELEMARKETING,
     1341 - DOAÇÕES PREFEITURAS,
-    1438 - DOAÇOES URNA CAPELA
-    1439 - DOAÇOES CAIXA*/
+    1438 - DOAÇOES URNA CAPELA*/
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -387,7 +383,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    con_rec.cd_reduzido IN ( '1431', '1341', '1438', '1439' )
+    con_rec.cd_reduzido IN ( '1341', '1438' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
@@ -401,6 +397,123 @@ GROUP BY
     reccon_rec.vl_recebido
 ORDER BY
     data_do_recebimento;
+    
+/*  DOAÇÕES TELEMARKETING 
+    1431 - DOAÇÕES MENSAGEIRO  */ 
+SELECT
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                AS competência,
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+           '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO') AS tipo_de_recebimento,
+    con_rec.cd_reduzido                                      AS conta_contábil,
+    ''                                                       AS código_do_cliente,
+    con_rec.nm_cliente                                       AS nome_do_cliente,
+    ''                                                       AS cpf_cnpj_do_cliente,
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy')             AS data_do_recebimento,
+    con_rec.vl_previsto                                      AS valor_recebido
+FROM
+    con_rec
+    LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.dt_emissao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido LIKE '1431'
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+          '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO'),
+    con_rec.cd_reduzido,
+    con_rec.nm_cliente,
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
+    con_rec.vl_previsto
+ORDER BY
+    data_do_recebimento;       
+
+-- 3504 - DOAÇÕES TELEMARKETING - LCTO 80 E SETOR 127,   
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND cd_reduzido IN ( '3504' )
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;   
+   
+--------------------------------------------------------------------------------   
+
+/*  Doações 
+    1439 - DOAÇOES CAIXA*/
+SELECT
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                AS competência,
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+           '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO') AS tipo_de_recebimento,
+    con_rec.cd_reduzido                                      AS conta_contábil,
+    ''                                                       AS código_do_cliente,
+    con_rec.nm_cliente                                       AS nome_do_cliente,
+    ''                                                       AS cpf_cnpj_do_cliente,
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy')             AS data_do_recebimento,
+    con_rec.vl_previsto                                      AS valor_recebido
+FROM
+    con_rec
+    LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+WHERE
+    con_rec.dt_emissao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido LIKE '1439'
+GROUP BY
+    con_rec.cd_con_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
+          '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO'),
+    con_rec.cd_reduzido,
+    con_rec.nm_cliente,
+    to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
+    con_rec.vl_previsto
+ORDER BY
+    data_do_recebimento; 
+     
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND cd_reduzido IN ( '3801' )
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao
+ORDER BY
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;    
+
+
 
 
 --------------------------------------------------------------------------------
@@ -466,7 +579,7 @@ ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
 /*  Doações 
-    3504 - DOAÇÕES DA ASSEMBLEIA - LCTO 22 E SETOR 1    */
+    3504 - DOAÇÕES DA ASSEMBLEIA LEGISLATIVA - LCTO 22 E SETOR 1    */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -609,8 +722,8 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
     
-/*  Emendas
-    8012 - CONV 006/2025 - LCTO 88 E SETOR 192  */
+/*  Convênios Públicos
+    8012 - Governo do Estado da Paraíba 006/2025 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -637,7 +750,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC; 
     
-/*  Emendas
+/*  Convênios Públicos
     8009 - CONV 072/2024 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
@@ -665,7 +778,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
     
-/*  Emendas
+/*  Convênios Públicos
     8008 - CONV 059/2024 - LCTO 88 E SETOR 141  */
 SELECT
     mov_concor.cd_mov_concor,
@@ -693,7 +806,7 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;  
     
-/*  Emendas
+/*  Convênios Públicos
     8010 - CONV 087/2024 - LCTO 88 E SETOR 192  */
 SELECT
     mov_concor.cd_mov_concor,
