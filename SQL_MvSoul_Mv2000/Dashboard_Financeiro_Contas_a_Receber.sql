@@ -206,10 +206,34 @@ SELECT
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
-    con_rec.nm_cliente                               AS nome_do_cliente,
+    reccon_rec.ds_reccon_rec                         AS nome_do_cliente,
+    CASE
+        WHEN reccon_rec.ds_reccon_rec LIKE '%AIH%' THEN
+            'AIH'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%FAEC%' THEN
+            'FAEC'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%CINTILOGRAFIA%' THEN
+            'CINTILOGRAFIA'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%IAC%' THEN
+            'IAC'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%CONTRASTE%' THEN
+            'CONTRASTE'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%ANESTESIOLOGIA%' THEN
+            'ANESTESIOLOGIA'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%EXTRATETO%' THEN
+            'EXTRATETO'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%PET%' THEN
+            'PETSCAN'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%AMBULA%' THEN
+            'AMBULATORIAL'
+         WHEN reccon_rec.ds_reccon_rec LIKE '%FUNDO%' THEN
+            'FUNDO MUNICIPAL DE SAÚDE'
+        ELSE
+            NULL
+    END,
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
-    reccon_rec.vl_recebido                           AS valor_recebido            
+    reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
     INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
@@ -217,14 +241,36 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1301' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2023', 'DD/MM/YYYY') AND TO_DATE('30/04/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
-    con_rec.nm_cliente,
+    reccon_rec.ds_reccon_rec,
+    CASE
+        WHEN reccon_rec.ds_reccon_rec LIKE '%AIH%' THEN
+                'AIH'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%FAEC%' THEN
+            'FAEC'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%CINTILOGRAFIA%' THEN
+            'CINTILOGRAFIA'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%IAC%' THEN
+            'IAC'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%CONTRASTE%' THEN
+            'CONTRASTE'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%ANESTESIOLOGIA%' THEN
+            'ANESTESIOLOGIA'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%EXTRATETO%' THEN
+            'EXTRATETO'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%PET%' THEN
+            'PETSCAN'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%FUNDO%' THEN
+            'FUNDO MUNICIPAL DE SAÚDE'
+        ELSE
+            NULL
+    END,
     fornecedor.nr_cgc_cpf,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
@@ -402,6 +448,7 @@ ORDER BY
     1431 - DOAÇÕES MENSAGEIRO  */ 
 SELECT
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy')                AS competência,
     decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
            '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO') AS tipo_de_recebimento,
@@ -416,10 +463,11 @@ FROM
     LEFT JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
     LEFT JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
 WHERE
-    con_rec.dt_emissao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    con_rec.dt_emissao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('17/07/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido LIKE '1431'
 GROUP BY
     con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
     to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
     decode(reccon_rec.tp_recebimento, '2', 'CARTÃO', '3', 'DINHEIRO',
           '4', 'CREDITO_EM_CONTA_CORRENTE', '', 'DINHEIRO'),
@@ -428,7 +476,7 @@ GROUP BY
     to_char(con_rec.dt_lancamento, 'dd/mm/yyyy'),
     con_rec.vl_previsto
 ORDER BY
-    data_do_recebimento;       
+    tipo_de_recebimento;       
 
 -- 3504 - DOAÇÕES TELEMARKETING - LCTO 80 E SETOR 127,   
 SELECT
@@ -501,8 +549,10 @@ SELECT
 FROM
     mov_concor
 WHERE
-    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
     AND cd_reduzido IN ( '3801' )
+    AND mov_concor.cd_lan_concor LIKE '7'
+    AND mov_concor.cd_setor LIKE '38'
 GROUP BY
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
