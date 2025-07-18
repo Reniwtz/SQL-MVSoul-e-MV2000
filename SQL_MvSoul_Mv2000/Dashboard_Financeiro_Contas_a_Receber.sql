@@ -209,28 +209,26 @@ SELECT
     reccon_rec.ds_reccon_rec                         AS nome_do_cliente,
     CASE
         WHEN reccon_rec.ds_reccon_rec LIKE '%AIH%' THEN
-            'AIH'
+                'autorização AIH'
         WHEN reccon_rec.ds_reccon_rec LIKE '%FAEC%' THEN
-            'FAEC'
+            'Fundo de Ações Estratégicas e Compensações(FAEC)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%CINTILOGRAFIA%' THEN
-            'CINTILOGRAFIA'
+            'Produção Ambulatórial(Citilografia)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%IAC%' THEN
-            'IAC'
+            'Incentivo de Adesão á Contratualização(IAC)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%CONTRASTE%' THEN
-            'CONTRASTE'
+            'Produção Ambulatórial(Tomografia com Contraste)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%ANESTESIOLOGIA%' THEN
-            'ANESTESIOLOGIA'
+            'Anestesiologia'
         WHEN reccon_rec.ds_reccon_rec LIKE '%EXTRATETO%' THEN
-            'EXTRATETO'
+            'Produção Ambulatórial(Extrateto)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%PET%' THEN
-            'PETSCAN'
-        WHEN reccon_rec.ds_reccon_rec LIKE '%AMBULA%' THEN
-            'AMBULATORIAL'
-         WHEN reccon_rec.ds_reccon_rec LIKE '%FUNDO%' THEN
-            'FUNDO MUNICIPAL DE SAÚDE'
+            'Produção Ambulatórial(Pet-scan)'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%AMB%' THEN
+            'Ambulatorial'
         ELSE
             NULL
-    END,
+    END as nome_do_cliente ,
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
@@ -241,7 +239,7 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     con_rec.cd_reduzido IN ( '1301' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2023', 'DD/MM/YYYY') AND TO_DATE('30/04/2025', 'DD/MM/YYYY')
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('30/04/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -251,23 +249,23 @@ GROUP BY
     reccon_rec.ds_reccon_rec,
     CASE
         WHEN reccon_rec.ds_reccon_rec LIKE '%AIH%' THEN
-                'AIH'
+                'autorização AIH'
         WHEN reccon_rec.ds_reccon_rec LIKE '%FAEC%' THEN
-            'FAEC'
+            'Fundo de Ações Estratégicas e Compensações(FAEC)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%CINTILOGRAFIA%' THEN
-            'CINTILOGRAFIA'
+            'Produção Ambulatórial(Citilografia)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%IAC%' THEN
-            'IAC'
+            'Incentivo de Adesão á Contratualização(IAC)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%CONTRASTE%' THEN
-            'CONTRASTE'
+            'Produção Ambulatórial(Tomografia com Contraste)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%ANESTESIOLOGIA%' THEN
-            'ANESTESIOLOGIA'
+            'Anestesiologia'
         WHEN reccon_rec.ds_reccon_rec LIKE '%EXTRATETO%' THEN
-            'EXTRATETO'
+            'Produção Ambulatórial(Extrateto)'
         WHEN reccon_rec.ds_reccon_rec LIKE '%PET%' THEN
-            'PETSCAN'
-        WHEN reccon_rec.ds_reccon_rec LIKE '%FUNDO%' THEN
-            'FUNDO MUNICIPAL DE SAÚDE'
+            'Produção Ambulatórial(Pet-scan)'
+        WHEN reccon_rec.ds_reccon_rec LIKE '%AMB%' THEN
+            'Ambulatorial'
         ELSE
             NULL
     END,
