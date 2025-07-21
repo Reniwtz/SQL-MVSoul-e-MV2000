@@ -382,7 +382,7 @@ ORDER BY
  
 --------------------------------------------------------------------------------
 /*  OUTROS
-    1429 - CAMISAS E EVENTOS, 1312 - ENERGISA PARAIBA   */
+    1429 - CAMISAS E EVENTOS   */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -399,7 +399,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    con_rec.cd_reduzido IN ( '1429', '1312' )
+    con_rec.cd_reduzido IN ( '1429' )
     AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
@@ -417,7 +417,6 @@ ORDER BY
 --------------------------------------------------------------------------------
 /*  Doações 
     3508 - DOAÇÕES PREFEITURAS - LCTO 143 E SETOR 38,
-    3507 - DOAÇÕES CAGEPA - LCTO 141 E SETOR 38,
     3502 - DOAÇÕES CAMPANHAS - LCTO 76 E SETOR 1 */
 SELECT
     mov_concor.cd_mov_concor,
@@ -432,7 +431,7 @@ FROM
     mov_concor
 WHERE
     mov_concor.dt_movimentacao BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
-    AND cd_reduzido IN ( '3508', '3507', '3502' )
+    AND cd_reduzido IN ( '3508', '3502' )
 GROUP BY
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
@@ -632,8 +631,9 @@ GROUP BY
 ORDER BY
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
 
-/*  Doações 
-    3504 - DOAÇÕES CORREIOS - LCTO 153 E SETOR 38   */
+/*  Empresas/Orgãos Parceiros
+    3504 - DOAÇÕES CORREIOS - LCTO 153 E SETOR 38 
+    3507 - DOAÇÕES CAGEPA - LCTO 141 E SETOR 38,*/
 SELECT
     mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
@@ -658,8 +658,65 @@ GROUP BY
     mov_concor.ds_movimentacao_padrao,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
     mov_concor.vl_movimentacao
+union all
+SELECT
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
+    mov_concor.cd_reduzido                            AS conta_contábil,
+    ''                                                AS código_do_cliente,
+    mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
+    ''                                                AS cpf_cnpj_do_cliente,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
+    mov_concor.vl_movimentacao                        AS valor_recebido
+FROM
+    mov_concor
+WHERE
+    mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    AND mov_concor.cd_reduzido LIKE ( '3507' )
+    AND mov_concor.cd_lan_concor LIKE '141'
+    AND mov_concor.cd_setor LIKE '38'
+    AND mov_concor.ds_movimentacao LIKE '%CORREIOS%'
+GROUP BY
+    mov_concor.cd_mov_concor,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.cd_reduzido,
+    mov_concor.ds_movimentacao_padrao,
+    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy'),
+    mov_concor.vl_movimentacao;
+
+--  1312 - ENERGISA PARAIBA  
+SELECT
+    con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+WHERE
+    con_rec.cd_reduzido IN ( '1429', '1312' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+GROUP BY
+    con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
 ORDER BY
-    to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') DESC;
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
+    
+--------------------------------------------------------------------------------    
 
 /*  Doações 
     3504 - DOAÇÕES DA ASSEMBLEIA LEGISLATIVA - LCTO 22 E SETOR 1    */
