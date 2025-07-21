@@ -91,11 +91,11 @@ ORDER BY
        
 --------------------------------------------------------------------------------
 /* Convênios: 
-   1302 - UNIMED, 1303 - ASSEFAZ, 1305 - FACENE BAYEUX / VALENTINA / HUNE, 1306 - POSTAL SAÚDE,
+   1302 - UNIMED, 1303 - ASSEFAZ, 1306 - POSTAL SAÚDE,  1346 - ASTRAZENECA
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
-   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1346 - ASTRAZENECA, 1424 - UNIMED CEDAPP  */
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1346 - ASTRAZENECA */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -117,7 +117,42 @@ WHERE
                                  '1311', '1313', '1314', '1315', '1316',
                                  '1317', '1318', '1319', '1323', '1324',
                                  '1325', '1326', '1328', '1332', '1333',
-                                 '1336', '1346', '1424' )
+                                 '1336', '1346')
+GROUP BY
+    con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    con_rec.cd_reduzido,
+    fornecedor.cd_fornecedor,
+    con_rec.nm_cliente,
+    fornecedor.nr_cgc_cpf,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    reccon_rec.vl_recebido
+ORDER BY
+    data_do_recebimento;
+
+/* Convênios Particulares
+   1424 - UNIMED CEDAPP 
+   1305 FACENE, HUNE E PREFEITURAS
+   1338 hOSPITAL DE EMERGÊNCIA E TRAUMA  */
+SELECT
+    con_rec.cd_con_rec,
+    reccon_rec.cd_reccon_rec,
+    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    con_rec.cd_reduzido                              AS conta_contábil,
+    fornecedor.cd_fornecedor                         AS código_do_cliente,
+    con_rec.nm_cliente                               AS nome_do_cliente,
+    fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
+    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    reccon_rec.vl_recebido                           AS valor_recebido
+FROM
+         con_rec
+    INNER JOIN itcon_rec ON itcon_rec.cd_con_rec = con_rec.cd_con_rec
+    INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
+WHERE
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('14/02/2025', 'DD/MM/YYYY') AND TO_DATE('14/02/2025', 'DD/MM/YYYY')
+    AND con_rec.cd_reduzido IN ( '1424' )
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -149,7 +184,7 @@ WHERE
     AND con_rec.cd_reduzido IN ( '1305' )
     AND ( con_rec.nm_cliente LIKE ( '%FACENE%' )
           OR con_rec.nm_cliente LIKE ( '%FUNDAÇÃO JOSÉ LEITE DE SOUZA%' )
-          OR con_rec.nm_cliente LIKE ( '%PREF%' ))
+          OR con_rec.nm_cliente LIKE ( '%PREF%' ) )
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -198,8 +233,7 @@ ORDER BY
     to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy');
     
 --------------------------------------------------------------------------------
-/*  SUS:
-    1301 - JPA FUNDO MUNICIPAL DE SAÚDE */
+--  SUS
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -278,7 +312,7 @@ ORDER BY
 --------------------------------------------------------------------------------
 /*  Aluguéis
     '1433', 'LANCHONETE MARIA JOSÉ', '1428', 'ILANA','1432', 'SAL DA TERRA',
-    '1426', 'ALEXANDRE CEDAP', '1425','ANA CEDAP'   */
+    '1426', 'ALEXANDRE CEDAP', '1425','ANA CEDAP', '1424','CEDAP UNIMED'   */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -295,8 +329,8 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    con_rec.cd_reduzido IN ( '1433', '1428', '1432', '1426', '1425' )
-    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('28/02/2025', 'DD/MM/YYYY')
+    con_rec.cd_reduzido IN ( '1433', '1428', '1432', '1426', '1425', '1424' )
+    AND reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('28/07/2025', 'DD/MM/YYYY')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -536,14 +570,14 @@ ORDER BY
     data_do_recebimento; 
      
 SELECT
-    mov_concor.cd_mov_concor,
+    /*mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
     mov_concor.cd_reduzido                            AS conta_contábil,
     ''                                                AS código_do_cliente,
     mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
     ''                                                AS cpf_cnpj_do_cliente,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
-    mov_concor.vl_movimentacao                        AS valor_recebido
+    mov_concor.vl_movimentacao                        AS valor_recebido*/*
 FROM
     mov_concor
 WHERE
