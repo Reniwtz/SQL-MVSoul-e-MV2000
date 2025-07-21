@@ -133,8 +133,8 @@ ORDER BY
 
 /* Convênios Particulares
    1424 - UNIMED CEDAPP 
-   1305 FACENE, HUNE E PREFEITURAS
-   1338 hOSPITAL DE EMERGÊNCIA E TRAUMA  */
+   1305 - FACENE, HUNE E PREFEITURAS
+   1338 - HOSPITAL DE EMERGÊNCIA E TRAUMA  */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
