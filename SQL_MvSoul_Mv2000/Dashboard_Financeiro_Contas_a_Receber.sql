@@ -91,7 +91,7 @@ ORDER BY
        
 --------------------------------------------------------------------------------
 /* Convênios: 
-   1302 - UNIMED, 1303 - ASSEFAZ, 1306 - POSTAL SAÚDE,  1346 - ASTRAZENECA
+   1302 - UNIMED, 1303 - ASSEFAZ, 1306 - POSTAL SAÚDE
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
@@ -117,7 +117,7 @@ WHERE
                                  '1311', '1313', '1314', '1315', '1316',
                                  '1317', '1318', '1319', '1323', '1324',
                                  '1325', '1326', '1328', '1332', '1333',
-                                 '1336', '1346')
+                                 '1336')
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -134,7 +134,8 @@ ORDER BY
 /* Convênios Particulares
    1424 - UNIMED CEDAPP 
    1305 - FACENE, HUNE E PREFEITURAS
-   1338 - HOSPITAL DE EMERGÊNCIA E TRAUMA  */
+   1338 - HOSPITAL DE EMERGÊNCIA E TRAUMA
+   1346 - ASTRAZENECA*/
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -152,7 +153,7 @@ FROM
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
     reccon_rec.dt_recebimento BETWEEN TO_DATE('14/02/2025', 'DD/MM/YYYY') AND TO_DATE('14/02/2025', 'DD/MM/YYYY')
-    AND con_rec.cd_reduzido IN ( '1424' )
+    AND con_rec.cd_reduzido IN ( '1424', '1346' )
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
