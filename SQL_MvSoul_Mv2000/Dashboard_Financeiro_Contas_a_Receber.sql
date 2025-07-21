@@ -95,7 +95,7 @@ ORDER BY
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
-   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1346 - ASTRAZENECA */
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA */
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -571,14 +571,14 @@ ORDER BY
     data_do_recebimento; 
      
 SELECT
-    /*mov_concor.cd_mov_concor,
+    mov_concor.cd_mov_concor,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS competência,
     mov_concor.cd_reduzido                            AS conta_contábil,
     ''                                                AS código_do_cliente,
     mov_concor.ds_movimentacao_padrao                 AS nome_do_cliente,
     ''                                                AS cpf_cnpj_do_cliente,
     to_char(mov_concor.dt_movimentacao, 'dd/mm/yyyy') AS data_do_recebimento,
-    mov_concor.vl_movimentacao                        AS valor_recebido*/*
+    mov_concor.vl_movimentacao                        AS valor_recebido
 FROM
     mov_concor
 WHERE
