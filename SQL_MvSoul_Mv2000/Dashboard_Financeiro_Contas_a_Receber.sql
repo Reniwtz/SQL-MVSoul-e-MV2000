@@ -114,7 +114,7 @@ SELECT
         WHEN con_rec.cd_reduzido = '1314' THEN 'Geap Autogestão em Saúde (GEAP)'
         WHEN con_rec.cd_reduzido = '1315' THEN 'Cx. de Prev. e Assist. dos Serv. da Fund. Nac. de Saúde (CAPESAÚDE)'
         WHEN con_rec.cd_reduzido = '1316' THEN 'Amisaude Auto Programa de Saúde Ltda (AMI SAÚDE)'
-        WHEN con_rec.cd_reduzido = '1317' THEN 'Associação Petrobras de Saúde – Aps (PETROBRAS)'
+        WHEN con_rec.cd_reduzido = '1317' THEN 'Associação Petrobras de Saúde - Aps (PETROBRAS)'
         WHEN con_rec.cd_reduzido = '1318' THEN 'Sul América Companhia de Seguro de Saúde (SUL AMÉRICA)'
         WHEN con_rec.cd_reduzido = '1319' THEN 'Caixa de Assistência dos Funcionários do Banco Brasil (CASSI)'
         WHEN con_rec.cd_reduzido = '1322' THEN 'Companhia Nacional de Abastecimento (CONAB)'
