@@ -95,9 +95,7 @@ ORDER BY
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
-   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1331 - FUSEX, 1322 - CONAB, 1310 - SMILE*/
-   
-   
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1331 - FUSEX, 1322 - CONAB, 1310 - SMILE*/   
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
@@ -157,8 +155,6 @@ GROUP BY
     reccon_rec.vl_recebido
 ORDER BY
     data_do_recebimento;
-
-
 
 /* Convênios Particulares
    1424 - UNIMED CEDAPP 
