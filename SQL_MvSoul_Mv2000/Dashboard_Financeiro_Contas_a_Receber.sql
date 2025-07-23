@@ -95,16 +95,44 @@ ORDER BY
    1307 - CAMED, 1308 - FUNCEF, 1311 - FUNASA, 1313 - AFRAFEP, 1314 - GEAP,
    1315 - CAPESAÚDE, 1316 - AMI SAÚDE, 1317 - PETROBRAS, 1318 - SUL AMÉRICA, 1319 - CASSI,
    1323 - COMSEDER, 1324 - BRADESCO SAÚDE / OPERADORA, 1325 - AMIL, 1326 - MEDSERVICE, 1328 - HAPVIDA,
-   1332 - FUSMA, 1333 - GAMA, 1336 - FCA */
+   1332 - FUSMA, 1333 - GAMA, 1336 - FCA, 1331 - FUSEX, 1322 - CONAB, 1310 - SMILE*/
+   
+   
 SELECT
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
+    TO_CHAR(con_rec.dt_emissao, 'dd/mm/yyyy')        AS competência,
     con_rec.cd_reduzido                              AS conta_contábil,
     fornecedor.cd_fornecedor                         AS código_do_cliente,
-    con_rec.nm_cliente                               AS nome_do_cliente,
+    CASE
+        WHEN con_rec.cd_reduzido = '1302' THEN 'Unimed João Pessoa Cooperativa de Trabalho Médico (UNIMED)'
+        WHEN con_rec.cd_reduzido = '1303' THEN 'Fundação Assistencial dos Servidores do Ministério da Fazenda (ASSEFAZ)'
+        WHEN con_rec.cd_reduzido = '1306' THEN 'Caixa de Assistência e Saúde dos Empregados dos Correios (POSTAL SAÚDE)'
+        WHEN con_rec.cd_reduzido = '1307' THEN 'Caixa de Assistência dos Funcionários do Bnb (CAMED)'
+        WHEN con_rec.cd_reduzido = '1308' THEN 'Caixa Econômica Federal (FUNCEF)'
+        WHEN con_rec.cd_reduzido = '1310' THEN 'Esmale Assitencia internacional de saúde LTDA (SMILE)'
+        WHEN con_rec.cd_reduzido = '1311' THEN 'Funasa Saúde (FUNASA)'
+        WHEN con_rec.cd_reduzido = '1313' THEN 'Associação dos Auditores Fiscais do Estado da Paraíba (AFRAFEP)'
+        WHEN con_rec.cd_reduzido = '1314' THEN 'Geap Autogestão em Saúde (GEAP)'
+        WHEN con_rec.cd_reduzido = '1315' THEN 'Cx. de Prev. e Assist. dos Serv. da Fund. Nac. de Saúde (CAPESAÚDE)'
+        WHEN con_rec.cd_reduzido = '1316' THEN 'Amisaude Auto Programa de Saúde Ltda (AMI SAÚDE)'
+        WHEN con_rec.cd_reduzido = '1317' THEN 'Associação Petrobras de Saúde – Aps (PETROBRAS)'
+        WHEN con_rec.cd_reduzido = '1318' THEN 'Sul América Companhia de Seguro de Saúde (SUL AMÉRICA)'
+        WHEN con_rec.cd_reduzido = '1319' THEN 'Caixa de Assistência dos Funcionários do Banco Brasil (CASSI)'
+        WHEN con_rec.cd_reduzido = '1322' THEN 'Companhia Nacional de Abastecimento (CONAB)'
+        WHEN con_rec.cd_reduzido = '1323' THEN 'Comseder Coop. de Ass. Med. dos Serv. da Suplan e do Der Ltda (COMSEDER)'
+        WHEN con_rec.cd_reduzido = '1324' THEN 'Bradesco Saúde / Operadora de Planos S/A'
+        WHEN con_rec.cd_reduzido = '1325' THEN 'Amil Assistência Médica (AMIL)'
+        WHEN con_rec.cd_reduzido = '1326' THEN 'Mediservice Operadora de Planos de Saúde S.A (MEDSERVICE)'
+        WHEN con_rec.cd_reduzido = '1328' THEN 'Hapvida Assistência Médica S.A (HAPVIDA)'
+        WHEN con_rec.cd_reduzido = '1331' THEN 'Hospital de Guarnição de João Pessoa (FUSEX)'
+        WHEN con_rec.cd_reduzido = '1332' THEN 'União Federal - Comando da Marinha - Capitania dos Portos (FUSMA)'
+        WHEN con_rec.cd_reduzido = '1333' THEN 'Gama Saúde Ltda (GAMA)'
+        WHEN con_rec.cd_reduzido = '1336' THEN 'Associação Fca Saúde (FCA)'
+        ELSE 'Outro'
+    END AS nome_do_cliente,
     fornecedor.nr_cgc_cpf                            AS cpf_cnpj_do_cliente,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
+    TO_CHAR(reccon_rec.dt_recebimento, 'dd/mm/yyyy') AS data_do_recebimento,
     reccon_rec.vl_recebido                           AS valor_recebido
 FROM
          con_rec
@@ -112,7 +140,7 @@ FROM
     INNER JOIN reccon_rec ON reccon_rec.cd_itcon_rec = itcon_rec.cd_itcon_rec
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = con_rec.cd_fornecedor
 WHERE
-    reccon_rec.dt_recebimento BETWEEN TO_DATE('14/02/2025', 'DD/MM/YYYY') AND TO_DATE('14/02/2025', 'DD/MM/YYYY')
+    reccon_rec.dt_recebimento BETWEEN TO_DATE('01/01/2025', 'DD/MM/YYYY') AND TO_DATE('23/07/2025', 'DD/MM/YYYY')
     AND con_rec.cd_reduzido IN ( '1302', '1303', '1306', '1307', '1308',
                                  '1311', '1313', '1314', '1315', '1316',
                                  '1317', '1318', '1319', '1323', '1324',
@@ -121,15 +149,16 @@ WHERE
 GROUP BY
     con_rec.cd_con_rec,
     reccon_rec.cd_reccon_rec,
-    to_char(con_rec.dt_emissao, 'dd/mm/yyyy'),
+    TO_CHAR(con_rec.dt_emissao, 'dd/mm/yyyy'),
     con_rec.cd_reduzido,
     fornecedor.cd_fornecedor,
-    con_rec.nm_cliente,
     fornecedor.nr_cgc_cpf,
-    to_char(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
+    TO_CHAR(reccon_rec.dt_recebimento, 'dd/mm/yyyy'),
     reccon_rec.vl_recebido
 ORDER BY
     data_do_recebimento;
+
+
 
 /* Convênios Particulares
    1424 - UNIMED CEDAPP 
