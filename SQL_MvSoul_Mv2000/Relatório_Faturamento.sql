@@ -270,9 +270,9 @@ ORDER BY
 ----------------------------------------------------------------------------
 -- Rela Rafaela
 SELECT
-    eve_siasus.cd_atendimento   AS atendimento,
-    eve_siasus.cd_paciente      AS código_do_paciente,
-    paciente.nm_paciente        AS nome_do_paciente,
+    eve_siasus.cd_atendimento                      AS atendimento,
+    eve_siasus.cd_paciente                         AS código_do_paciente,
+    paciente.nm_paciente                           AS nome_do_paciente,
     floor((EXTRACT(YEAR FROM atendime.dt_atendimento) - EXTRACT(YEAR FROM paciente.dt_nascimento)) -
           CASE
               WHEN EXTRACT(MONTH FROM atendime.dt_atendimento) < EXTRACT(MONTH FROM paciente.dt_nascimento)
@@ -282,13 +282,14 @@ SELECT
               ELSE
                   0
           END
-    )                           AS idade,
-    paciente.nr_cns             AS cartão_sus,
-    same.nr_matricula_same      AS prontuário,
-    eve_siasus.cd_procedimento  AS procedimento,
-    eve_siasus.cd_cbo_prestador AS cbo,
-    prestador.nm_prestador      AS prestador,
-    eve_siasus.vl_servico_ambulatorial as valor
+    )                                              AS idade,
+    paciente.nr_cns                                AS cartão_sus,
+    same.nr_matricula_same                         AS prontuário,
+    eve_siasus.cd_procedimento                     AS procedimento,
+    eve_siasus.cd_cbo_prestador                    AS cbo,
+    prestador.nm_prestador                         AS prestador,
+    eve_siasus.vl_servico_ambulatorial             AS valor,
+    to_char(atendime.dt_atendimento, 'yyyy/mm/dd') AS data_do_atendimento
 FROM
          eve_siasus eve_siasus
     INNER JOIN paciente ON eve_siasus.cd_paciente = paciente.cd_paciente
@@ -315,9 +316,11 @@ GROUP BY
     paciente.nr_cns,
     same.nr_matricula_same,
     eve_siasus.cd_procedimento,
+    atendime.dt_atendimento,
     eve_siasus.cd_cbo_prestador,
     prestador.nm_prestador,
-    eve_siasus.vl_servico_ambulatorial;
+    eve_siasus.vl_servico_ambulatorial,
+    to_char(atendime.dt_atendimento, 'yyyy/mm/dd');
 --------------------------------------------------------------------------------    
 FATURA SIA/SUS 02/2024 - REMESSA 1863, 1864, 1865
 FATURA SIA/SUS 01/2024 - REMESSA 1846, 1847, 1848
