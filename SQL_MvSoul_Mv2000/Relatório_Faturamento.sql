@@ -266,3 +266,86 @@ WHERE
     AND atendime.cd_convenio LIKE '3'
 ORDER BY
     reg_fat.cd_atendimento;
+
+----------------------------------------------------------------------------
+-- Rela Rafaela
+SELECT
+    eve_siasus.cd_atendimento   AS atendimento,
+    eve_siasus.cd_paciente      AS código_do_paciente,
+    paciente.nm_paciente        AS nome_do_paciente,
+    floor((EXTRACT(YEAR FROM atendime.dt_atendimento) - EXTRACT(YEAR FROM paciente.dt_nascimento)) -
+          CASE
+              WHEN EXTRACT(MONTH FROM atendime.dt_atendimento) < EXTRACT(MONTH FROM paciente.dt_nascimento)
+                   OR(EXTRACT(MONTH FROM atendime.dt_atendimento) = EXTRACT(MONTH FROM paciente.dt_nascimento)
+                      AND EXTRACT(DAY FROM atendime.dt_atendimento) < EXTRACT(DAY FROM paciente.dt_nascimento)) THEN
+                  1
+              ELSE
+                  0
+          END
+    )                           AS idade,
+    paciente.nr_cns             AS cartão_sus,
+    same.nr_matricula_same      AS prontuário,
+    eve_siasus.cd_procedimento  AS procedimento,
+    eve_siasus.cd_cbo_prestador AS cbo,
+    prestador.nm_prestador      AS prestador,
+    eve_siasus.vl_servico_ambulatorial as valor
+FROM
+         eve_siasus eve_siasus
+    INNER JOIN paciente ON eve_siasus.cd_paciente = paciente.cd_paciente
+    INNER JOIN same ON same.cd_paciente = paciente.cd_paciente
+    INNER JOIN atendime ON atendime.cd_atendimento = eve_siasus.cd_atendimento
+    INNER JOIN prestador ON prestador.cd_prestador = eve_siasus.cd_prestador
+WHERE
+    eve_siasus.cd_fat_sia LIKE '521'
+    AND eve_siasus.cd_remessa IN ( '1863', '1864', '1865' )
+GROUP BY
+    eve_siasus.cd_atendimento,
+    eve_siasus.cd_paciente,
+    paciente.nm_paciente,
+    floor((EXTRACT(YEAR FROM atendime.dt_atendimento) - EXTRACT(YEAR FROM paciente.dt_nascimento)) -
+          CASE
+              WHEN EXTRACT(MONTH FROM atendime.dt_atendimento) < EXTRACT(MONTH FROM paciente.dt_nascimento)
+                   OR(EXTRACT(MONTH FROM atendime.dt_atendimento) = EXTRACT(MONTH FROM paciente.dt_nascimento)
+                      AND EXTRACT(DAY FROM atendime.dt_atendimento) < EXTRACT(DAY FROM paciente.dt_nascimento)) THEN
+                  1
+              ELSE
+                  0
+          END
+    ),
+    paciente.nr_cns,
+    same.nr_matricula_same,
+    eve_siasus.cd_procedimento,
+    eve_siasus.cd_cbo_prestador,
+    prestador.nm_prestador,
+    eve_siasus.vl_servico_ambulatorial;
+--------------------------------------------------------------------------------    
+FATURA SIA/SUS 02/2024 - REMESSA 1863, 1864, 1865
+FATURA SIA/SUS 01/2024 - REMESSA 1846, 1847, 1848
+FATURA SIA/SUS 12/2023 - REMESSA 1827, 1828, 1829
+FATURA SIA/SUS 11/2023 - REMESSA 1809, 1807, 1808
+FATURA SIA/SUS 10/2023 - REMESSA 1796, 1797, 1798          
+--------------------------------------------------------------------------------    
+SELECT
+    cd_remessa
+FROM
+    eve_siasus eve_siasus 
+WHERE
+     eve_siasus.cd_fat_sia LIKE '521'
+group by
+    cd_remessa;
+   
+--------------------------------------------------------------------------------
+SELECT
+    cd_fat_sia,
+    ds_fat_sia,
+    cd_remessa
+FROM
+    fat_sia
+WHERE
+    ds_fat_sia LIKE '%FATURA SIA/SUS 02/2024%'
+    OR ds_fat_sia LIKE '%FATURA SIA/SUS 01/2024%'
+    OR ds_fat_sia LIKE '%FATURA SIA/SUS 12/2023%'
+    OR ds_fat_sia LIKE '%FATURA SIA/SUS 11/2023%'
+    OR ds_fat_sia LIKE '%FATURA SIA/SUS 10/2023%'
+ORDER BY
+    cd_fat_sia;
