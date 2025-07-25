@@ -270,6 +270,7 @@ ORDER BY
 ----------------------------------------------------------------------------
 -- Rela Rafaela
 SELECT
+    distinct eve_siasus.cd_eventos                 AS evento,
     eve_siasus.cd_atendimento                      AS atendimento,
     eve_siasus.cd_paciente                         AS código_do_paciente,
     paciente.nm_paciente                           AS nome_do_paciente,
@@ -284,7 +285,7 @@ SELECT
           END
     )                                              AS idade,
     paciente.nr_cns                                AS cartão_sus,
-    same.nr_matricula_same                         AS prontuário,
+    paciente.nm_paciente                           AS prontuário,
     eve_siasus.cd_procedimento                     AS procedimento,
     eve_siasus.cd_cbo_prestador                    AS cbo,
     prestador.nm_prestador                         AS prestador,
@@ -293,13 +294,13 @@ SELECT
 FROM
          eve_siasus eve_siasus
     INNER JOIN paciente ON eve_siasus.cd_paciente = paciente.cd_paciente
-    INNER JOIN same ON same.cd_paciente = paciente.cd_paciente
-    INNER JOIN atendime ON atendime.cd_atendimento = eve_siasus.cd_atendimento
+    LEFT JOIN atendime ON atendime.cd_atendimento = eve_siasus.cd_atendimento
     INNER JOIN prestador ON prestador.cd_prestador = eve_siasus.cd_prestador
 WHERE
     eve_siasus.cd_fat_sia LIKE '521'
     AND eve_siasus.cd_remessa IN ( '1863', '1864', '1865' )
 GROUP BY
+    eve_siasus.cd_eventos,
     eve_siasus.cd_atendimento,
     eve_siasus.cd_paciente,
     paciente.nm_paciente,
@@ -314,26 +315,29 @@ GROUP BY
           END
     ),
     paciente.nr_cns,
-    same.nr_matricula_same,
+    paciente.nm_paciente,
     eve_siasus.cd_procedimento,
     atendime.dt_atendimento,
     eve_siasus.cd_cbo_prestador,
     prestador.nm_prestador,
     eve_siasus.vl_servico_ambulatorial,
-    to_char(atendime.dt_atendimento, 'yyyy/mm/dd');
+    to_char(atendime.dt_atendimento, 'yyyy/mm/dd')
+ORDER BY
+    paciente.nm_paciente
 --------------------------------------------------------------------------------    
-FATURA SIA/SUS 02/2024 - REMESSA 1863, 1864, 1865
-FATURA SIA/SUS 01/2024 - REMESSA 1846, 1847, 1848
-FATURA SIA/SUS 12/2023 - REMESSA 1827, 1828, 1829
-FATURA SIA/SUS 11/2023 - REMESSA 1809, 1807, 1808
-FATURA SIA/SUS 10/2023 - REMESSA 1796, 1797, 1798          
+FATURA SIA/SUS 02/2024 - REMESSA 1863, 1864, 1865   521
+FATURA SIA/SUS 01/2024 - REMESSA 1846, 1847, 1848   519
+FATURA SIA/SUS 12/2023 - REMESSA 1827, 1828, 1829   517
+FATURA SIA/SUS 11/2023 - REMESSA 1809, 1807, 1808   515
+FATURA SIA/SUS 10/2023 - REMESSA 1796, 1797, 1798   513          
 --------------------------------------------------------------------------------    
 SELECT
-    cd_remessa
+    *
 FROM
     eve_siasus eve_siasus 
 WHERE
-     eve_siasus.cd_fat_sia LIKE '521'
+     eve_siasus.cd_fat_sia LIKE '513'
+    AND eve_siasus.cd_remessa IN ( '1796', '1797', '1798' )
 group by
     cd_remessa;
    
