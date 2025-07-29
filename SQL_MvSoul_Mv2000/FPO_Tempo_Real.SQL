@@ -141,6 +141,7 @@ WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/06/25', 'DD/MM/YY') AND TO_DATE('30/06/25', 'DD/MM/YY')
     AND atendime.cd_loc_proced = '5'
     AND atendime.sn_atendimento_apac = 'S'
+    AND atendime.cd_atendimento_pai IS NULL
     AND atendime.cd_procedimento IN ( '0304070025', '0304070041', '0304070050', '0304070068', '0304070076',
                                       '0304080012', '0304080055', '0304080071', '0304090050', '0304090069',
                                       '0304030252', '0304030260', '0304030244', '0304040010', '0304040029',
@@ -207,6 +208,7 @@ WHERE
     atendime.dt_atendimento BETWEEN TO_DATE('01/06/25', 'DD/MM/YY') AND TO_DATE('30/06/25', 'DD/MM/YY')
     AND atendime.cd_loc_proced <> '5'
     AND atendime.sn_atendimento_apac = 'S'
+    AND atendime.cd_atendimento_pai IS NULL
     AND atendime.cd_procedimento IN ( '0304070025', '0304070041', '0304070050', '0304070068', '0304070076',
                                       '0304080012', '0304080055', '0304080071', '0304090050', '0304090069',
                                       '0304030252', '0304030260', '0304030244', '0304040010', '0304040029',
@@ -274,6 +276,7 @@ WHERE
     AND atendime.cd_loc_proced IS NULL
     AND cd_ser_dis = '76'
     AND atendime.sn_atendimento_apac = 'S'
+    AND atendime.cd_atendimento_pai IS NULL
     AND atendime.cd_procedimento IN ( '0304070025', '0304070041', '0304070050', '0304070068', '0304070076',
                                       '0304080012', '0304080055', '0304080071', '0304090050', '0304090069',
                                       '0304030252', '0304030260', '0304030244', '0304040010', '0304040029',
@@ -312,4 +315,3 @@ GROUP BY
     teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico
 ORDER BY
     data_do_atendimento;
-    
