@@ -5,7 +5,8 @@ SELECT
     nr_cgc_cpf as CNPJ,
     DECODE(RANK() OVER(PARTITION BY cd_con_pag ORDER BY prestacao), 1, nr_documento, NULL) AS nr_documento,
     ds_tip_doc as tipo_de_documento,
-    cd_usuario_criador_oc,
+    cd_usuario_criador_oc as criador_da_oc,
+    ds_cotador as comprador,
     DECODE(RANK() OVER(PARTITION BY cd_con_pag ORDER BY prestacao), 1, NVL(vl_adiantamento, 0), NULL) AS vl_adiantamento,
     dt_prestacao_contas as Data_da_Prestação,
     NVL(vl_prestacao, 0) AS vl_prestacao,
@@ -27,6 +28,7 @@ FROM (
         c.cd_multi_empresa,
         d.dt_prestacao_contas,
         sc.cd_usuario,
+        co.ds_cotador,
         oc.cd_usuario_criador_oc,
         td.ds_tip_doc,
         d.prestacao,
@@ -81,7 +83,7 @@ FROM (
         JOIN tip_doc td ON td.cd_tip_doc = c.cd_tip_doc
         LEFT JOIN ord_com oc ON oc.cd_ord_com = TO_NUMBER(REGEXP_SUBSTR(c.nr_documento, '^\d+'))
         LEFT JOIN sol_com sc ON sc.cd_sol_com = oc.cd_sol_com
-        --LEFT JOIN cotador co ON co.cd_cotador = sc.cd_cotador
+        LEFT JOIN cotador co ON co.cd_cotador = sc.cd_cotador
         LEFT JOIN (
             SELECT 
                 d.cd_con_pag AS cd_con_pag_prest,
