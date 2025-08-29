@@ -1,3 +1,23 @@
+-- registro do documento
+SELECT
+    pw_documento_clinico.cd_documento_clinico,
+    pw_editor_clinico.cd_editor_registro,
+    pw_documento_clinico.cd_paciente    AS cad,
+    paciente.nm_paciente                AS nome_do_paciente,
+    pw_documento_clinico.cd_atendimento AS atendimento,
+    pw_documento_clinico.nm_documento   AS tipo_de_documento
+FROM
+         pw_documento_clinico pw_documento_clinico
+    INNER JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+    INNER JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
+WHERE
+    pw_documento_clinico.cd_objeto LIKE '105' --solicitações
+    AND pw_documento_clinico.tp_status LIKE '%FECHADO%'
+    AND pw_documento_clinico.dh_referencia BETWEEN TO_DATE('01/08/2025', 'DD/MM/YYYY') AND TO_DATE('31/08/2025', 'DD/MM/YYYY')
+    AND pw_editor_clinico.cd_documento IN ( '228', '370' ); --apac    
+
+--------------------------------------------------------------------------------
+-- conteúdo do documento
 SELECT
     pw_documento_clinico.cd_atendimento,
     MAX(
@@ -35,9 +55,10 @@ WHERE
     )
 GROUP BY
     pw_documento_clinico.cd_atendimento;
-
-    
+       
+   
 ----------------------------------------------------------------------------------------------------------------------
+-- inicio da Extração
 SELECT
     pdc.cd_atendimento,
     MAX(CASE
@@ -77,12 +98,3 @@ GROUP BY
     
 
 
----------------------------------------------------------------------------------------
-SELECT
-    procedimento_sus.cd_procedimento,
-    procedimento_sus.cd_procedimento
-    || ' - '
-    || procedimento_sus.ds_procedimento,
-    'TRUE'
-FROM
-    procedimento_sus
