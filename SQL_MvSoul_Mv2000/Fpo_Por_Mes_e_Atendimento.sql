@@ -103,7 +103,7 @@ GROUP BY
 ORDER BY
     atendime.cd_procedimento;
 
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
 -- BPA
 SELECT
     atendime.cd_procedimento  AS procedimento,
@@ -208,8 +208,7 @@ ORDER BY
     codigos_procedimento.cd_procedimento;
     cp.cd_procedimento;
 
---------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------       
+---------------------------------------------------------------------------------------------------------------    
 SELECT
     apac.cd_paciente                                                                   AS cod_apa,
     paciente.nm_paciente                                                               AS nome_do_apaciente,
@@ -248,3 +247,47 @@ GROUP BY
     laudo_sia_apac.cd_procedimento,
     procedimento_sus.ds_procedimento,
     teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico;
+
+
+-----------------------------------------------------------------------------------------------------------
+SELECT
+    atendime.cd_atendimento                                                            AS cod_atendimento,
+    atendime.cd_paciente                                                               AS cod_paciente,
+    paciente.nm_paciente                                                               AS nome_do_paciente,
+    atendime.dt_atendimento                                                            AS data_do_atendimento,
+    atendime.cd_ori_ate                                                                AS origem,
+    atendime.cd_procedimento                                                           AS codigo_do_procedimento,
+    procedimento_sus.ds_procedimento                                                   AS descrição_do_procedimento,
+    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico AS valor_unitario
+FROM
+         atendime
+    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
+    INNER JOIN procedimento_sus ON atendime.cd_procedimento = procedimento_sus.cd_procedimento
+    INNER JOIN ori_ate ON ori_ate.cd_ori_ate = atendime.cd_ori_ate
+    LEFT JOIN (
+        SELECT
+            t1.*
+        FROM
+            teto_orcamentario_proced_sus t1
+        WHERE
+            t1.cd_fat_sia = (
+                SELECT
+                    MAX(cd_fat_sia)
+                FROM
+                    teto_orcamentario_proced_sus
+            )
+    ) teto_orcamentario_proced_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
+WHERE
+    atendime.dt_atendimento BETWEEN TO_DATE('01/07/25', 'DD/MM/YY') AND TO_DATE('31/07/25', 'DD/MM/YY')
+    AND atendime.cd_ori_ate IN ( '15', '14', '16' )
+    AND atendime.sn_atendimento_apac = 'S'
+GROUP BY
+    atendime.cd_atendimento,
+    atendime.cd_paciente,
+    paciente.nm_paciente,
+    atendime.dt_atendimento,
+    atendime.cd_procedimento,
+    atendime.cd_ori_ate,
+    procedimento_sus.ds_procedimento,
+    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico
+
