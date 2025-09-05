@@ -217,7 +217,7 @@ SELECT
     apac.cd_ori_ate                                                                    AS origem,
     laudo_sia_apac.cd_procedimento                                                     AS cod_procedimento,
     procedimento_sus.ds_procedimento                                                   AS descrição_do_procedimento,
-    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico valor_unitário_acordado
+    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico AS valor_unitário_acordado
 FROM
          apac apac
     INNER JOIN paciente ON paciente.cd_paciente = apac.cd_paciente
@@ -237,8 +237,8 @@ FROM
             )
     ) teto_orcamentario_proced_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
 WHERE
-    apac.dt_inicial BETWEEN TO_DATE('01/08/25', 'DD/MM/YY') AND TO_DATE('31/08/25', 'DD/MM/YY')
-    AND apac.cd_ori_ate IN ( '34', '15', '14', '32' )
+    apac.dt_inicial BETWEEN TO_DATE('01/07/25', 'DD/MM/YY') AND TO_DATE('31/07/25', 'DD/MM/YY')
+    AND apac.cd_ori_ate IN (  '15', '14', '16' )
 GROUP BY
     cd_apac,
     apac.cd_paciente,
