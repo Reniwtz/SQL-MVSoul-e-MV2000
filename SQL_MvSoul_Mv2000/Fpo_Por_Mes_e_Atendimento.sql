@@ -207,3 +207,44 @@ GROUP BY
 ORDER BY
     codigos_procedimento.cd_procedimento;
     cp.cd_procedimento;
+
+--------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------       
+SELECT
+    apac.cd_paciente                                                                   AS cod_apa,
+    paciente.nm_paciente                                                               AS nome_do_apaciente,
+    apac.dt_inicial                                                                    AS dt_inicio_da_apac,
+    apac.cd_ori_ate                                                                    AS origem,
+    laudo_sia_apac.cd_procedimento                                                     AS cod_procedimento,
+    procedimento_sus.ds_procedimento                                                   AS descrição_do_procedimento,
+    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico valor_unitário_acordado
+FROM
+         apac apac
+    INNER JOIN paciente ON paciente.cd_paciente = apac.cd_paciente
+    INNER JOIN laudo_sia_apac ON laudo_sia_apac.nr_apac_autorizada = apac.nr_apac
+    LEFT JOIN procedimento_sus ON procedimento_sus.cd_procedimento = laudo_sia_apac.cd_procedimento
+    LEFT JOIN (
+        SELECT
+            t1.*
+        FROM
+            teto_orcamentario_proced_sus t1
+        WHERE
+            t1.cd_fat_sia = (
+                SELECT
+                    MAX(cd_fat_sia)
+                FROM
+                    teto_orcamentario_proced_sus
+            )
+    ) teto_orcamentario_proced_sus ON teto_orcamentario_proced_sus.cd_procedimento = procedimento_sus.cd_procedimento
+WHERE
+    apac.dt_inicial BETWEEN TO_DATE('01/08/25', 'DD/MM/YY') AND TO_DATE('31/08/25', 'DD/MM/YY')
+    AND apac.cd_ori_ate IN ( '34', '15', '14', '32' )
+GROUP BY
+    cd_apac,
+    apac.cd_paciente,
+    paciente.nm_paciente,
+    dt_inicial,
+    apac.cd_ori_ate,
+    laudo_sia_apac.cd_procedimento,
+    procedimento_sus.ds_procedimento,
+    teto_orcamentario_proced_sus.vl_orcamento / teto_orcamentario_proced_sus.qt_fisico;
