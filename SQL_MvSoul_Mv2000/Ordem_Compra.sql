@@ -1,29 +1,50 @@
-SELECT DISTINCT
-    sol_com.cd_sol_com,
-    sol_com.dt_sol_com,
-    sol_com.cd_usuario,
-    ord_com.cd_ord_com,
-    ord_com.dt_ord_com,
-    ord_com.dt_prev_entrega,
-    ord_com.ds_ordem_de_compra,
-    cotador.ds_cotador,
-    setor.nm_setor,
-    ord_com.cd_id_usuario_autorizou
+SELECT
+    sol_com.cd_sol_com AS código_solicitação,
+    sol_com.dt_sol_com AS data_da_solicitação,
+    sol_com.cd_usuario AS usuário_solicitante,
+    ord_com.cd_ord_com AS código_ordem_compra,
+    ord_com.dt_ord_com AS data_da_ordem_compra,
+    cotador.ds_cotador AS comprador,
+    (
+        SELECT
+            autorizador_ordem_compra.cd_usuario
+        FROM
+            autorizador_ordem_compra
+        WHERE
+            cd_ord_com = ord_com.cd_ord_com
+        ORDER BY
+            dt_autorizacao DESC
+        FETCH FIRST 1 ROW ONLY
+    )                  AS usuario_autorizador,
+    (
+        SELECT
+            autorizador_ordem_compra.dt_autorizacao
+        FROM
+            autorizador_ordem_compra
+        WHERE
+            cd_ord_com = ord_com.cd_ord_com
+        ORDER BY
+            dt_autorizacao DESC
+        FETCH FIRST 1 ROW ONLY
+    )                  AS data_da_autorização,
+    itcon_pag.dt_quitacao
 FROM
-    dbamv.ord_com
+         dbamv.ord_com
     INNER JOIN dbamv.estoque ON estoque.cd_estoque = ord_com.cd_estoque
     INNER JOIN dbamv.fornecedor ON fornecedor.cd_fornecedor = ord_com.cd_fornecedor
     LEFT JOIN dbamv.sol_com ON sol_com.cd_sol_com = ord_com.cd_sol_com
     LEFT JOIN dbamv.setor ON setor.cd_setor = sol_com.cd_setor
     LEFT JOIN dbamv.cotador ON cotador.cd_cotador = sol_com.cd_cotador
     LEFT JOIN dbamv.conta ON conta.cd_conta = sol_com.cd_conta
+    LEFT JOIN dbamv.ent_pro ON ent_pro.cd_ord_com = ord_com.cd_ord_com
+    LEFT JOIN dbamv.con_pag ON con_pag.nr_documento = ent_pro.nr_documento
+    LEFT JOIN dbamv.itcon_pag ON itcon_pag.cd_con_pag = con_pag.cd_con_pag
 WHERE
-    fornecedor.tp_cliente_forn IN ('F', 'A', 'R', 'T')
-    AND sol_com.dt_sol_com BETWEEN TO_DATE('01/02/2024', 'DD/MM/YYYY') AND TO_DATE('29/02/2024', 'DD/MM/YYYY')
-    --AND ord_com.cd_id_usuario_autorizou  -- senao estiver null pq esta finalizado
-    --and sol_com.cd_sol_com is not NULL
+    fornecedor.tp_cliente_forn IN ( 'F', 'A', 'R', 'T' )
+    AND sol_com.dt_sol_com BETWEEN TO_DATE('01/09/2025', 'DD/MM/YYYY') AND TO_DATE('30/09/2025', 'DD/MM/YYYY')
 ORDER BY
-    sol_com.cd_sol_com;
+    sol_com.cd_sol_com DESC,
+    sol_com.cd_sol_com
 
 
 -- Ultimo aprovador
