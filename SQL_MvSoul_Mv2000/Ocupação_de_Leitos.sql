@@ -25,31 +25,59 @@ ORDER BY
 
 -----------------------------------------------------------------------------------
 SELECT
-    leito.ds_leito,
+    leito.ds_leito       AS leito,
     ds_resumo,
     CASE
-        WHEN leito.tp_ocupacao IN ( 'O' ) THEN
-            'OCUPADO'
-        WHEN leito.tp_ocupacao IN ( 'V' ) THEN
-            'VAZIO'
-        WHEN leito.tp_ocupacao IN ( 'E' ) THEN
-            'OCUPADO'
-    END                  AS tp_ocupacao,
+        WHEN leito.tp_ocupacao IN ( 'O', 'E' ) THEN 'OCUPADO'
+        WHEN leito.tp_ocupacao = 'V' THEN 'VAZIO'
+    END AS tp_ocupacao,
     atendime.cd_paciente AS cad,
     paciente.nm_paciente AS nome_do_paciente,
-    unid_int.ds_unid_int AS unidade_de_internação
+    paciente.tp_sexo     AS sexo,
+    unid_int.ds_unid_int AS unidade_de_internacao
 FROM
-         leito leito
+    leito
     INNER JOIN atendime ON atendime.cd_leito = leito.cd_leito
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     INNER JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
 WHERE
-    leito.tp_situacao LIKE 'A'
+    leito.tp_situacao = 'A'
     AND leito.tp_ocupacao <> 'T'
-    AND leito.cd_unid_int <> '5'
     AND atendime.hr_alta_medica IS NULL
     AND atendime.hr_alta IS NULL
     AND atendime.tp_atendimento = 'I'
-    AND leito.cd_unid_int <> '2'
+    AND leito.cd_unid_int IN ( '1', '2', '3', '4', '6', '7', '8', '9', '10' )
+    AND leito.cd_leito <> '435'
+
+UNION ALL
+
+SELECT
+    leito.ds_leito       AS leito,
+    ds_resumo,
+    CASE
+        WHEN leito.tp_ocupacao IN ( 'O', 'E' ) THEN 'OCUPADO'
+        WHEN leito.tp_ocupacao = 'V' THEN 'VAZIO'
+    END AS tp_ocupacao,
+    CAST(NULL AS NUMBER) AS cad,
+    ''                   AS nome_do_paciente,
+    ''                   AS sexo,
+    unid_int.ds_unid_int AS unidade_de_internacao
+FROM
+    leito
+    INNER JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
+WHERE
+    leito.tp_situacao = 'A'
+    AND leito.tp_ocupacao <> 'T'
+    AND leito.cd_unid_int IN ( '1', '2', '3', '4', '6', '7', '8', '9', '10' )
+    AND leito.cd_leito <> '435'
+    AND NOT EXISTS (
+        SELECT 1
+        FROM atendime a
+        WHERE a.cd_leito = leito.cd_leito
+          AND a.hr_alta_medica IS NULL
+          AND a.hr_alta IS NULL
+          AND a.tp_atendimento = 'I'
+    )
+
 ORDER BY
-    leito.ds_leito;
+    leito;
