@@ -81,3 +81,25 @@ WHERE
 
 ORDER BY
     leito;
+
+----------------------------------------------------------------------------------
+SELECT
+    CASE
+        WHEN unid_int.ds_unid_int IS NULL THEN 'Total'
+        ELSE unid_int.ds_unid_int
+    END AS localizacao,
+    COUNT(*) AS total,
+    SUM(CASE WHEN leito.tp_ocupacao = 'V' THEN 1 ELSE 0 END)        AS livre,
+    SUM(CASE WHEN leito.tp_ocupacao IN ('O','E') THEN 1 ELSE 0 END) AS ocupado
+FROM
+    leito
+    INNER JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
+WHERE
+    leito.tp_situacao = 'A'
+    AND leito.tp_ocupacao <> 'T'
+    AND leito.cd_unid_int IN ('1','2','3','4','6','7','8','9','10')
+    AND leito.cd_leito <> '435'
+GROUP BY ROLLUP (unid_int.ds_unid_int)
+ORDER BY
+    CASE WHEN unid_int.ds_unid_int IS NULL THEN 1 ELSE 0 END,  -- deixa o Total por último
+    unid_int.ds_unid_int;
