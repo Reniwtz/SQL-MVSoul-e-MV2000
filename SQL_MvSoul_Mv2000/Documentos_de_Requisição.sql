@@ -1,3 +1,4 @@
+--Requisição de Exames
 SELECT
     pw_documento_clinico.cd_paciente,
     pw_documento_clinico.cd_atendimento,
