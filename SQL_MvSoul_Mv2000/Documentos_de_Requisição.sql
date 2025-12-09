@@ -46,3 +46,26 @@ GROUP BY
     paciente.cd_paciente,
     pre_med.hr_pre_med,
     pre_med.nm_usuario_autorizador;
+
+--------------------------------------------------------------------------------    
+--REQUISIÇÃO DE EXAME DE IMAGEM NA PRESCRIÇÃO
+SELECT
+    atendime.cd_atendimento as atendimento,
+    paciente.cd_paciente as cad,
+    pre_med.hr_pre_med as hora_da_solicitação,
+    pre_med.nm_usuario_autorizador as solicitante
+FROM
+         pre_med pre_med
+    INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
+    INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
+    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
+WHERE
+    pre_med.cd_objeto LIKE '84'
+    AND paciente.cd_paciente LIKE '436593'
+    AND pre_med.dt_pre_med BETWEEN TO_DATE('10/12/2025', 'DD/MM/YYYY') AND TO_DATE('10/12/2025', 'DD/MM/YYYY')
+    AND itpre_med.cd_tip_esq LIKE 'EXD'
+GROUP BY
+    atendime.cd_atendimento,
+    paciente.cd_paciente,
+    pre_med.hr_pre_med,
+    pre_med.nm_usuario_autorizador;
