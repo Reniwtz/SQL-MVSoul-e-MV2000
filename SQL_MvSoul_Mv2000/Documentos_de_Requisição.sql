@@ -1,9 +1,9 @@
---Requisição de Exames
+--REQUISIÇÃO DE EXAME DE SANGUE
 SELECT
-    pw_documento_clinico.cd_paciente,
-    pw_documento_clinico.cd_atendimento,
-    pw_documento_clinico.cd_usuario,
-    pw_documento_clinico.dh_fechamento,
+    pw_documento_clinico.cd_atendimento AS atendimento,
+    pw_documento_clinico.cd_paciente    AS cad,
+    pw_documento_clinico.dh_fechamento  hora_da_solicitação,
+    pw_documento_clinico.cd_usuario     AS solicitante,
     pw_documento_clinico.nm_documento
 FROM
          pw_documento_clinico pw_documento_clinico
@@ -18,8 +18,31 @@ WHERE
     AND pw_documento_clinico.cd_objeto LIKE '105'
     AND pw_documento_clinico.tp_status LIKE '%FECHADO%'
 GROUP BY
-     pw_documento_clinico.cd_paciente,
     pw_documento_clinico.cd_atendimento,
-    pw_documento_clinico.cd_usuario,
+    pw_documento_clinico.cd_paciente,
     pw_documento_clinico.dh_fechamento,
+    pw_documento_clinico.cd_usuario,
     pw_documento_clinico.nm_documento;
+
+--------------------------------------------------------------------------------
+--REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
+SELECT
+    atendime.cd_atendimento as atendimento,
+    paciente.cd_paciente as cad,
+    pre_med.hr_pre_med as hora_da_solicitação,
+    pre_med.nm_usuario_autorizador as solicitante
+FROM
+         pre_med pre_med
+    INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
+    INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
+    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
+WHERE
+    pre_med.cd_objeto LIKE '84'
+    AND paciente.cd_paciente LIKE '123616'
+    AND pre_med.dt_pre_med BETWEEN TO_DATE('07/12/2025', 'DD/MM/YYYY') AND TO_DATE('07/12/2025', 'DD/MM/YYYY')
+    AND itpre_med.cd_tip_esq LIKE 'EXL'
+GROUP BY
+    atendime.cd_atendimento,
+    paciente.cd_paciente,
+    pre_med.hr_pre_med,
+    pre_med.nm_usuario_autorizador;
