@@ -27,15 +27,17 @@ GROUP BY
 --------------------------------------------------------------------------------
 --REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
 SELECT
-    atendime.cd_atendimento as atendimento,
-    paciente.cd_paciente as cad,
-    pre_med.hr_pre_med as hora_da_solicitação,
-    pre_med.nm_usuario_autorizador as solicitante
+    atendime.cd_atendimento        AS atendimento,
+    paciente.cd_paciente           AS cad,
+    pre_med.hr_pre_med             AS hora_da_solicitação,
+    pre_med.nm_usuario_autorizador AS solicitante,
+    tip_presc.ds_tip_presc         AS exame_solicitado
 FROM
          pre_med pre_med
     INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
     INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
+    INNER JOIN tip_presc ON tip_presc.cd_tip_presc = itpre_med.cd_tip_presc
 WHERE
     pre_med.cd_objeto LIKE '84'
     AND paciente.cd_paciente LIKE '123616'
@@ -45,27 +47,32 @@ GROUP BY
     atendime.cd_atendimento,
     paciente.cd_paciente,
     pre_med.hr_pre_med,
-    pre_med.nm_usuario_autorizador;
+    pre_med.nm_usuario_autorizador,
+    tip_presc.ds_tip_presc;
 
 --------------------------------------------------------------------------------    
 --REQUISIÇÃO DE EXAME DE IMAGEM NA PRESCRIÇÃO
+--REQUISIÇÃO DE EXAME DE IMAGEM NA PRESCRIÇÃO
 SELECT
-    atendime.cd_atendimento as atendimento,
-    paciente.cd_paciente as cad,
-    pre_med.hr_pre_med as hora_da_solicitação,
-    pre_med.nm_usuario_autorizador as solicitante
+    atendime.cd_atendimento        AS atendimento,
+    paciente.cd_paciente           AS cad,
+    pre_med.hr_pre_med             AS hora_da_solicitação,
+    pre_med.nm_usuario_autorizador AS solicitante,
+    tip_presc.ds_tip_presc         AS exame_solicitado
 FROM
          pre_med pre_med
     INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
     INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
+    INNER JOIN tip_presc ON tip_presc.cd_tip_presc = itpre_med.cd_tip_presc
 WHERE
     pre_med.cd_objeto LIKE '84'
-    AND paciente.cd_paciente LIKE '436593'
-    AND pre_med.dt_pre_med BETWEEN TO_DATE('10/12/2025', 'DD/MM/YYYY') AND TO_DATE('10/12/2025', 'DD/MM/YYYY')
+    --AND paciente.cd_paciente LIKE '436593'
+    AND pre_med.dt_pre_med BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('25/03/2025', 'DD/MM/YYYY')
     AND itpre_med.cd_tip_esq LIKE 'EXD'
 GROUP BY
     atendime.cd_atendimento,
     paciente.cd_paciente,
     pre_med.hr_pre_med,
-    pre_med.nm_usuario_autorizador;
+    pre_med.nm_usuario_autorizador,
+    tip_presc.ds_tip_presc;
