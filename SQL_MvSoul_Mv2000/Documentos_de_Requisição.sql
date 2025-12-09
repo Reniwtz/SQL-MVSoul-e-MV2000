@@ -26,6 +26,7 @@ GROUP BY
 
 --------------------------------------------------------------------------------
 --REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
+--REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
 SELECT
     atendime.cd_atendimento        AS atendimento,
     paciente.cd_paciente           AS cad,
@@ -33,7 +34,12 @@ SELECT
     pre_med.nm_usuario_autorizador AS solicitante,
     tip_presc.ds_tip_presc         AS exame_solicitado,
     vw_res_exames_pssd.cd_ped_lab  AS pedido,
-    vw_res_exames_pssd.dt_laudo    AS data_do_laudo
+    CASE
+        WHEN vw_res_exames_pssd.dt_laudo IS NULL THEN
+            'SEM LAUDO'
+        ELSE
+            to_char(vw_res_exames_pssd.dt_laudo, 'DD/MM/YYYY HH24:MI:SS')
+    END                            AS data_do_laudo
 FROM
          pre_med pre_med
     INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
@@ -54,7 +60,12 @@ GROUP BY
     pre_med.nm_usuario_autorizador,
     tip_presc.ds_tip_presc,
     vw_res_exames_pssd.cd_ped_lab,
-    vw_res_exames_pssd.dt_laudo
+    CASE
+        WHEN vw_res_exames_pssd.dt_laudo IS NULL THEN
+                'SEM LAUDO'
+        ELSE
+            to_char(vw_res_exames_pssd.dt_laudo, 'DD/MM/YYYY HH24:MI:SS')
+    END
 ORDER BY
     atendime.cd_atendimento,
     vw_res_exames_pssd.cd_ped_lab;
