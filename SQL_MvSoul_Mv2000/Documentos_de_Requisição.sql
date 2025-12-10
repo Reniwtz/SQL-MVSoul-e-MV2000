@@ -172,21 +172,35 @@ SELECT
     paciente.cd_paciente           AS cad,
     pre_med.hr_pre_med             AS hora_da_solicitação,
     pre_med.nm_usuario_autorizador AS solicitante,
-    tip_presc.ds_tip_presc         AS exame_solicitado
+    tip_presc.ds_tip_presc         AS exame_solicitado,
+    unid_int.ds_unid_int           AS unidade_de_internacao,
+    ped_rx.cd_ped_rx               AS pedido,
+    laudo_rx.hr_laudo              AS data_do_laudo
 FROM
          pre_med pre_med
     INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
     INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     INNER JOIN tip_presc ON tip_presc.cd_tip_presc = itpre_med.cd_tip_presc
+    INNER JOIN unid_int ON unid_int.cd_unid_int = pre_med.cd_unid_int
+    INNER JOIN ped_rx ON ped_rx.cd_pre_med = pre_med.cd_pre_med
+    INNER JOIN itped_rx ON itped_rx.cd_ped_rx = ped_rx.cd_ped_rx
+    LEFT JOIN laudo_rx ON laudo_rx.cd_ped_rx = ped_rx.cd_ped_rx
 WHERE
     pre_med.cd_objeto LIKE '84'
-    --AND paciente.cd_paciente LIKE '436593'
-    AND pre_med.dt_pre_med BETWEEN TO_DATE('01/02/2025', 'DD/MM/YYYY') AND TO_DATE('25/03/2025', 'DD/MM/YYYY')
+    --AND atendime.cd_atendimento LIKE '4079334'
+    AND pre_med.dt_pre_med BETWEEN TO_DATE('01/12/2025', 'DD/MM/YYYY') AND TO_DATE('31/12/2025', 'DD/MM/YYYY')
     AND itpre_med.cd_tip_esq LIKE 'EXD'
+    AND ped_rx.cd_set_exa IN ( '2', '4', '5', '6', '3', '24', '27', '28', '29', '32', '31' , '33' )
+    --AND ped_rx.cd_ped_rx LIKE '1052023'
 GROUP BY
     atendime.cd_atendimento,
     paciente.cd_paciente,
     pre_med.hr_pre_med,
     pre_med.nm_usuario_autorizador,
-    tip_presc.ds_tip_presc;
+    tip_presc.ds_tip_presc,
+    unid_int.ds_unid_int,
+    ped_rx.dt_pedido,
+    ped_rx.cd_ped_rx,
+    laudo_rx.hr_laudo;
+
