@@ -26,49 +26,89 @@ GROUP BY
 
 --------------------------------------------------------------------------------
 --REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
---REQUISIÇÃO DE EXAME DE SANGUE NA PRESCRIÇÃO
+WITH
+-- 1) PRIMEIRA CONSULTA (SOLICITAÇÕES DOS EXAMES) + NUMERAÇÃO
+solicitacoes AS (
+    SELECT
+        solicitacoes_inner.atendimento,
+        solicitacoes_inner.cad,
+        solicitacoes_inner.hora_da_solicitacao,
+        solicitacoes_inner.solicitante,
+        solicitacoes_inner.exame_solicitado,
+        solicitacoes_inner.pedido,
+        ROW_NUMBER() OVER (
+            ORDER BY
+                solicitacoes_inner.atendimento,
+                solicitacoes_inner.pedido,
+                solicitacoes_inner.exame_solicitado
+        ) AS rownumber
+    FROM (
+        SELECT DISTINCT
+            atendime.cd_atendimento        AS atendimento,
+            paciente.cd_paciente           AS cad,
+            pre_med.hr_pre_med             AS hora_da_solicitacao,
+            pre_med.nm_usuario_autorizador AS solicitante,
+            tip_presc.ds_tip_presc         AS exame_solicitado,
+            vw_res_exames_pssd.cd_ped_lab  AS pedido
+        FROM
+                 pre_med pre_med
+            INNER JOIN itpre_med
+                    ON itpre_med.cd_pre_med = pre_med.cd_pre_med
+            INNER JOIN atendime
+                    ON atendime.cd_atendimento = pre_med.cd_atendimento
+            INNER JOIN paciente
+                    ON paciente.cd_paciente = atendime.cd_paciente
+            INNER JOIN tip_presc
+                    ON tip_presc.cd_tip_presc = itpre_med.cd_tip_presc
+            INNER JOIN vw_res_exames_pssd
+                    ON vw_res_exames_pssd.cd_atendimento = atendime.cd_atendimento
+                   AND vw_res_exames_pssd.hr_ped_lab    = pre_med.hr_pre_med
+        WHERE
+            pre_med.cd_objeto = '84'
+            AND atendime.cd_atendimento = '4288216'
+            AND pre_med.dt_pre_med BETWEEN
+                TO_DATE('01/10/2025', 'DD/MM/YYYY') AND TO_DATE('31/12/2025', 'DD/MM/YYYY')
+            AND itpre_med.cd_tip_esq = 'EXL'
+    ) solicitacoes_inner
+),
+
+-- 2) SEGUNDA CONSULTA (LAUDOS DOS EXAMES) + NUMERAÇÃO
+laudos AS (
+    SELECT
+        vw_res_exames_pssd.cd_atendimento,
+        vw_res_exames_pssd.cd_ped_lab,
+        vw_res_exames_pssd.dt_laudo,
+        vw_res_exames_pssd.nm_exa_lab,
+        ROW_NUMBER() OVER (
+            ORDER BY
+                vw_res_exames_pssd.cd_atendimento,
+                vw_res_exames_pssd.cd_ped_lab,
+                vw_res_exames_pssd.nm_exa_lab
+        ) AS rownumber
+    FROM vw_res_exames_pssd vw_res_exames_pssd
+    WHERE
+        vw_res_exames_pssd.cd_atendimento = '4288216'
+)
+
+-- 3) JUNTANDO LINHA A LINHA
 SELECT
-    atendime.cd_atendimento        AS atendimento,
-    paciente.cd_paciente           AS cad,
-    pre_med.hr_pre_med             AS hora_da_solicitação,
-    pre_med.nm_usuario_autorizador AS solicitante,
-    tip_presc.ds_tip_presc         AS exame_solicitado,
-    vw_res_exames_pssd.cd_ped_lab  AS pedido,
-    CASE
-        WHEN vw_res_exames_pssd.dt_laudo IS NULL THEN
-            'SEM LAUDO'
-        ELSE
-            to_char(vw_res_exames_pssd.dt_laudo, 'DD/MM/YYYY HH24:MI:SS')
-    END                            AS data_do_laudo
+    solicitacoes.atendimento,
+    solicitacoes.cad,
+    solicitacoes.hora_da_solicitacao,
+    solicitacoes.solicitante,
+    solicitacoes.exame_solicitado,
+    solicitacoes.pedido,
+    laudos.dt_laudo,
+    laudos.nm_exa_lab
 FROM
-         pre_med pre_med
-    INNER JOIN itpre_med ON itpre_med.cd_pre_med = pre_med.cd_pre_med
-    INNER JOIN atendime ON atendime.cd_atendimento = pre_med.cd_atendimento
-    INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
-    INNER JOIN tip_presc ON tip_presc.cd_tip_presc = itpre_med.cd_tip_presc
-    INNER JOIN vw_res_exames_pssd ON vw_res_exames_pssd.cd_atendimento = atendime.cd_atendimento
-WHERE
-    pre_med.cd_objeto LIKE '84'
-    AND paciente.cd_paciente LIKE '123616'
-    AND pre_med.dt_pre_med BETWEEN TO_DATE('01/10/2025', 'DD/MM/YYYY') AND TO_DATE('07/12/2025', 'DD/MM/YYYY')
-    AND itpre_med.cd_tip_esq LIKE 'EXL'
-    AND vw_res_exames_pssd.hr_ped_lab = pre_med.hr_pre_med
-GROUP BY
-    atendime.cd_atendimento,
-    paciente.cd_paciente,
-    pre_med.hr_pre_med,
-    pre_med.nm_usuario_autorizador,
-    tip_presc.ds_tip_presc,
-    vw_res_exames_pssd.cd_ped_lab,
-    CASE
-        WHEN vw_res_exames_pssd.dt_laudo IS NULL THEN
-                'SEM LAUDO'
-        ELSE
-            to_char(vw_res_exames_pssd.dt_laudo, 'DD/MM/YYYY HH24:MI:SS')
-    END
+    solicitacoes solicitacoes
+    JOIN laudos laudos
+        ON laudos.rownumber = solicitacoes.rownumber
 ORDER BY
-    atendime.cd_atendimento,
-    vw_res_exames_pssd.cd_ped_lab;
+    solicitacoes.atendimento,
+    solicitacoes.pedido,
+    solicitacoes.exame_solicitado;
+
 
 --------------------------------------------------------------------------------    
 --REQUISIÇÃO DE EXAME DE IMAGEM NA PRESCRIÇÃO
