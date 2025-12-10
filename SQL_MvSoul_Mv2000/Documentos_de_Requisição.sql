@@ -36,6 +36,7 @@ solicitacoes AS (
         solicitacoes_inner.solicitante,
         solicitacoes_inner.exame_solicitado,
         solicitacoes_inner.pedido,
+        solicitacoes_inner.unidade_de_internacao,
         ROW_NUMBER() OVER (
             ORDER BY
                 solicitacoes_inner.atendimento,
@@ -49,7 +50,8 @@ solicitacoes AS (
             pre_med.hr_pre_med             AS hora_da_solicitacao,
             pre_med.nm_usuario_autorizador AS solicitante,
             tip_presc.ds_tip_presc         AS exame_solicitado,
-            vw_res_exames_pssd.cd_ped_lab  AS pedido
+            vw_res_exames_pssd.cd_ped_lab  AS pedido,
+            unid_int.ds_unid_int           AS unidade_de_internacao
         FROM
                  pre_med pre_med
             INNER JOIN itpre_med
@@ -63,6 +65,8 @@ solicitacoes AS (
             INNER JOIN vw_res_exames_pssd
                     ON vw_res_exames_pssd.cd_atendimento = atendime.cd_atendimento
                    AND vw_res_exames_pssd.hr_ped_lab    = pre_med.hr_pre_med
+            INNER JOIN unid_int
+                    ON unid_int.cd_unid_int = pre_med.cd_unid_int
         WHERE
             pre_med.cd_objeto = '84'
             AND atendime.cd_atendimento = '4288216'
@@ -98,6 +102,7 @@ SELECT
     solicitacoes.solicitante,
     solicitacoes.exame_solicitado,
     solicitacoes.pedido,
+    solicitacoes.unidade_de_internacao,
     laudos.dt_laudo,
     laudos.nm_exa_lab
 FROM
