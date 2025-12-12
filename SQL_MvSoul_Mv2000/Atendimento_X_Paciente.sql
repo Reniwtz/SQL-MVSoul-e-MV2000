@@ -1,7 +1,7 @@
 SELECT
-    paciente.nm_paciente             AS nome,
-    paciente.dt_nascimento           AS data_de_nascimento,
-    tipo_sexo.nm_sexo                AS sexo,
+    paciente.nm_paciente                          AS nome,
+    to_char(paciente.dt_nascimento, 'dd/mm/yyyy') AS data_de_nascimento,
+    tipo_sexo.nm_sexo                             AS sexo,
     paciente.ds_endereco
     || ' - '
     || paciente.nr_endereco
@@ -12,15 +12,15 @@ SELECT
     || ' - '
     || cidade.cd_uf
     || ' - '
-    || cidade.nr_cep_final           AS endereço,
-    fn_idade(paciente.dt_nascimento) AS idade,
-    paciente.nm_mae                  AS nome_da_mae,
-    same.nr_matricula_same           AS prontuário,
-    atendime.cd_atendimento          AS atendimento,
-    unid_int.ds_unid_int             AS unidade_de_internação,
-    leito.ds_resumo                  AS leito,
-    paciente.cd_paciente             AS cadastro,
-    paciente.nr_cns                  AS cartão_do_sus
+    || cidade.nr_cep_final                        AS endereço,
+    fn_idade(paciente.dt_nascimento)              AS idade,
+    paciente.nm_mae                               AS nome_da_mae,
+    same.nr_matricula_same                        AS prontuário,
+    atendime.cd_atendimento                       AS atendimento,
+    unid_int.ds_unid_int                          AS unidade_de_internação,
+    leito.ds_resumo                               AS leito,
+    paciente.cd_paciente                          AS cadastro,
+    paciente.nr_cns                               AS cartão_do_sus
 FROM
          atendime atendime
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
@@ -34,7 +34,7 @@ WHERE
     cd_atendimento LIKE '485798'
 GROUP BY
     paciente.nm_paciente,
-    paciente.dt_nascimento,
+    to_char(paciente.dt_nascimento, 'dd/mm/yyyy'),
     tipo_sexo.nm_sexo,
     paciente.ds_endereco
     || ' - '
