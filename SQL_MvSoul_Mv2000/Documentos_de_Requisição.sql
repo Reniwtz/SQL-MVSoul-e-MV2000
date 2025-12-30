@@ -29,6 +29,7 @@ GROUP BY
 SELECT
     vw_res_exames_pssd.cd_atendimento AS atendimento,
     vw_res_exames_pssd.cd_paciente    AS cad,
+    paciente.nm_paciente              AS nome_do_paciente,
     vw_res_exames_pssd.hr_ped_lab     AS hora_da_solicitação,
     prestador.nm_prestador            AS solicitante,
     vw_res_exames_pssd.nm_exa_lab     AS exame_solicitado,
@@ -41,9 +42,10 @@ FROM
     LEFT JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
     INNER JOIN ped_lab ON ped_lab.cd_ped_lab = vw_res_exames_pssd.cd_ped_lab
     INNER JOIN prestador ON ped_lab.cd_prestador = prestador.cd_prestador
+    INNER JOIN paciente ON paciente.cd_paciente = vw_res_exames_pssd.cd_paciente
 WHERE
-    vw_res_exames_pssd.cd_atendimento LIKE '4267381'
-    --vw_res_exames_pssd.hr_ped_lab BETWEEN TO_DATE('10/12/2025', 'DD/MM/YYYY') AND TO_DATE('23/12/2025', 'DD/MM/YYYY')
+     vw_res_exames_pssd.cd_atendimento LIKE '4267381'
+     AND vw_res_exames_pssd.hr_ped_lab BETWEEN TO_DATE('10/12/2025', 'DD/MM/YYYY') AND TO_DATE('23/12/2025', 'DD/MM/YYYY')
 ORDER BY
     vw_res_exames_pssd.cd_atendimento,
     vw_res_exames_pssd.cd_ped_lab
@@ -104,8 +106,9 @@ ORDER BY
 SELECT
     atendime.cd_atendimento        AS atendimento,
     paciente.cd_paciente           AS cad,
+    paciente.nm_paciente           AS nome_do_paciente,
     pre_med.hr_pre_med             AS hora_da_solicitação,
-    pre_med.nm_usuario_autorizador AS solicitante,
+    prestador.nm_prestador         AS solicitante,
     tip_presc.ds_tip_presc         AS exame_solicitado,
     unid_int.ds_unid_int           AS unidade_de_internacao,
     ped_rx.cd_ped_rx               AS pedido,
@@ -120,6 +123,7 @@ FROM
     INNER JOIN ped_rx ON ped_rx.cd_pre_med = pre_med.cd_pre_med
     INNER JOIN itped_rx ON itped_rx.cd_ped_rx = ped_rx.cd_ped_rx
     LEFT JOIN laudo_rx ON laudo_rx.cd_ped_rx = ped_rx.cd_ped_rx
+    INNER JOIN prestador On prestador.cd_prestador = pre_med.cd_prestador
 WHERE
     pre_med.cd_objeto LIKE '84'
     --AND atendime.cd_atendimento LIKE '4079334'
@@ -130,8 +134,9 @@ WHERE
 GROUP BY
     atendime.cd_atendimento,
     paciente.cd_paciente,
+    paciente.nm_paciente,
     pre_med.hr_pre_med,
-    pre_med.nm_usuario_autorizador,
+    prestador.nm_prestador,
     tip_presc.ds_tip_presc,
     unid_int.ds_unid_int,
     ped_rx.dt_pedido,
