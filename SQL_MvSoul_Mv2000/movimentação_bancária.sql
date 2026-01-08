@@ -24,16 +24,15 @@ ORDER BY
 --------------------------------------------------------------------------------
 
 SELECT
-    --banco.nm_banco                  AS nome_do_banco,
-    --con_cor.ds_con_cor              AS descrição_da_conta,
-    CASE
-        WHEN lan_concor.tp_operacao_saldo_conta = '+' THEN
-            'Crédito'
-        WHEN lan_concor.tp_operacao_saldo_conta = '-' THEN
-            'Débito'
-        ELSE
-            'Indefinido'
-    END                             AS tipo_operacao,
+    nvl(
+        CASE
+            WHEN lan_concor.tp_operacao_saldo_conta = '+' THEN
+                'Crédito'
+            WHEN lan_concor.tp_operacao_saldo_conta = '-' THEN
+                'Débito'
+            ELSE
+                'Indefinido'
+        END, 'TOTAL GERAL')                AS tipo_operacao,
     SUM(mov_concor.vl_movimentacao) AS total_movimentado
 FROM
          con_cor
@@ -44,15 +43,23 @@ WHERE
         con_cor.sn_ativo = 'S'
     AND mov_concor.dt_movimentacao BETWEEN TO_DATE('01/01/2026', 'DD/MM/YYYY') AND TO_DATE('08/01/2026', 'DD/MM/YYYY')
 GROUP BY
-    --banco.nm_banco,
-    --con_cor.ds_con_cor,
-    CASE
+    ROLLUP(
+        CASE
             WHEN lan_concor.tp_operacao_saldo_conta = '+' THEN
                 'Crédito'
             WHEN lan_concor.tp_operacao_saldo_conta = '-' THEN
                 'Débito'
             ELSE
                 'Indefinido'
-    END
+        END
+    )
 ORDER BY
-    tipo_operacao;
+    CASE
+        WHEN tipo_operacao = 'Crédito' THEN
+            1
+        WHEN tipo_operacao = 'Débito'  THEN
+            2
+        ELSE
+            3
+    END;
+
