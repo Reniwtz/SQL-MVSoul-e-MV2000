@@ -1,4 +1,3 @@
---Evolução de Internção
 SELECT
     pw_documento_clinico.cd_paciente    AS cad,
     paciente.nm_paciente                AS nome_do_paciente,
@@ -45,7 +44,7 @@ SELECT
                  AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true' THEN
                 'RESPIRANDO EM VMI'
         END
-    )                                   AS vni,
+    )                                   AS vmi,
     MAX(
         CASE
             WHEN editor_campo.ds_identificador = 'CK_TOT_EVO_FISIO_INT_1'
