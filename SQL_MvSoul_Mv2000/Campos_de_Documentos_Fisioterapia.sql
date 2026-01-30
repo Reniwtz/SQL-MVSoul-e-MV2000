@@ -1,4 +1,4 @@
---Fisioterapia internação
+--Fisioterapia evolução de internação
 WITH mapa AS (
     -- =========================
     -- RESPIRAÇÃO / VIA AÉREA
@@ -33,7 +33,7 @@ WITH mapa AS (
     SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1'          AS id, 'CONDUTA FM DEAMBULAÇÃO'        AS txt, 'FM_DEAMBULACAO'      AS col FROM dual
 ),
 base AS (
-    SELECT
+   SELECT
     pw_documento_clinico.cd_paciente,
     paciente.nm_paciente,
     pw_documento_clinico.cd_atendimento,
