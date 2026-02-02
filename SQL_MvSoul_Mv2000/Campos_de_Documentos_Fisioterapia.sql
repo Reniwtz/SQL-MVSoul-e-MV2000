@@ -99,7 +99,6 @@ GROUP BY
 
 --------------------------------------------------------------------------------------------------------
 -- Fisioterapia evolução de UTI adulto
--- Fisioterapia evolução de UTI Pedi
 WITH mapa AS (
     -- =========================
     -- RESPIRAÇÃO 
