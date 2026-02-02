@@ -158,10 +158,10 @@ FROM
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
         pw_documento_clinico.cd_atendimento = '4285233'
-    AND pw_editor_clinico.cd_documento = '384'
+    AND pw_editor_clinico.cd_documento = '382'
     AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-    AND pw_documento_clinico.cd_usuario LIKE '%TANIA.SANTOS%'
+    AND pw_documento_clinico.cd_usuario LIKE '%CLAUDIA.BRASILEIRO%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1', 'CK_VENTURI_EVO_FISIO_UTI_1',
     'CK_MASCARA_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
                                            'CK_VMI_EVO_FISIO_UTI_1', 'CK_TOT_EVO_FISIO_UTI_1', 'CK_TQT_EVO_FISIO_UTI_1', 'K_PCV_EVO_FISIO_UTI_1',
