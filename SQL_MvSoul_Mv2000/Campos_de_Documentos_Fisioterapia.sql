@@ -3,35 +3,35 @@ WITH mapa AS (
     -- =========================
     -- RESPIRAÇÃO 
     -- =========================
-    SELECT 'CK_ESPONTANEO_EVO_FISIO_INT_1'      AS id, 'RESPIRANDO EM ESPONTÂNEO'              AS txt, 'ESPONTANEO'          AS col FROM dual UNION ALL
-    SELECT 'CK_PRONGA_NASAL_EVO_FISIO_INT_1'    AS id, 'RESPIRANDO EM PRONGA NASAL'            AS txt, 'PRONGA_NASAL'        AS col FROM dual UNION ALL
-    SELECT 'CK_VENTURI_EVO_FISIO_INT_1'         AS id, 'RESPIRANDO EM COMPROMETIDO'            AS txt, 'VENTURI'             AS col FROM dual UNION ALL
-    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_INT_1'  AS id, 'MASCARA RESERVATÓRIO'                  AS txt, 'MASCARA'             AS col FROM dual UNION ALL
-    SELECT 'CK_VNI_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM VNI'                     AS txt, 'VNI'                 AS col FROM dual UNION ALL
-    SELECT 'CK_VMI_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM VMI'                     AS txt, 'VMI'                 AS col FROM dual UNION ALL
-    SELECT 'CK_TOT_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM TOT'                     AS txt, 'TOT'                 AS col FROM dual UNION ALL
-    SELECT 'CK_TQT_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM TQT'                     AS txt, 'TQT'                 AS col FROM dual UNION ALL
+    SELECT 'CK_ESPONTANEO_EVO_FISIO_INT_1'        AS id, 'RESPIRANDO EM ESPONTÂNEO'       AS txt, 'ESPONTANEO'          AS col FROM dual UNION ALL
+    SELECT 'CK_PRONGA_NASAL_EVO_FISIO_INT_1'      AS id, 'RESPIRANDO EM PRONGA NASAL'     AS txt, 'PRONGA_NASAL'        AS col FROM dual UNION ALL
+    SELECT 'CK_VENTURI_EVO_FISIO_INT_1'           AS id, 'RESPIRANDO EM COMPROMETIDO'     AS txt, 'VENTURI'             AS col FROM dual UNION ALL
+    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_INT_1'    AS id, 'MASCARA RESERVATÓRIO'           AS txt, 'MASCARA'             AS col FROM dual UNION ALL
+    SELECT 'CK_VNI_EVO_FISIO_INT_1'               AS id, 'RESPIRANDO EM VNI'              AS txt, 'VNI'                 AS col FROM dual UNION ALL
+    SELECT 'CK_VMI_EVO_FISIO_INT_1'               AS id, 'RESPIRANDO EM VMI'              AS txt, 'VMI'                 AS col FROM dual UNION ALL
+    SELECT 'CK_TOT_EVO_FISIO_INT_1'               AS id, 'RESPIRANDO EM TOT'              AS txt, 'TOT'                 AS col FROM dual UNION ALL
+    SELECT 'CK_TQT_EVO_FISIO_INT_1'               AS id, 'RESPIRANDO EM TQT'              AS txt, 'TQT'                 AS col FROM dual UNION ALL
 
     -- =========================
     -- DISPOSITIVOS
     -- =========================
-    SELECT 'CK_DRENO_DIREITA_EVO_FISIO_INT_1'   AS id, 'DRENO TORACICO A DIREITA'              AS txt, 'DRENO_TOR_DIREITO'   AS col FROM dual UNION ALL
+    SELECT 'CK_DRENO_DIREITA_EVO_FISIO_INT_1'     AS id, 'DRENO TORACICO A DIREITA'       AS txt, 'DRENO_TOR_DIREITO'   AS col FROM dual UNION ALL
 
     -- =========================
     -- CONDUTAS - FR
     -- =========================
-    SELECT 'CK_FR_VNI_EVO_FISIO_INT_1'          AS id, 'CONDUTA FR VNI'                        AS txt, 'FR_VNI'              AS col FROM dual UNION ALL
-    SELECT 'CK_FR_DESMAME_TRE_EVO_FISIO_INT_1'  AS id, 'CONDUTA FR DESMAME'                    AS txt, 'FR_DESMAME'          AS col FROM dual UNION ALL
-    SELECT 'CK_FR_EXTUBACAO_EVO_FISIO_INT_1'    AS id, 'CONDUTA FR EXTUBAÇÃO'                  AS txt, 'FR_EXTUBACAO'        AS col FROM dual UNION ALL
+    SELECT 'CK_FR_VNI_EVO_FISIO_INT_1'             AS id, 'CONDUTA FR VNI'                AS txt, 'FR_VNI'              AS col FROM dual UNION ALL
+    SELECT 'CK_FR_DESMAME_TRE_EVO_FISIO_INT_1'     AS id, 'CONDUTA FR DESMAME'            AS txt, 'FR_DESMAME'          AS col FROM dual UNION ALL
+    SELECT 'CK_FR_EXTUBACAO_EVO_FISIO_INT_1'       AS id, 'CONDUTA FR EXTUBAÇÃO'          AS txt, 'FR_EXTUBACAO'        AS col FROM dual UNION ALL
 
     -- =========================
     -- CONDUTAS - FM
     -- =========================
-    SELECT 'CK_FM_SEDESTACAO_EVO_FISIO_INT_1'           AS id, 'CONDUTA FM SEDESTAÇÃO'         AS txt, 'FM_SEDESTACAO'       AS col FROM dual UNION ALL
-    SELECT 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_INT_1'       AS id, 'CONDUTA FM BEIRA LEITO'        AS txt, 'FM_BEIRA_LEITO'      AS col FROM dual UNION ALL
-    SELECT 'CK_FM_NA_POLTRONA_EVO_FISIO_INT_1'          AS id, 'CONDUTA FM NA POLTRONA'        AS txt, 'FM_NA_POLTRONA'      AS col FROM dual UNION ALL
-    SELECT 'CK_FM_BIPEDEST_EVO_FISIO_INT_1'             AS id, 'CONDUTA FM BIPEDESTAÇÃO'       AS txt, 'FM_BIPEDESTACAO'     AS col FROM dual UNION ALL
-    SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1'          AS id, 'CONDUTA FM DEAMBULAÇÃO'        AS txt, 'FM_DEAMBULACAO'      AS col FROM dual
+    SELECT 'CK_FM_SEDESTACAO_EVO_FISIO_INT_1'       AS id, 'CONDUTA FM SEDESTAÇÃO'         AS txt, 'FM_SEDESTACAO'       AS col FROM dual UNION ALL
+    SELECT 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_INT_1'   AS id, 'CONDUTA FM BEIRA LEITO'        AS txt, 'FM_BEIRA_LEITO'      AS col FROM dual UNION ALL
+    SELECT 'CK_FM_NA_POLTRONA_EVO_FISIO_INT_1'      AS id, 'CONDUTA FM NA POLTRONA'        AS txt, 'FM_NA_POLTRONA'      AS col FROM dual UNION ALL
+    SELECT 'CK_FM_BIPEDEST_EVO_FISIO_INT_1'         AS id, 'CONDUTA FM BIPEDESTAÇÃO'       AS txt, 'FM_BIPEDESTACAO'     AS col FROM dual UNION ALL
+    SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1'      AS id, 'CONDUTA FM DEAMBULAÇÃO'        AS txt, 'FM_DEAMBULACAO'      AS col FROM dual
 ),
 base AS (
 SELECT
@@ -157,7 +157,7 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        pw_documento_clinico.cd_atendimento = '4307107'
+        pw_documento_clinico.cd_atendimento = '4285233'
     AND pw_editor_clinico.cd_documento = '384'
     AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
