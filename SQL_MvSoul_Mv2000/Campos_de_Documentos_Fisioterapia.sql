@@ -99,6 +99,7 @@ GROUP BY
 
 --------------------------------------------------------------------------------------------------------
 -- Fisioterapia evolução de UTI adulto
+-- Fisioterapia evolução de UTI Pedi
 WITH mapa AS (
     -- =========================
     -- RESPIRAÇÃO 
@@ -117,7 +118,7 @@ WITH mapa AS (
     -- =========================
     SELECT 'CK_PCV_EVO_FISIO_UTI_1'               AS id, 'VENTILAÇÃO MECÂNICA PCV'      AS txt, 'PCV'              AS col FROM dual UNION ALL
     SELECT 'CK_VCV_EVO_FISIO_UTI_1'               AS id, 'VENTILAÇÃO MECÂNICA VCV'      AS txt, 'VCV'              AS col FROM dual UNION ALL
-    SELECT 'CK_PCV_EVO_FISIO_UTI_1'               AS id, 'VENTILAÇÃO MECÂNICA PSV'      AS txt, 'PSV'              AS col FROM dual UNION ALL
+    SELECT 'CK_PSV_EVO_FISIO_UTI_1'               AS id, 'VENTILAÇÃO MECÂNICA PSV'      AS txt, 'PSV'              AS col FROM dual UNION ALL
     SELECT 'CK_OUTRO_EVO_FISIO_UTI_1'             AS id, 'VENTILAÇÃO MECÂNICA OUTRO'    AS txt, 'OUTRO'            AS col FROM dual UNION ALL
 
     -- =========================
@@ -164,7 +165,7 @@ WHERE
     AND pw_documento_clinico.cd_usuario LIKE '%CLAUDIA.BRASILEIRO%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1', 'CK_VENTURI_EVO_FISIO_UTI_1',
     'CK_MASCARA_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
-                                           'CK_VMI_EVO_FISIO_UTI_1', 'CK_TOT_EVO_FISIO_UTI_1', 'CK_TQT_EVO_FISIO_UTI_1', 'K_PCV_EVO_FISIO_UTI_1',
+                                           'CK_VMI_EVO_FISIO_UTI_1', 'CK_TOT_EVO_FISIO_UTI_1', 'CK_TQT_EVO_FISIO_UTI_1', 'CK_PCV_EVO_FISIO_UTI_1',
                                            'CK_VCV_EVO_FISIO_UTI_1',
                                            'CK_PSV_EVO_FISIO_UTI_1', 'CK_OUTRO_EVO_FISIO_UTI_1', 'CK_DRENO_DIREITA_EVO_FISIO_UTI_1', 'CK_FR_VNI_EVO_FISIO_UTI_1',
                                            'CK_FR_DESMAME_TRE_EVO_FISIO_UTI_1',
