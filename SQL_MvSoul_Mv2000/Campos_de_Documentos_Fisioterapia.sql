@@ -1,7 +1,7 @@
 --Fisioterapia evolução de internação
 WITH mapa AS (
     -- =========================
-    -- RESPIRAÇÃO / VIA AÉREA
+    -- RESPIRAÇÃO 
     -- =========================
     SELECT 'CK_ESPONTANEO_EVO_FISIO_INT_1'      AS id, 'RESPIRANDO EM ESPONTÂNEO'              AS txt, 'ESPONTANEO'          AS col FROM dual UNION ALL
     SELECT 'CK_PRONGA_NASAL_EVO_FISIO_INT_1'    AS id, 'RESPIRANDO EM PRONGA NASAL'            AS txt, 'PRONGA_NASAL'        AS col FROM dual UNION ALL
