@@ -6,6 +6,7 @@ WITH mapa AS (
     SELECT 'CK_ESPONTANEO_EVO_FISIO_INT_1'      AS id, 'RESPIRANDO EM ESPONTÂNEO'              AS txt, 'ESPONTANEO'          AS col FROM dual UNION ALL
     SELECT 'CK_PRONGA_NASAL_EVO_FISIO_INT_1'    AS id, 'RESPIRANDO EM PRONGA NASAL'            AS txt, 'PRONGA_NASAL'        AS col FROM dual UNION ALL
     SELECT 'CK_VENTURI_EVO_FISIO_INT_1'         AS id, 'RESPIRANDO EM COMPROMETIDO'            AS txt, 'VENTURI'             AS col FROM dual UNION ALL
+    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_INT_1'  AS id, 'MASCARA RESERVATÓRIO'                  AS txt, 'MASCARA'             AS col FROM dual UNION ALL
     SELECT 'CK_VNI_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM VNI'                     AS txt, 'VNI'                 AS col FROM dual UNION ALL
     SELECT 'CK_VMI_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM VMI'                     AS txt, 'VMI'                 AS col FROM dual UNION ALL
     SELECT 'CK_TOT_EVO_FISIO_INT_1'             AS id, 'RESPIRANDO EM TOT'                     AS txt, 'TOT'                 AS col FROM dual UNION ALL
@@ -33,7 +34,7 @@ WITH mapa AS (
     SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1'          AS id, 'CONDUTA FM DEAMBULAÇÃO'        AS txt, 'FM_DEAMBULACAO'      AS col FROM dual
 ),
 base AS (
-   SELECT
+SELECT
     pw_documento_clinico.cd_paciente,
     paciente.nm_paciente,
     pw_documento_clinico.cd_atendimento,
@@ -54,12 +55,12 @@ WHERE
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     AND pw_documento_clinico.cd_usuario LIKE '%TANIA.SANTOS%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_INT_1', 'CK_PRONGA_NASAL_EVO_FISIO_INT_1', 'CK_VENTURI_EVO_FISIO_INT_1',
-    'CK_VNI_EVO_FISIO_INT_1', 'CK_VMI_EVO_FISIO_INT_1',
-                                           'CK_TOT_EVO_FISIO_INT_1', 'CK_TQT_EVO_FISIO_INT_1', 'CK_DRENO_DIREITA_EVO_FISIO_INT_1', 'CK_FR_VNI_EVO_FISIO_INT_1',
-                                           'CK_FR_DESMAME_TRE_EVO_FISIO_INT_1',
-                                           'CK_FR_EXTUBACAO_EVO_FISIO_INT_1', 'CK_FM_SEDESTACAO_EVO_FISIO_INT_1', 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_INT_1',
-                                           'CK_FM_NA_POLTRONA_EVO_FISIO_INT_1', 'CK_FM_BIPEDEST_EVO_FISIO_INT_1',
-                                           'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1' )
+    'CK_MASCARA_RESERV_EVO_FISIO_INT_1', 'CK_VNI_EVO_FISIO_INT_1',
+                                           'CK_VMI_EVO_FISIO_INT_1', 'CK_TOT_EVO_FISIO_INT_1', 'CK_TQT_EVO_FISIO_INT_1', 'CK_DRENO_DIREITA_EVO_FISIO_INT_1',
+                                           'CK_FR_VNI_EVO_FISIO_INT_1',
+                                           'CK_FR_DESMAME_TRE_EVO_FISIO_INT_1', 'CK_FR_EXTUBACAO_EVO_FISIO_INT_1', 'CK_FM_SEDESTACAO_EVO_FISIO_INT_1',
+                                           'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_INT_1', 'CK_FM_NA_POLTRONA_EVO_FISIO_INT_1',
+                                           'CK_FM_BIPEDEST_EVO_FISIO_INT_1', 'CK_FM_DEAMBULACAO_EVO_FISIO_INT_1' )
     AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true'
 )
 SELECT
@@ -71,6 +72,7 @@ SELECT
     MAX(CASE WHEN col = 'ESPONTANEO'        THEN txt END) AS espontaneo,
     MAX(CASE WHEN col = 'PRONGA_NASAL'      THEN txt END) AS pronga_nasal,
     MAX(CASE WHEN col = 'VENTURI'           THEN txt END) AS venturi,
+    MAX(CASE WHEN col = 'MASCARA'           THEN txt END) AS mascara,
     MAX(CASE WHEN col = 'VNI'               THEN txt END) AS vni,
     MAX(CASE WHEN col = 'VMI'               THEN txt END) AS vmi,
     MAX(CASE WHEN col = 'TOT'               THEN txt END) AS tot,
