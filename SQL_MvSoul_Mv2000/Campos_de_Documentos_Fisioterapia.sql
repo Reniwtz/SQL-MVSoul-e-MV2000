@@ -106,7 +106,7 @@ WITH mapa AS (
     SELECT 'CK_ESPONTANEO_EVO_FISIO_UTI_1'       AS id, 'RESPIRANDO EM ESPONTÂNEO'     AS txt, 'ESPONTANEO'       AS col FROM dual UNION ALL
     SELECT 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1'     AS id, 'RESPIRANDO EM PRONGA NASAL'   AS txt, 'PRONGA_NASAL'     AS col FROM dual UNION ALL
     SELECT 'CK_VENTURI_EVO_FISIO_UTI_1'          AS id, 'RESPIRANDO EM COMPROMETIDO'   AS txt, 'VENTURI'          AS col FROM dual UNION ALL
-    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_UTI_1'   AS id, 'MÁSCARA RESERVATÓRIO'         AS txt, 'MASCARA'          AS col FROM dual UNION ALL
+    SELECT 'CK_MASCAR_RESERV_EVO_FISIO_UTI_1'    AS id, 'MÁSCARA RESERVATÓRIO'         AS txt, 'MASCARA'          AS col FROM dual UNION ALL
     SELECT 'CK_VNI_EVO_FISIO_UTI_1'              AS id, 'RESPIRANDO EM VNI'            AS txt, 'VNI'              AS col FROM dual UNION ALL
     SELECT 'CK_VMI_EVO_FISIO_UTI_1'              AS id, 'RESPIRANDO EM VMI'            AS txt, 'VMI'              AS col FROM dual UNION ALL
     SELECT 'CK_TOT_EVO_FISIO_UTI_1'              AS id, 'RESPIRANDO EM TOT'            AS txt, 'TOT'              AS col FROM dual UNION ALL
@@ -123,7 +123,7 @@ WITH mapa AS (
     -- =========================
     -- DISPOSITIVOS
     -- =========================
-    SELECT 'CK_DRENO_DIREITA_EVO_FISIO_UTI_1'      AS id, 'DRENO TORÁCICO À DIREITA'    AS txt, 'DRENO_TOR_DIREITO' AS col FROM dual UNION ALL
+    SELECT 'CK_DRENO_A_DIREITA_EVO_FISIO_UTI_1'   AS id, 'DRENO TORÁCICO À DIREITA'    AS txt, 'DRENO_TOR_DIREITO' AS col FROM dual UNION ALL
 
     -- =========================
     -- CONDUTAS - FR
@@ -135,11 +135,11 @@ WITH mapa AS (
     -- =========================
     -- CONDUTAS - FM
     -- =========================
-    SELECT 'CK_FM_SEDESTACAO_EVO_FISIO_UTI_1'      AS id, 'CONDUTA FM SEDESTAÇÃO'        AS txt, 'FM_SEDESTACAO'     AS col FROM dual UNION ALL
+    SELECT 'CK_FM_SEDEST_EVO_FISIO_UTI_1'          AS id, 'CONDUTA FM SEDESTAÇÃO'        AS txt, 'FM_SEDESTACAO'     AS col FROM dual UNION ALL
     SELECT 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_1'  AS id, 'CONDUTA FM BEIRA LEITO'       AS txt, 'FM_BEIRA_LEITO'    AS col FROM dual UNION ALL
-    SELECT 'CK_FM_NA_POLTRONA_EVO_FISIO_UTI_1'     AS id, 'CONDUTA FM NA POLTRONA'       AS txt, 'FM_NA_POLTRONA'    AS col FROM dual UNION ALL
+    SELECT 'CK_FM_POLTRONA_EVO_FISIO_UTI_1'        AS id, 'CONDUTA FM NA POLTRONA'       AS txt, 'FM_NA_POLTRONA'    AS col FROM dual UNION ALL
     SELECT 'CK_FM_BIPEDEST_EVO_FISIO_UTI_1'        AS id, 'CONDUTA FM BIPEDESTAÇÃO'      AS txt, 'FM_BIPEDESTACAO'   AS col FROM dual UNION ALL
-    SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_UTI_1'     AS id, 'CONDUTA FM DEAMBULAÇÃO'       AS txt, 'FM_DEAMBULACAO'    AS col FROM dual
+    SELECT 'CK_FM_DEAMBUL_EVO_FISIO_UTI_1'         AS id, 'CONDUTA FM DEAMBULAÇÃO'       AS txt, 'FM_DEAMBULACAO'    AS col FROM dual
 ),
 base AS (
 SELECT
@@ -159,18 +159,17 @@ FROM
 WHERE
         pw_documento_clinico.cd_atendimento = '4285233'
     AND pw_editor_clinico.cd_documento = '382'
-    AND pw_documento_clinico.cd_objeto = '261'
+    --AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-    AND pw_documento_clinico.cd_usuario LIKE '%CLAUDIA.BRASILEIRO%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1', 'CK_VENTURI_EVO_FISIO_UTI_1',
-    'CK_MASCARA_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
+    'CK_MASCAR_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
                                            'CK_VMI_EVO_FISIO_UTI_1', 'CK_TOT_EVO_FISIO_UTI_1', 'CK_TQT_EVO_FISIO_UTI_1', 'CK_PCV_EVO_FISIO_UTI_1',
                                            'CK_VCV_EVO_FISIO_UTI_1',
-                                           'CK_PSV_EVO_FISIO_UTI_1', 'CK_OUTRO_EVO_FISIO_UTI_1', 'CK_DRENO_DIREITA_EVO_FISIO_UTI_1', 'CK_FR_VNI_EVO_FISIO_UTI_1',
+                                           'CK_PSV_EVO_FISIO_UTI_1', 'CK_OUTRO_EVO_FISIO_UTI_1', 'CK_DRENO_A_DIREITA_EVO_FISIO_UTI_1', 'CK_FR_VNI_EVO_FISIO_UTI_1',
                                            'CK_FR_DESMAME_TRE_EVO_FISIO_UTI_1',
-                                           'CK_FR_EXTUBACAO_EVO_FISIO_UTI_1', 'CK_FM_SEDESTACAO_EVO_FISIO_UTI_1', 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_1',
-                                           'CK_FM_NA_POLTRONA_EVO_FISIO_UTI_1', 'CK_FM_BIPEDEST_EVO_FISIO_UTI_1',
-                                           'CK_FM_DEAMBULACAO_EVO_FISIO_UTI_1' )
+                                           'CK_FR_EXTUBACAO_EVO_FISIO_UTI_1', 'CK_FM_SEDEST_EVO_FISIO_UTI_1', 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_1',
+                                           'CK_FM_POLTRONA_EVO_FISIO_UTI_1', 'CK_FM_BIPEDEST_EVO_FISIO_UTI_1',
+                                           'CK_FM_DEAMBUL_EVO_FISIO_UTI_1' )
     AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true'
 )
 SELECT
