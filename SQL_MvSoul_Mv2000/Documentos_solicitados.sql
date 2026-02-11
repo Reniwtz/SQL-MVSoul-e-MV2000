@@ -11,7 +11,7 @@ FROM
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
     JOIN atendime ON atendime.cd_atendimento = pw_documento_clinico.cd_atendimento
 WHERE
-        pw_editor_clinico.cd_documento = '227' --AVISO DE CIRURGIA AMBULATORIAL
+        pw_editor_clinico.cd_documento = '227' --aviso de cirurgia
     AND pw_documento_clinico.tp_status = 'FECHADO'
     AND atendime.cd_ori_ate IN ( '12', '43' )
     AND pw_documento_clinico.dh_criacao BETWEEN TO_DATE('09/02/26', 'DD/MM/YY') AND TO_DATE('10/02/26', 'DD/MM/YY')
@@ -71,3 +71,5 @@ GROUP BY
     pw_documento_clinico.cd_prestador,
     pw_documento_clinico.cd_usuario,
     pw_documento_clinico.nm_documento
+ORDER BY
+    código_do_paciente
