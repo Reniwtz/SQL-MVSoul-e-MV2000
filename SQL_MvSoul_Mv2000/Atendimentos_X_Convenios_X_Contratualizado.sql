@@ -1,3 +1,4 @@
+-- Ambulatorial
 SELECT
     convenio.nm_convenio     AS convenio,
     atendime.cd_atendimento  AS atendimento,
@@ -8,7 +9,8 @@ SELECT
     pro_fat.ds_pro_fat       AS descrição,
     itreg_amb.qt_lancamento  AS quantidade_lançada,
     itreg_amb.vl_total_conta AS valor,
-    ori_ate.ds_ori_ate       AS origem_do_atendimento
+    ori_ate.ds_ori_ate       AS origem_do_atendimento,
+    reg_amb.cd_remessa       AS remessa
 FROM
          itreg_amb itreg_amb
     INNER JOIN atendime ON atendime.cd_atendimento = itreg_amb.cd_atendimento
@@ -16,6 +18,7 @@ FROM
     INNER JOIN convenio ON convenio.cd_convenio = atendime.cd_convenio
     INNER JOIN pro_fat ON pro_fat.cd_pro_fat = itreg_amb.cd_pro_fat
     LEFT JOIN ori_ate ON ori_ate.cd_ori_ate = atendime.cd_ori_ate
+    LEFT JOIN reg_amb ON reg_amb.cd_reg_amb = itreg_amb.cd_reg_amb
 WHERE
     itreg_amb.cd_convenio IN ( 92, 95, 97, 98, 104,
                                105, 106, 108 )
@@ -29,11 +32,13 @@ GROUP BY
     pro_fat.ds_pro_fat,
     itreg_amb.qt_lancamento,
     itreg_amb.vl_total_conta,
-    ori_ate.ds_ori_ate
+    ori_ate.ds_ori_ate,
+    reg_amb.cd_remessa
 ORDER BY
     convenio.nm_convenio;
     
 --------------------------------------------------------------------------------
+-- Internação
 SELECT
     convenio.nm_convenio         AS convenio,
     atendime.cd_atendimento      AS atendimento,
@@ -68,3 +73,4 @@ GROUP BY
     ori_ate.ds_ori_ate
 ORDER BY
     convenio.nm_convenio;
+    
