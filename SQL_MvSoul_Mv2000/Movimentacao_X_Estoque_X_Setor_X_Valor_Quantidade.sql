@@ -54,3 +54,24 @@ GROUP BY
 ORDER BY
     paciente.cd_paciente,
     mvto_estoque.hr_mvto_estoque
+
+-----------------------------------------------------------------------
+SELECT
+    itmvto_estoque.cd_produto           AS código_do_produto,
+    produto.ds_produto                  AS descrição,
+    SUM(itmvto_estoque.qt_movimentacao) AS quantidade_movimentada,
+    setor.nm_setor                      AS setor_solicitante
+FROM
+         itmvto_estoque itmvto_estoque
+    INNER JOIN produto ON produto.cd_produto = itmvto_estoque.cd_produto
+    INNER JOIN mvto_estoque ON mvto_estoque.cd_mvto_estoque = itmvto_estoque.cd_mvto_estoque
+    INNER JOIN setor ON setor.cd_setor = mvto_estoque.cd_setor
+WHERE
+    itmvto_estoque.cd_produto LIKE '13030'
+    AND itmvto_estoque.dh_mvto_estoque BETWEEN TO_DATE('01/01/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
+GROUP BY
+    itmvto_estoque.cd_produto,
+    produto.ds_produto,
+    setor.nm_setor
+ORDER BY
+    quantidade_movimentada DESC
