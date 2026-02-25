@@ -161,12 +161,15 @@ SELECT
         ORDER BY
             dt_autorizacao DESC
         FETCH FIRST 1 ROW ONLY
-    )                                                            AS data_da_autorização,
-    ent_pro.cd_ent_pro                                           AS código_da_entrada_do_produto,
+    )                                                            AS data_da_autorização
+    /*ent_pro.cd_ent_pro                                           AS código_da_entrada_do_produto,
     ent_pro.cd_estoque                                           AS estoque_de_entrada,
     ent_pro.hr_entrada                                           AS data_da_entrada,
     ent_pro.nr_documento                                         AS nota_fiscal,
     ent_pro.vl_total                                             AS valor_total_da_nota
+    con_pag.cd_con_pag                                           AS código_contas_a_pagar,
+    con_pag.dt_lancamento                                        AS dt_lancamentento,
+    con_pag.cd_reduzido                                          AS conta_contábil*/
 FROM
          ord_com ord_com
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = ord_com.cd_fornecedor
@@ -174,7 +177,8 @@ FROM
     INNER JOIN produto ON produto.cd_produto = itord_pro.cd_produto
     INNER JOIN sol_com ON sol_com.cd_sol_com = ord_com.cd_sol_com
     INNER JOIN setor ON setor.cd_setor = sol_com.cd_setor
-    LEFT JOIN ent_pro ON ent_pro.cd_ord_com = ord_com.cd_ord_com
+    --LEFT JOIN ent_pro ON ent_pro.cd_ord_com = ord_com.cd_ord_com
+    --LEFT JOIN con_pag ON con_pag.nr_documento = ent_pro.nr_documento
 WHERE
     ord_com.cd_sol_com LIKE '27177'
     AND ord_com.dt_cancelamento IS NULL
