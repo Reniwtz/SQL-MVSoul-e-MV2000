@@ -136,7 +136,31 @@ SELECT
     itord_pro.qt_atendida    AS quantidade_atendida,
     itord_pro.vl_unitario    AS valor_unitario,
     itord_pro.vl_total       AS valor_total_item,
-    ord_com.vl_total         AS valor_total_da_ordem
+    ord_com.vl_total         AS valor_total_da_ordem,
+    decode(ord_com.tp_situacao, 'U', 'AUTORIZADA', 'T', 'ATENDIDA',
+           'A', 'AGUARDANDO PROXIMO NIVEL', ord_com.tp_situacao) AS status_da_solic_compra,
+           (
+        SELECT
+            autorizador_ordem_compra.cd_usuario
+        FROM
+            autorizador_ordem_compra
+        WHERE
+            cd_ord_com = ord_com.cd_ord_com
+        ORDER BY
+            dt_autorizacao DESC
+        FETCH FIRST 1 ROW ONLY
+    )                                                            AS último_usuario_autorizador,
+    (
+        SELECT
+            autorizador_ordem_compra.dt_autorizacao
+        FROM
+            autorizador_ordem_compra
+        WHERE
+            cd_ord_com = ord_com.cd_ord_com
+        ORDER BY
+            dt_autorizacao DESC
+        FETCH FIRST 1 ROW ONLY
+    )                                                            AS data_da_autorização
 FROM
          ord_com ord_com
     INNER JOIN fornecedor ON fornecedor.cd_fornecedor = ord_com.cd_fornecedor
