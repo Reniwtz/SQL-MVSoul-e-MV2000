@@ -121,25 +121,26 @@ ORDER BY
 -- Relatório do Gerente
 --Em Desenvolvimento
 SELECT
-    sol_com.cd_sol_com       AS código_da_solic_de_compra,
-    sol_com.nm_solicitante   AS nome_do_solicitante,
-    sol_com.cd_usuario       AS descrição_do_usuário_logado,
-    sol_com.dt_sol_com       AS dt_solicitação_de_compra,
-    ord_com.cd_ord_com       AS ordem_de_compra,
-    ord_com.dt_ord_com       AS dt_ordem_de_compra,
-    ord_com.cd_fornecedor    AS codigo_do_fornecedor,
-    fornecedor.nm_fornecedor AS nome_do_fornecedor,
-    itord_pro.cd_produto     AS codigo_do_produto,
-    produto.ds_produto       AS descricao_do_produto,
-    itord_pro.qt_comprada    AS quantidade_comprada,
-    itord_pro.qt_recebida    AS quantidade_recebida,
-    itord_pro.qt_atendida    AS quantidade_atendida,
-    itord_pro.vl_unitario    AS valor_unitario,
-    itord_pro.vl_total       AS valor_total_item,
-    ord_com.vl_total         AS valor_total_da_ordem,
+    sol_com.cd_sol_com                                           AS código_da_solic_de_compra,
+    sol_com.nm_solicitante                                       AS nome_do_solicitante,
+    sol_com.cd_usuario                                           AS descrição_do_usuário_logado,
+    sol_com.dt_sol_com                                           AS dt_solicitação_de_compra,
+    setor.nm_setor                                               AS setro_solicitante,
+    ord_com.cd_ord_com                                           AS ordem_de_compra,
+    ord_com.dt_ord_com                                           AS dt_ordem_de_compra,
+    ord_com.cd_fornecedor                                        AS código_do_fornecedor,
+    fornecedor.nm_fornecedor                                     AS nome_do_fornecedor,
+    itord_pro.cd_produto                                         AS codigo_do_produto,
+    produto.ds_produto                                           AS descricao_do_produto,
+    itord_pro.qt_comprada                                        AS quantidade_comprada,
+    itord_pro.qt_recebida                                        AS quantidade_recebida,
+    itord_pro.qt_atendida                                        AS quantidade_atendida,
+    itord_pro.vl_unitario                                        AS valor_unitário,
+    itord_pro.vl_total                                           AS valor_total_item,
+    ord_com.vl_total                                             AS valor_total_da_ordem,
     decode(ord_com.tp_situacao, 'U', 'AUTORIZADA', 'T', 'ATENDIDA',
            'A', 'AGUARDANDO PROXIMO NIVEL', ord_com.tp_situacao) AS status_da_solic_compra,
-           (
+    (
         SELECT
             autorizador_ordem_compra.cd_usuario
         FROM
@@ -149,7 +150,7 @@ SELECT
         ORDER BY
             dt_autorizacao DESC
         FETCH FIRST 1 ROW ONLY
-    )                                                            AS último_usuario_autorizador,
+    )                                                            AS último_usuário_autorizador,
     (
         SELECT
             autorizador_ordem_compra.dt_autorizacao
@@ -167,6 +168,10 @@ FROM
     INNER JOIN itord_pro ON itord_pro.cd_ord_com = ord_com.cd_ord_com
     INNER JOIN produto ON produto.cd_produto = itord_pro.cd_produto
     INNER JOIN sol_com ON sol_com.cd_sol_com = ord_com.cd_sol_com
+    INNER JOIN setor ON setor.cd_setor = sol_com.cd_setor
 WHERE
     ord_com.cd_sol_com LIKE '27177'
-    AND ord_com.dt_cancelamento IS NULL;
+    AND ord_com.dt_cancelamento IS NULL
+ORDER BY
+    sol_com.cd_sol_com,
+    ord_com.cd_ord_com;
