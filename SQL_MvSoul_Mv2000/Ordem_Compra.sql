@@ -132,6 +132,8 @@ SELECT
     fornecedor.nm_fornecedor                                     AS nome_do_fornecedor,
     itord_pro.cd_produto                                         AS código_do_produto,
     produto.ds_produto                                           AS descrição_do_produto,
+    est_pro.qt_estoque_atual                                     AS quantida_atual_de_estoque,
+    estoque.ds_estoque                                           AS descrição_do_estoque,
     itord_pro.qt_comprada                                        AS quantidade_comprada,
     itord_pro.qt_recebida                                        AS quantidade_recebida,
     itord_pro.qt_atendida                                        AS quantidade_atendida,
@@ -179,6 +181,8 @@ FROM
     INNER JOIN setor ON setor.cd_setor = sol_com.cd_setor
     LEFT JOIN ent_pro ON ent_pro.cd_ord_com = ord_com.cd_ord_com
     LEFT JOIN con_pag ON con_pag.cd_con_pag = ent_pro.cd_con_pag
+    LEFT JOIN est_pro ON est_pro.qt_estoque_atual = produto.cd_produto
+    LEFT JOIN estoque ON estoque.cd_estoque = est_pro.cd_estoque
 WHERE
     ord_com.cd_sol_com LIKE '27177'
     AND ord_com.dt_cancelamento IS NULL
