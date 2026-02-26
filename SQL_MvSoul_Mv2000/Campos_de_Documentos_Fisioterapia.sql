@@ -50,7 +50,8 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        pw_documento_clinico.cd_atendimento = '4307107'
+        --pw_documento_clinico.cd_atendimento = '4307107'
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/02/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
     AND pw_editor_clinico.cd_documento = '384'
     AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
@@ -161,8 +162,10 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        pw_documento_clinico.cd_atendimento = '4285233'
+        --pw_documento_clinico.cd_atendimento = '4285233'
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/02/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
     AND pw_editor_clinico.cd_documento = '382'
+    AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1', 'CK_VENTURI_EVO_FISIO_UTI_1',
     'CK_MASCAR_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
@@ -278,7 +281,8 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        pw_documento_clinico.cd_atendimento = '4285233'
+        --pw_documento_clinico.cd_atendimento = '4285233'
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/02/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
     AND pw_editor_clinico.cd_documento = '382'
     AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
@@ -379,9 +383,10 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        pw_documento_clinico.cd_atendimento = '4306223'
+        --pw_documento_clinico.cd_atendimento = '4306223'
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/02/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
     AND pw_editor_clinico.cd_documento = '282'
-    --AND pw_documento_clinico.cd_objeto = '261'
+    AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     AND editor_campo.ds_identificador IN ( 'TX_DIAGPRI_EVO_FISIO_ADULTO_1', 'TX_CLINICAORI_EVO_FISIO_ADULTO_1', 'CK_NCSEDADO_EVO_FISIO_ADULTO_1',
     'CK_NCCOMATOSO_EVO_FISIO_ADULTO_1', 'CK_NCTORPOROSO_EVO_FISIO_ADULTO_1',
