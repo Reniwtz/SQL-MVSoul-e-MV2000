@@ -335,3 +335,85 @@ GROUP BY
     cd_atendimento,
     nm_documento,
     dh_criacao;
+
+
+--------------------------------------------------------------------------------------------------------
+--Evolução de Fisioterapia - Ambulatório Adulto
+WITH mapa AS (
+    -- =========================
+    -- DIAGNÓSTICO PRINCIPAL 
+    -- =========================
+    SELECT 'TX_DIAGPRI_EVO_FISIO_ADULTO_1'        AS id, 'NVL CONSCIÊNCIA DIAGNÓSTICO PRINCIPAL'   AS txt, 'DIAGNÓSTICO'     AS col FROM dual UNION ALL
+   
+    -- =========================
+    -- CLÍNICA DE ORIGEM
+    -- =========================
+    SELECT 'TX_CLINICAORI_EVO_FISIO_ADULTO_1'     AS id, 'CLÍNICA DE ORIGEM'                       AS txt, 'CLINICA_ORIGEM'  AS col FROM dual UNION ALL
+
+    -- =========================
+    -- NÍVEL DE CONSCIÊNCIA
+    -- =========================
+    SELECT 'CK_NCSEDADO_EVO_FISIO_ADULTO_1'       AS id, 'NVL CONSCIÊNCIA SEDADO'                  AS txt, 'SEDADO'          AS col FROM dual UNION ALL
+    SELECT 'CK_NCCOMATOSO_EVO_FISIO_ADULTO_1'     AS id, 'NVL CONSCIÊNCIA COMATOSO'                AS txt, 'COMATOSO'        AS col FROM dual UNION ALL
+    SELECT 'CK_NCTORPOROSO_EVO_FISIO_ADULTO_1'    AS id, 'NVL CONSCIÊNCIAO TORPOROSO'              AS txt, 'TORPOROSO'       AS col FROM dual UNION ALL
+
+    -- =========================
+    -- EXAMES FÍSICOS
+    -- =========================
+    SELECT 'CK_DRENO_EVO_FISIO_ADULTO_1'          AS id, 'EXAMES FÍSICOS DRENO'                   AS txt, 'DRENO'           AS col FROM dual UNION ALL
+    SELECT 'CK_SONDA_EVO_FISIO_ADULTO_1'          AS id, 'EXAMES FÍSICOS SONDA'                   AS txt, 'SONDA'           AS col FROM dual 
+),
+base AS (
+SELECT
+    pw_documento_clinico.cd_paciente,
+    paciente.nm_paciente,
+    pw_documento_clinico.cd_atendimento,
+    pw_documento_clinico.nm_documento,
+    pw_documento_clinico.dh_criacao,
+    mapa.col,
+    mapa.txt
+FROM
+         pw_documento_clinico
+    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+    JOIN mapa ON mapa.id = editor_campo.ds_identificador
+    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
+WHERE
+        pw_documento_clinico.cd_atendimento = '4306223'
+    AND pw_editor_clinico.cd_documento = '282'
+    --AND pw_documento_clinico.cd_objeto = '261'
+    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+    AND editor_campo.ds_identificador IN ( 'TX_DIAGPRI_EVO_FISIO_ADULTO_1', 'TX_CLINICAORI_EVO_FISIO_ADULTO_1', 'CK_NCSEDADO_EVO_FISIO_ADULTO_1',
+    'CK_NCCOMATOSO_EVO_FISIO_ADULTO_1', 'CK_NCTORPOROSO_EVO_FISIO_ADULTO_1',
+                                           'CK_DRENO_EVO_FISIO_ADULTO_1', 'CK_SONDA_EVO_FISIO_ADULTO_1' )
+    AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true'
+)
+SELECT
+    cd_paciente    AS cad,
+    nm_paciente    AS nome_do_paciente,
+    cd_atendimento AS atendimento,
+    nm_documento   AS tipo_de_documento,
+    dh_criacao     AS data_do_documento,
+
+    MAX(CASE WHEN col = 'DIAGNÓSTICO'       THEN txt END) AS espontaneo,
+    
+    MAX(CASE WHEN col = 'CLINICA_ORIGEM'    THEN txt END) AS pronga_nasal,
+    
+    MAX(CASE WHEN col = 'SEDADO'            THEN txt END) AS venturi,
+    MAX(CASE WHEN col = 'COMATOSO'          THEN txt END) AS mascara,
+    MAX(CASE WHEN col = 'TORPOROSO'         THEN txt END) AS vni,
+    
+    MAX(CASE WHEN col = 'DRENO'             THEN txt END) AS pcv,
+    MAX(CASE WHEN col = 'DESCRIÇÃO'         THEN txt END) AS vcv,
+    MAX(CASE WHEN col = 'SONDA'             THEN txt END) AS psv
+    
+FROM base
+GROUP BY
+    cd_paciente,
+    nm_paciente,
+    cd_atendimento,
+    nm_documento,
+    dh_criacao
+order by
+    dh_criacao;
