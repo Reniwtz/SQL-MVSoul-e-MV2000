@@ -163,7 +163,6 @@ FROM
 WHERE
         pw_documento_clinico.cd_atendimento = '4285233'
     AND pw_editor_clinico.cd_documento = '382'
-    --AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_1', 'CK_VENTURI_EVO_FISIO_UTI_1',
     'CK_MASCAR_RESERV_EVO_FISIO_UTI_1', 'CK_VNI_EVO_FISIO_UTI_1',
@@ -396,17 +395,17 @@ SELECT
     nm_documento   AS tipo_de_documento,
     dh_criacao     AS data_do_documento,
 
-    MAX(CASE WHEN col = 'DIAGNÓSTICO'       THEN txt END) AS espontaneo,
+    MAX(CASE WHEN col = 'DIAGNÓSTICO'       THEN txt END) AS diagnóstico,
     
-    MAX(CASE WHEN col = 'CLINICA_ORIGEM'    THEN txt END) AS pronga_nasal,
+    MAX(CASE WHEN col = 'CLINICA_ORIGEM'    THEN txt END) AS clínica_origem,
     
-    MAX(CASE WHEN col = 'SEDADO'            THEN txt END) AS venturi,
-    MAX(CASE WHEN col = 'COMATOSO'          THEN txt END) AS mascara,
-    MAX(CASE WHEN col = 'TORPOROSO'         THEN txt END) AS vni,
+    MAX(CASE WHEN col = 'SEDADO'            THEN txt END) AS sedado,
+    MAX(CASE WHEN col = 'COMATOSO'          THEN txt END) AS comatoso,
+    MAX(CASE WHEN col = 'TORPOROSO'         THEN txt END) AS torporoso,
     
-    MAX(CASE WHEN col = 'DRENO'             THEN txt END) AS pcv,
-    MAX(CASE WHEN col = 'DESCRIÇÃO'         THEN txt END) AS vcv,
-    MAX(CASE WHEN col = 'SONDA'             THEN txt END) AS psv
+    MAX(CASE WHEN col = 'DRENO'             THEN txt END) AS dreno,
+    MAX(CASE WHEN col = 'DESCRIÇÃO'         THEN txt END) AS descrição,
+    MAX(CASE WHEN col = 'SONDA'             THEN txt END) AS sonda
     
 FROM base
 GROUP BY
