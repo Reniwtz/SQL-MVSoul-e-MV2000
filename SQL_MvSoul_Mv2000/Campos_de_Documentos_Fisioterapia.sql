@@ -109,70 +109,29 @@ GROUP BY
 
 
 
--- Óbitos
-SELECT
-    data,
-    SUM(total) AS total
+-- Óbitos internação
+SELECT DISTINCT
+    atendime.cd_paciente
 FROM
-    (
+    atendime atendime
+WHERE
+    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+    AND atendime.tp_atendimento = 'I'
+    AND atendime.sn_obito = 'S'
+    AND atendime.cd_atendimento IN (
         SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
+            pw_documento_clinico.cd_atendimento
         FROM
-            atendime
+                 pw_documento_clinico
+            JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+            JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+            JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+            JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
         WHERE
-                atendime.tp_atendimento <> 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '384'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-        UNION ALL
-        SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
-        FROM
-            atendime
-        WHERE
-            atendime.cd_mot_alt IS NOT NULL
-            AND atendime.tp_atendimento = 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '384'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-    )
-GROUP BY
-    data
-ORDER BY
-    data;
-
+            pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+            AND pw_editor_clinico.cd_documento = '384'
+            AND pw_documento_clinico.cd_objeto = '261'
+            AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
 
 
 
@@ -359,69 +318,29 @@ GROUP BY
 
 
 
--- Óbitos
-SELECT
-    data,
-    SUM(total) AS total
+-- Óbitos UTI Adulto
+SELECT DISTINCT
+    atendime.cd_paciente
 FROM
-    (
+    atendime atendime
+WHERE
+    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+    AND atendime.tp_atendimento = 'I'
+    AND atendime.sn_obito = 'S'
+    AND atendime.cd_atendimento IN (
         SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
+            pw_documento_clinico.cd_atendimento
         FROM
-            atendime
+                 pw_documento_clinico
+            JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+            JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+            JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+            JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
         WHERE
-                atendime.tp_atendimento <> 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '382'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-        UNION ALL
-        SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
-        FROM
-            atendime
-        WHERE
-            atendime.cd_mot_alt IS NOT NULL
-            AND atendime.tp_atendimento = 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '384'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-    )
-GROUP BY
-    data
-ORDER BY
-    data;
+            pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+            AND pw_editor_clinico.cd_documento = '382'
+            AND pw_documento_clinico.cd_objeto = '261'
+            AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
 
 
 --------------------------------------------------------------------------------------------------------
@@ -549,68 +468,28 @@ GROUP BY
 
 
 -- Óbitos
-SELECT
-    data,
-    SUM(total) AS total
+SELECT DISTINCT
+    atendime.cd_paciente
 FROM
-    (
+    atendime atendime
+WHERE
+    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+    AND atendime.tp_atendimento = 'I'
+    AND atendime.sn_obito = 'S'
+    AND atendime.cd_atendimento IN (
         SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
+            pw_documento_clinico.cd_atendimento
         FROM
-            atendime
+                 pw_documento_clinico
+            JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+            JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+            JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+            JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
         WHERE
-                atendime.tp_atendimento <> 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '383'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-        UNION ALL
-        SELECT
-            trunc(atendime.dt_alta) AS data,
-            COUNT(*)                AS total
-        FROM
-            atendime
-        WHERE
-            atendime.cd_mot_alt IS NOT NULL
-            AND atendime.tp_atendimento = 'I'
-            AND atendime.sn_obito = 'S'
-            AND EXISTS (
-                SELECT
-                    1
-                FROM
-                         pw_documento_clinico
-                    JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-                    JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-                    JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
-                    JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
-                WHERE
-                        pw_documento_clinico.cd_paciente = atendime.cd_paciente
-                    AND pw_editor_clinico.cd_documento = '384'
-                    AND pw_documento_clinico.cd_objeto = '261'
-                    AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-            )
-        GROUP BY
-            trunc(atendime.dt_alta)
-    )
-GROUP BY
-    data
-ORDER BY
-    data;
+            pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+            AND pw_editor_clinico.cd_documento = '383'
+            AND pw_documento_clinico.cd_objeto = '261'
+            AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
 
 
 
