@@ -115,8 +115,7 @@ SELECT DISTINCT
 FROM
     atendime atendime
 WHERE
-    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
-    AND atendime.tp_atendimento = 'I'
+        atendime.tp_atendimento = 'I'
     AND atendime.sn_obito = 'S'
     AND atendime.cd_atendimento IN (
         SELECT
@@ -324,8 +323,7 @@ SELECT DISTINCT
 FROM
     atendime atendime
 WHERE
-    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
-    AND atendime.tp_atendimento = 'I'
+        atendime.tp_atendimento = 'I'
     AND atendime.sn_obito = 'S'
     AND atendime.cd_atendimento IN (
         SELECT
@@ -467,14 +465,13 @@ GROUP BY
     dh_criacao;
 
 
--- Óbitos
+-- Óbitos UTI Pedi
 SELECT DISTINCT
     atendime.cd_paciente
 FROM
     atendime atendime
 WHERE
-    atendime.dt_alta BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
-    AND atendime.tp_atendimento = 'I'
+        atendime.tp_atendimento = 'I'
     AND atendime.sn_obito = 'S'
     AND atendime.cd_atendimento IN (
         SELECT
