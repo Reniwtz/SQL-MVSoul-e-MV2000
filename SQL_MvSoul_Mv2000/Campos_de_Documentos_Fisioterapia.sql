@@ -425,49 +425,54 @@ ORDER BY
 
 
 --------------------------------------------------------------------------------------------------------
--- Fisioterapia evolução de UTI pediatrica
 --Fisioterapia evolução de UTI pediatrica
 WITH mapa AS (
     -- =========================
     -- RESPIRAÇÃO 
     -- =========================
-    SELECT 'CK_ESPONTANEO_EVO_FISIO_UTI_PED_1'        AS id, 'RESPIRANDO EM ESPONTÂNEO'    AS txt, 'ESPONTANEO'      AS col FROM dual UNION ALL
-    SELECT 'CK_PRONGA_NASAL_EVO_FISIO_UTI_PED_1'      AS id, 'RESPIRANDO EM PRONGA NASAL'  AS txt, 'PRONGA_NASAL'    AS col FROM dual UNION ALL
-    SELECT 'CK_VENTURI_EVO_FISIO_UTI_PED_1'           AS id, 'RESPIRANDO EM COMPROMETIDO'  AS txt, 'VENTURI'         AS col FROM dual UNION ALL
-    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_UTI_PED_1'    AS id, 'MÁSCARA RESERVATÓRIO'        AS txt, 'MASCARA'         AS col FROM dual UNION ALL
-    SELECT 'CK_VNI_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM VNI'           AS txt, 'VNI'             AS col FROM dual UNION ALL
-    SELECT 'CK_VMI_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM VMI'           AS txt, 'VMI'             AS col FROM dual UNION ALL
-    SELECT 'CK_TOT_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM TOT'           AS txt, 'TOT'             AS col FROM dual UNION ALL
-    SELECT 'CK_TQT_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM TQT'           AS txt, 'TQT'             AS col FROM dual UNION ALL
+    SELECT 'CK_ESPONTANEO_EVO_FISIO_UTI_PED_1'        AS id, 'RESPIRANDO EM ESPONTÂNEO'    AS txt, 'ESPONTANEO'      AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_PRONGA_NASAL_EVO_FISIO_UTI_PED_1'      AS id, 'RESPIRANDO EM PRONGA NASAL'  AS txt, 'PRONGA_NASAL'    AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_VENTURI_EVO_FISIO_UTI_PED_1'           AS id, 'RESPIRANDO EM COMPROMETIDO'  AS txt, 'VENTURI'         AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_MASCARA_RESERV_EVO_FISIO_UTI_PED_1'    AS id, 'MÁSCARA RESERVATÓRIO'        AS txt, 'MASCARA'         AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_VNI_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM VNI'           AS txt, 'VNI'             AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_VMI_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM VMI'           AS txt, 'VMI'             AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_TOT_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM TOT'           AS txt, 'TOT'             AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_TQT_EVO_FISIO_UTI_PED_1'               AS id, 'RESPIRANDO EM TQT'           AS txt, 'TQT'             AS col, 'BOOL'  AS tipo FROM dual UNION ALL
 
+    -- =========================
+    -- RESPIRAÇÃO (VALOR)
+    -- =========================
+    SELECT 'DT_INTUBADO_EVO_FISIO_UTI_PED_1'          AS id, 'DATA DA INTUBAÇÃO'           AS txt, 'DT_INTUBADO'     AS col, 'VALOR' AS tipo FROM dual UNION ALL
+    SELECT 'DT_EXTURBADO_EVO_FISIO_UTI_PED_1'         AS id, 'DATA DA EXTUBAÇÃO'           AS txt, 'DT_EXTUBAÇÃO'    AS col, 'VALOR' AS tipo FROM dual UNION ALL
+    
     -- =========================
     -- PARAMENTROS VENTILAÇÃO MECÂNICA
     -- =========================
-    SELECT 'CK_PCV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA PCV'   AS txt, 'PCV'              AS col FROM dual UNION ALL
-    SELECT 'CK_VCV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA VCV'   AS txt, 'VCV'              AS col FROM dual UNION ALL
-    SELECT 'CK_PSV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA PSV'   AS txt, 'PSV'              AS col FROM dual UNION ALL
-    SELECT 'CK_OUTRO_EVO_FISIO_UTI_PED_1'              AS id, 'VENTILAÇÃO MECÂNICA OUTRO' AS txt, 'OUTRO'            AS col FROM dual UNION ALL
+    SELECT 'CK_PCV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA PCV'   AS txt, 'PCV'              AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_VCV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA VCV'   AS txt, 'VCV'              AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_PSV_EVO_FISIO_UTI_PED_1'                AS id, 'VENTILAÇÃO MECÂNICA PSV'   AS txt, 'PSV'              AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_OUTRO_EVO_FISIO_UTI_PED_1'              AS id, 'VENTILAÇÃO MECÂNICA OUTRO' AS txt, 'OUTRO'            AS col, 'BOOL'  AS tipo FROM dual UNION ALL
 
     -- =========================
     -- DISPOSITIVOS
     -- =========================
-    SELECT 'CK_DRENO_DIREITA_EVO_FISIO_UTI_PED_1'      AS id, 'DRENO TORÁCICO À DIREITA'  AS txt, 'DRENO_TOR_DIREITO' AS col FROM dual UNION ALL
+    SELECT 'CK_DRENO_DIREITA_EVO_FISIO_UTI_PED_1'      AS id, 'DRENO TORÁCICO À DIREITA'  AS txt, 'DRENO_TOR_DIREITO' AS col, 'BOOL'  AS tipo FROM dual UNION ALL
 
     -- =========================
     -- CONDUTAS - FR
     -- =========================
-    SELECT 'CK_FR_VNI_EVO_FISIO_UTI_PED_1'             AS id, 'CONDUTA FR VNI'             AS txt, 'FR_VNI'           AS col FROM dual UNION ALL
-    SELECT 'CK_FR_DESMAME_TRE_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FR DESMAME'         AS txt, 'FR_DESMAME'       AS col FROM dual UNION ALL
-    SELECT 'CK_FR_EXTUBACAO_EVO_FISIO_UTI_PED_1'       AS id, 'CONDUTA FR EXTUBAÇÃO'       AS txt, 'FR_EXTUBACAO'     AS col FROM dual UNION ALL
+    SELECT 'CK_FR_VNI_EVO_FISIO_UTI_PED_1'             AS id, 'CONDUTA FR VNI'             AS txt, 'FR_VNI'           AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FR_DESMAME_TRE_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FR DESMAME'         AS txt, 'FR_DESMAME'       AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FR_EXTUBACAO_EVO_FISIO_UTI_PED_1'       AS id, 'CONDUTA FR EXTUBAÇÃO'       AS txt, 'FR_EXTUBACAO'     AS col, 'BOOL'  AS tipo FROM dual UNION ALL
 
     -- =========================
     -- CONDUTAS - FM
     -- =========================
-    SELECT 'CK_FM_SEDESTACAO_EVO_FISIO_UTI_PED_1'      AS id, 'CONDUTA FM SEDESTAÇÃO'      AS txt, 'FM_SEDESTACAO'     AS col FROM dual UNION ALL
-    SELECT 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_PED_1'  AS id, 'CONDUTA FM BEIRA LEITO'     AS txt, 'FM_BEIRA_LEITO'    AS col FROM dual UNION ALL
-    SELECT 'CK_FM_NA_POLTRONA_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FM NA POLTRONA'     AS txt, 'FM_NA_POLTRONA'    AS col FROM dual UNION ALL
-    SELECT 'CK_FM_BIPEDEST_EVO_FISIO_UTI_PED_1'        AS id, 'CONDUTA FM BIPEDESTAÇÃO'    AS txt, 'FM_BIPEDESTACAO'   AS col FROM dual UNION ALL
-    SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FM DEAMBULAÇÃO'     AS txt, 'FM_DEAMBULACAO'    AS col FROM dual
+    SELECT 'CK_FM_SEDESTACAO_EVO_FISIO_UTI_PED_1'      AS id, 'CONDUTA FM SEDESTAÇÃO'      AS txt, 'FM_SEDESTACAO'     AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_PED_1'  AS id, 'CONDUTA FM BEIRA LEITO'     AS txt, 'FM_BEIRA_LEITO'    AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FM_NA_POLTRONA_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FM NA POLTRONA'     AS txt, 'FM_NA_POLTRONA'    AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FM_BIPEDEST_EVO_FISIO_UTI_PED_1'        AS id, 'CONDUTA FM BIPEDESTAÇÃO'    AS txt, 'FM_BIPEDESTACAO'   AS col, 'BOOL'  AS tipo FROM dual UNION ALL
+    SELECT 'CK_FM_DEAMBULACAO_EVO_FISIO_UTI_PED_1'     AS id, 'CONDUTA FM DEAMBULAÇÃO'     AS txt, 'FM_DEAMBULACAO'    AS col, 'BOOL'  AS tipo FROM dual
 ),
 base AS (
 SELECT
@@ -477,7 +482,9 @@ SELECT
     pw_documento_clinico.nm_documento,
     pw_documento_clinico.dh_criacao,
     mapa.col,
-    mapa.txt
+    mapa.txt,
+    mapa.tipo,
+    TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 4000, 1)) AS valor_texto
 FROM
          pw_documento_clinico
     JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
@@ -486,22 +493,15 @@ FROM
     JOIN mapa ON mapa.id = editor_campo.ds_identificador
     JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
 WHERE
-        --pw_documento_clinico.cd_atendimento = '4285233'
+        --pw_documento_clinico.cd_atendimento = '4307107'
         pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/02/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
     AND pw_editor_clinico.cd_documento = '383'
     AND pw_documento_clinico.cd_objeto = '261'
     AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-    --AND pw_documento_clinico.cd_usuario LIKE '%CLAUDIA.BRASILEIRO%'
-    AND editor_campo.ds_identificador IN ( 'CK_ESPONTANEO_EVO_FISIO_UTI_PED_1', 'CK_PRONGA_NASAL_EVO_FISIO_UTI_PED_1', 'CK_VENTURI_EVO_FISIO_UTI_PED_1',
-    'CK_MASCARA_RESERV_EVO_FISIO_UTI_PED_1', 'CK_VNI_EVO_FISIO_UTI_PED_1',
-                                           'CK_VMI_EVO_FISIO_UTI_PED_1', 'CK_TOT_EVO_FISIO_UTI_PED_1', 'CK_TQT_EVO_FISIO_UTI_PED_1', 'CK_PCV_EVO_FISIO_UTI_PED_1',
-                                           'CK_VCV_EVO_FISIO_UTI_PED_1',
-                                           'CK_PSV_EVO_FISIO_UTI_PED_1', 'CK_OUTRO_EVO_FISIO_UTI_PED_1', 'CK_DRENO_DIREITA_EVO_FISIO_UTI_PED_1',
-                                           'CK_FR_VNI_EVO_FISIO_UTI_PED_1', 'CK_FR_DESMAME_TRE_EVO_FISIO_UTI_PED_1',
-                                           'CK_FR_EXTUBACAO_EVO_FISIO_UTI_PED_1', 'CK_FM_SEDESTACAO_EVO_FISIO_UTI_PED_1', 'CK_FM_BEIRA_DO_LEITO_EVO_FISIO_UTI_PED_1',
-                                           'CK_FM_NA_POLTRONA_EVO_FISIO_UTI_PED_1', 'CK_FM_BIPEDEST_EVO_FISIO_UTI_PED_1',
-                                           'CK_FM_DEAMBULACAO_EVO_FISIO_UTI_PED_1' )
-    AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true'
+    AND ( ( mapa.tipo = 'BOOL'
+            AND lower(TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 5, 1))) = 'true' )
+          OR ( mapa.tipo = 'VALOR'
+               AND TRIM(dbms_lob.substr(editor_registro_campo.lo_valor, 4000, 1)) IS NOT NULL ) )
 )
 SELECT
     cd_paciente    AS cad,
@@ -519,6 +519,9 @@ SELECT
     MAX(CASE WHEN col = 'VMI'               THEN txt END) AS vmi,
     MAX(CASE WHEN col = 'TOT'               THEN txt END) AS tot,
     MAX(CASE WHEN col = 'TQT'               THEN txt END) AS tqt,
+    
+    MAX(CASE WHEN col = 'DT_INTUBADO'       THEN valor_texto END) AS data_intubacao,
+    MAX(CASE WHEN col = 'DT_EXTUBADO'       THEN valor_texto END) AS data_estubacao,
 
     MAX(CASE WHEN col = 'PCV'               THEN txt END) AS pcv,
     MAX(CASE WHEN col = 'VCV'               THEN txt END) AS vcv,
