@@ -108,7 +108,6 @@ GROUP BY
     dh_criacao;
 
 
-
 -- Óbitos Internação
 SELECT DISTINCT
     atendime.cd_paciente
@@ -160,6 +159,40 @@ WHERE
     )
 
 
+--Admissões   
+WITH base AS (
+    SELECT
+        pw_documento_clinico.cd_atendimento,
+        pw_documento_clinico.cd_paciente,
+        pw_documento_clinico.dh_criacao,
+        ROW_NUMBER()
+        OVER(PARTITION BY pw_documento_clinico.cd_atendimento, pw_documento_clinico.cd_paciente
+             ORDER BY
+                 pw_documento_clinico.dh_criacao
+        ) AS rn
+    FROM
+             pw_documento_clinico
+        JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+        JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+        JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+        JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
+    WHERE
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+        AND pw_editor_clinico.cd_documento = '384'
+        AND pw_documento_clinico.cd_objeto = '261'
+        AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+)
+SELECT
+    base.cd_atendimento,
+    base.cd_paciente,
+    base.dh_criacao
+FROM
+    base
+WHERE
+    base.rn = 1
+ORDER BY
+    base.cd_paciente,
+    base.cd_atendimento;
 
 --------------------------------------------------------------------------------------------------------
 --Fisioterapia evolução de UTI adulto
@@ -278,7 +311,6 @@ GROUP BY
     dh_criacao;
 
 
-
 -- Óbitos UTI Adulto
 SELECT DISTINCT
     atendime.cd_paciente
@@ -329,7 +361,42 @@ WHERE
             AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     )
 
-
+    
+--Admissões   
+WITH base AS (
+    SELECT
+        pw_documento_clinico.cd_atendimento,
+        pw_documento_clinico.cd_paciente,
+        pw_documento_clinico.dh_criacao,
+        ROW_NUMBER()
+        OVER(PARTITION BY pw_documento_clinico.cd_atendimento, pw_documento_clinico.cd_paciente
+             ORDER BY
+                 pw_documento_clinico.dh_criacao
+        ) AS rn
+    FROM
+             pw_documento_clinico
+        JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+        JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+        JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+        JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
+    WHERE
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+        AND pw_editor_clinico.cd_documento = '382'
+        AND pw_documento_clinico.cd_objeto = '261'
+        AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+)
+SELECT
+    base.cd_atendimento,
+    base.cd_paciente,
+    base.dh_criacao
+FROM
+    base
+WHERE
+    base.rn = 1
+ORDER BY
+    base.cd_paciente,
+    base.cd_atendimento;
+    
 --------------------------------------------------------------------------------------------------------
 --Fisioterapia evolução de UTI pediatrica
 WITH mapa AS (
@@ -503,6 +570,43 @@ WHERE
             AND pw_documento_clinico.cd_objeto = '261'
             AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
     )
+
+    
+--Admissões   
+WITH base AS (
+    SELECT
+        pw_documento_clinico.cd_atendimento,
+        pw_documento_clinico.cd_paciente,
+        pw_documento_clinico.dh_criacao,
+        ROW_NUMBER()
+        OVER(PARTITION BY pw_documento_clinico.cd_atendimento, pw_documento_clinico.cd_paciente
+             ORDER BY
+                 pw_documento_clinico.dh_criacao
+        ) AS rn
+    FROM
+             pw_documento_clinico
+        JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+        JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
+        JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo
+        JOIN paciente ON paciente.cd_paciente = pw_documento_clinico.cd_paciente
+    WHERE
+        pw_documento_clinico.dh_criacao BETWEEN TO_DATE('01/01/26', 'DD/MM/YY') AND TO_DATE('01/03/26', 'DD/MM/YY')
+        AND pw_editor_clinico.cd_documento = '383'
+        AND pw_documento_clinico.cd_objeto = '261'
+        AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+)
+SELECT
+    base.cd_atendimento,
+    base.cd_paciente,
+    base.dh_criacao
+FROM
+    base
+WHERE
+    base.rn = 1
+ORDER BY
+    base.cd_paciente,
+    base.cd_atendimento;
+
 
 --------------------------------------------------------------------------------------------------------
 --Evolução de Fisioterapia - Ambulatório Adulto
