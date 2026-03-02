@@ -131,7 +131,7 @@ WHERE
             AND pw_editor_clinico.cd_documento = '384'
             AND pw_documento_clinico.cd_objeto = '261'
             AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
-
+)
 
 
 --Altas Internação
@@ -301,6 +301,7 @@ WHERE
             AND pw_editor_clinico.cd_documento = '382'
             AND pw_documento_clinico.cd_objeto = '261'
             AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+    )
 
 
 --Altas UTI Adulto
@@ -475,6 +476,7 @@ WHERE
             AND pw_editor_clinico.cd_documento = '383'
             AND pw_documento_clinico.cd_objeto = '261'
             AND pw_documento_clinico.nm_documento LIKE '%FISIOTERAPIA%'
+    )
 
 
 --Altas UTI pediatrica
