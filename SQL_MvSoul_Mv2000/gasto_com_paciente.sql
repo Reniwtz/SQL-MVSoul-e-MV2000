@@ -42,17 +42,18 @@ ORDER BY
     
 --------------------------------------------------------------------------------
 SELECT
-    reg_fat.cd_atendimento           AS código_do_atendimento,
-    atendime.cd_paciente             AS código_do_paciente,
-    reg_fat.cd_cid_principal         AS cid_principal,
-    cid.ds_cid                       AS descrição_do_cid,
-    itreg_fat.vl_sp                  AS valor_do_prestador,
-    pro_fat.cd_pro_fat               AS código_do_procedimento,
-    pro_fat.ds_pro_fat               AS descrição_do_procedimento,
-    procedimento_sus.cd_procedimento AS código_do_procedimento,
-    procedimento_sus.ds_procedimento AS descrição_do_procedimento,
-    itreg_fat.vl_sh                  AS valor_do_hospitalar,
-    mot_alt.ds_mot_alt               AS motivo_da_alta
+    reg_fat.cd_atendimento                       AS código_do_atendimento,
+    atendime.cd_paciente                         AS código_do_paciente,
+    reg_fat.cd_cid_principal                     AS cid_principal,
+    cid.ds_cid                                   AS descrição_do_cid,
+    pro_fat.cd_pro_fat                           AS código_do_procedimento,
+    pro_fat.ds_pro_fat                           AS descrição_do_procedimento,
+    procedimento_sus.cd_procedimento             AS código_do_procedimento_sus,
+    procedimento_sus.ds_procedimento             AS descrição_do_procedimento_sus,
+    procedimento_sus_valor.vl_total_ambulatorial AS valor_ambulatorial,
+    itreg_fat.vl_sp                              AS valor_do_prestador,
+    itreg_fat.vl_sh                              AS valor_do_hospitalar,
+    mot_alt.ds_mot_alt                           AS motivo_da_alta
 FROM
          reg_fat reg_fat
     INNER JOIN itreg_fat ON itreg_fat.cd_reg_fat = reg_fat.cd_reg_fat
@@ -61,5 +62,14 @@ FROM
     INNER JOIN cid ON cid.cd_cid = reg_fat.cd_cid_principal
     INNER JOIN pro_fat ON pro_fat.cd_pro_fat = itreg_fat.cd_pro_fat
     INNER JOIN procedimento_sus ON procedimento_sus.cd_procedimento = itreg_fat.cd_procedimento
+    INNER JOIN procedimento_sus_valor ON procedimento_sus_valor.cd_procedimento = procedimento_sus.cd_procedimento
+                                         AND procedimento_sus_valor.dt_vigencia = (
+        SELECT
+            MAX(procedimento_sus_valor.dt_vigencia)
+        FROM
+            procedimento_sus_valor procedimento_sus_valor
+        WHERE
+            procedimento_sus_valor.cd_procedimento = procedimento_sus.cd_procedimento
+    )
 WHERE
     reg_fat.cd_atendimento LIKE '417181'
