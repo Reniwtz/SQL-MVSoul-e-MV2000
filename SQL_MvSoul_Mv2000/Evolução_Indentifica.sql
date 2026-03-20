@@ -2,7 +2,8 @@ SELECT
     pw_documento_clinico.cd_paciente                                                                    AS paciente,
     pw_documento_clinico.cd_atendimento                                                                 AS atendimento,
     pw_documento_clinico.cd_objeto                                                                      AS objeto,
-    pw_documento_clinico.tp_status AS STATUS,
+    pw_documento_clinico.tp_status                                                                      AS status,
+    pw_documento_clinico.dh_criacao                                                                     AS dt_criacao_documento,
     decode(pw_documento_clinico.cd_objeto, 642, 'EVOLUÇÃO TERAPEUTA OCUPACIONAL', 61, 'EVOLUÇÃO MEDICA INTERNAÇÃO',
            62, 'EVOLUÇÃO ENFERMAGEM INTERNAÇÃO', 63, 'EVOLUÇÃO NUTRICIONISTA', 73,
            'EVOLUÇÃO PSICOLOGIA', 87, 'EVOLUÇÃO MEDICA URGÊNCIA', 90, 'EVOLUÇÃO ENFERMAGEM AMBULATORI',
@@ -16,9 +17,6 @@ FROM
          pw_documento_clinico pw_documento_clinico
     INNER JOIN pw_tipo_documento ON pw_documento_clinico.cd_tipo_documento = pw_tipo_documento.cd_tipo_documento
     LEFT JOIN pre_med ON pre_med.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-    /*LEFT JOIN pw_editor_clinico ON pw_editor_clinico.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
-     LEFT JOIN editor_registro_campo ON editor_registro_campo.cd_registro = pw_editor_clinico.cd_editor_registro
-     LEFT JOIN editor_campo ON editor_campo.cd_campo = editor_registro_campo.cd_campo*/
 WHERE
     pw_documento_clinico.cd_atendimento IN (
         SELECT DISTINCT
@@ -44,3 +42,4 @@ ORDER BY
     pw_documento_clinico.cd_objeto,
     pw_documento_clinico.tp_status
     --pw_editor_clinico.cd_documento
+    
