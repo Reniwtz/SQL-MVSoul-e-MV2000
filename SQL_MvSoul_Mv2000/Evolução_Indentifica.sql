@@ -2,6 +2,7 @@ SELECT
     pw_documento_clinico.cd_paciente                                                                    AS paciente,
     pw_documento_clinico.cd_atendimento                                                                 AS atendimento,
     pw_documento_clinico.cd_objeto                                                                      AS objeto,
+    pw_documento_clinico.cd_documento_clinico                                                           AS documento,
     pw_documento_clinico.tp_status                                                                      AS status,
     pw_documento_clinico.dh_criacao                                                                     AS dt_criacao_documento,
     decode(pw_documento_clinico.cd_objeto, 642, 'EVOLUÇÃO TERAPEUTA OCUPACIONAL', 61, 'EVOLUÇÃO MEDICA INTERNAÇÃO',
@@ -12,11 +13,12 @@ SELECT
            80, 'EVOLUÇÃO FARMACIA', 82, 'EVOLUÇÃO MEDICA AMBULATORIO', 83,
            'EVOLUÇÃO NUTRICIONISTA AMB', 202, 'EVOLUÇÃO ENFERMAGEM URGENCIA', 881, 'EVOLUÇÃO DENTISTA',
            921, 'EVOLUÇÃO DE ENFERMAGEM CCIH', 69, 'EVOLUÇÃO DE TÉCNICO DE ENFERMAGEM', 'DESCONHECIDO') AS descricao_observacao,
-    pre_med.ds_evolucao                                                                                 AS evolução
+    coalesce(pre_med.ds_evolucao, evo_enf.ds_evo_enf)                                                   AS evolucao
 FROM
-         pw_documento_clinico pw_documento_clinico
+         pw_documento_clinico
     INNER JOIN pw_tipo_documento ON pw_documento_clinico.cd_tipo_documento = pw_tipo_documento.cd_tipo_documento
     LEFT JOIN pre_med ON pre_med.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
+    LEFT JOIN evo_enf ON evo_enf.cd_documento_clinico = pw_documento_clinico.cd_documento_clinico
 WHERE
     pw_documento_clinico.cd_atendimento IN (
         SELECT DISTINCT
@@ -27,7 +29,7 @@ WHERE
                 tp_atendimento = 'I'
             AND cd_servico LIKE '1'
             AND cd_convenio LIKE '1'
-            --AND dt_atendimento BETWEEN TO_DATE('01/01/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
+          --AND dt_atendimento BETWEEN TO_DATE('01/01/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
             AND cd_paciente LIKE '393995'
             AND cd_atendimento LIKE '4071665'
     )
@@ -39,7 +41,7 @@ WHERE
 ORDER BY
     pw_documento_clinico.cd_paciente,
     pw_documento_clinico.cd_atendimento,
+    pw_documento_clinico.cd_documento_clinico,
     pw_documento_clinico.cd_objeto,
-    pw_documento_clinico.tp_status
-    --pw_editor_clinico.cd_documento
-    
+    pw_documento_clinico.tp_status;
+  
