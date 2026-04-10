@@ -105,7 +105,6 @@ WHERE
     username LIKE '%HNLAPPS%';
 
 
-
 /*Dados
 Para usuários, permissões e segurança
 dba_users
@@ -201,7 +200,7 @@ ORDER BY
     v$locked_object.session_id;
 --------------------------------------------------------------------------------
 --Gerar Sessões para matar
-SELECT
+SELECT DISTINCT
     'ALTER SYSTEM KILL SESSION ''' ||
     v_session.sid || ',' || v_session.serial# ||
     ''' IMMEDIATE;' AS comando_kill
@@ -211,7 +210,11 @@ FROM
 WHERE
         v_lock.lmode = 3
     AND v_session.type <> 'BACKGROUND'
-ORDER BY v_lock.ctime DESC;
+    AND v_session.module LIKE '%M_BAIXASOL%'
+    AND v_session.status = 'INACTIVE'
+    AND v_session.last_call_et > 600
+ORDER BY
+    comando_kill;
 
 
 ALTER SYSTEM KILL SESSION '582,5282' IMMEDIATE;
