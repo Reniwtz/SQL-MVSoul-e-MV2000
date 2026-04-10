@@ -151,3 +151,83 @@ Para jobs, automações e rotinas
 dba_scheduler_jobs
 dba_scheduler_job_run_details
 dba_jobs*/
+
+--Informações importantes de Sistema
+SELECT
+    v$session.sid,
+    v$session.serial#,
+    v$session.username,
+    v$session.osuser,
+    v$session.machine,
+    v$session.program,
+    v$session.module,
+    v$session.action,
+    v$session.status,
+    v$session.event,
+    v$session.wait_class,
+    v$session.seconds_in_wait,
+    v$session.last_call_et,
+    v$session.sql_id,
+    ROUND(v$sql.elapsed_time / 1000000, 2) AS elapsed_s,
+    ROUND(v$sql.cpu_time / 1000000, 2) AS cpu_s,
+    v$sql.buffer_gets,
+    v$sql.disk_reads,
+    v$sql.rows_processed,
+    SUBSTR(v$sql.sql_text, 1, 1200) AS sql_text
+FROM v$session
+LEFT JOIN v$sql
+    ON v$session.sql_id = v$sql.sql_id
+WHERE v$session.type = 'USER'
+  AND v$session.username IS NOT NULL
+ORDER BY
+    v$session.status DESC,
+    v$sql.buffer_gets DESC NULLS LAST,
+    v$session.last_call_et DESC;
+
+--------------------------------------------------------------------------------
+--Verificar Locked
+SELECT
+    v$locked_object.session_id,
+    dba_objects.owner,
+    dba_objects.object_name,
+    dba_objects.object_type,
+    v$locked_object.oracle_username,
+    v$locked_object.os_user_name,
+    v$locked_object.locked_mode
+FROM
+         v$locked_object
+    JOIN dba_objects ON v$locked_object.object_id = dba_objects.object_id
+ORDER BY
+    v$locked_object.session_id;
+--------------------------------------------------------------------------------
+--Gerar Sessões para matar
+SELECT
+    'ALTER SYSTEM KILL SESSION ''' ||
+    v_session.sid || ',' || v_session.serial# ||
+    ''' IMMEDIATE;' AS comando_kill
+FROM
+         v$lock v_lock
+    JOIN v$session v_session ON v_lock.sid = v_session.sid
+WHERE
+        v_lock.lmode = 3
+    AND v_session.type <> 'BACKGROUND'
+ORDER BY v_lock.ctime DESC;
+
+
+ALTER SYSTEM KILL SESSION '582,5282' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '582,5282' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '582,5282' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '977,9316' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '977,9316' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '977,9316' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '1066,19090' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '1066,19090' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '783,46130' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '783,46130' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '1488,57965' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '1488,57965' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '802,15996' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '802,15996' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '802,15996' IMMEDIATE;
+ALTER SYSTEM KILL SESSION '802,15996' IMMEDIATE;
+
