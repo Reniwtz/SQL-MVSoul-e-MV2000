@@ -88,3 +88,66 @@ FROM
     inner join v$lock on v$lock.sid = v$session.sid
 WHERE
     v$session.username LIKE '%RENILTON%'
+
+
+--------------------------------------------------------------------
+-- Usuários de Banco e seus acesso a tabela
+SELECT
+    dba_users.username,
+    dba_users.created,
+    dba_users.last_login,
+    dba_tab_privs.table_name,
+    dba_tab_privs.privilege
+FROM
+    dba_users dba_users
+    inner join dba_tab_privs on dba_tab_privs.grantee = dba_users.username
+WHERE
+    username LIKE '%HNLAPPS%';
+
+
+
+/*Dados
+Para usuários, permissões e segurança
+dba_users
+dba_roles
+dba_sys_privs
+dba_tab_privs
+dba_role_privs
+
+Essas ajudam a ver quem acessa o quê.
+
+Para sessões, travas e atividade
+v$session
+Sessões conectadas.
+v$process
+Processo do sistema operacional ligado à sessão.
+v$locked_object
+Objetos bloqueados.
+v$lock
+Locks em nível mais técnico.
+v$transaction
+Transações ativas.
+v$sql
+SQLs executados / cursor cache.
+v$session_longops
+Operações demoradas.
+Para performance
+v$system_event
+v$session_event
+v$waitstat
+v$parameter
+v$sga
+v$sgastat
+v$pga_target_advice
+v$datafile
+v$tempfile
+v$tablespace
+Para auditoria e log
+dba_audit_trail
+dba_audit_session
+dba_source
+dba_errors
+Para jobs, automações e rotinas
+dba_scheduler_jobs
+dba_scheduler_job_run_details
+dba_jobs*/
