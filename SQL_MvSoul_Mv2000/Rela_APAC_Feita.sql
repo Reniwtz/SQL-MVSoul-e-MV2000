@@ -21,3 +21,27 @@ WHERE
                                 '493', '488', '491' )
 ORDER BY
     apac.cd_fat_sia
+
+
+----------------------------------------------------------------------------
+SELECT
+    apac.nr_apac,
+    apac.cd_atendimento,
+    apac.cd_paciente,
+    apac.cd_fat_sia,
+    apac.tp_apac,
+    apac.cd_remessa,
+    apac.cd_ori_ate,
+    eve_siasus.qt_lancada,
+    remessa_apac.ds_remessa
+FROM
+         dbamv.apac apac
+    INNER JOIN eve_siasus ON eve_siasus.cd_apac = apac.cd_apac
+    INNER JOIN remessa_apac ON remessa_apac.cd_remessa = apac.cd_remessa
+WHERE
+        eve_siasus.sn_apac_principal = 'S'
+    AND eve_siasus.qt_lancada = 1
+    AND dt_eve_siasus BETWEEN TO_DATE('01/01/2026', 'DD/MM/YYYY') AND TO_DATE('31/12/2026', 'DD/MM/YYYY')
+      --remessa_bpa.ds_remessa LIKE '%FATURADO%'
+ORDER BY
+    cd_fat_sia DESC
