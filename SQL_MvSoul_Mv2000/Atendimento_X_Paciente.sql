@@ -1,4 +1,7 @@
 SELECT
+    atendime.cd_atendimento                       AS atendimento,
+    atendime.dt_atendimento                       AS data_do_atendimento,
+    paciente.cd_paciente                          AS código_do_paciente,
     paciente.nm_paciente                          AS nome,
     to_char(paciente.dt_nascimento, 'dd/mm/yyyy') AS data_de_nascimento,
     tipo_sexo.nm_sexo                             AS sexo,
@@ -16,10 +19,8 @@ SELECT
     fn_idade(paciente.dt_nascimento)              AS idade,
     paciente.nm_mae                               AS nome_da_mae,
     same.nr_matricula_same                        AS prontuário,
-    atendime.cd_atendimento                       AS atendimento,
     unid_int.ds_unid_int                          AS unidade_de_internação,
     leito.ds_resumo                               AS leito,
-    paciente.cd_paciente                          AS cadastro,
     paciente.nr_cns                               AS cartão_do_sus
 FROM
          atendime atendime
@@ -31,8 +32,12 @@ FROM
     LEFT JOIN leito ON leito.cd_leito = atendime.cd_leito
     LEFT JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
 WHERE
-    cd_atendimento LIKE '485798'
+    atendime.cd_convenio LIKE '4'
+    AND atendime.dt_atendimento BETWEEN TO_DATE('01/04/2026', 'DD/MM/YYYY') AND TO_DATE('24/04/2026', 'DD/MM/YYYY')
 GROUP BY
+    atendime.cd_atendimento,
+    atendime.dt_atendimento,
+    paciente.cd_paciente,
     paciente.nm_paciente,
     to_char(paciente.dt_nascimento, 'dd/mm/yyyy'),
     tipo_sexo.nm_sexo,
@@ -50,8 +55,6 @@ GROUP BY
     fn_idade(paciente.dt_nascimento),
     paciente.nm_mae,
     same.nr_matricula_same,
-    atendime.cd_atendimento,
     unid_int.ds_unid_int,
     leito.ds_resumo,
-    paciente.cd_paciente,
     paciente.nr_cns
