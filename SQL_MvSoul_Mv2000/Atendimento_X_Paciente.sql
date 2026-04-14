@@ -32,8 +32,9 @@ FROM
     LEFT JOIN leito ON leito.cd_leito = atendime.cd_leito
     LEFT JOIN unid_int ON unid_int.cd_unid_int = leito.cd_unid_int
 WHERE
-    atendime.cd_convenio LIKE '4'
-    AND atendime.dt_atendimento BETWEEN TO_DATE('01/04/2026', 'DD/MM/YYYY') AND TO_DATE('24/04/2026', 'DD/MM/YYYY')
+    atendime.cd_convenio NOT IN ( '1', '2', '16' )
+    AND atendime.dt_atendimento >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
+    AND atendime.dt_atendimento < TO_DATE('31/01/2026', 'DD/MM/YYYY')+1
 GROUP BY
     atendime.cd_atendimento,
     atendime.dt_atendimento,
@@ -58,3 +59,6 @@ GROUP BY
     unid_int.ds_unid_int,
     leito.ds_resumo,
     paciente.nr_cns
+ORDER BY
+    atendime.cd_convenio,
+    paciente.cd_paciente
