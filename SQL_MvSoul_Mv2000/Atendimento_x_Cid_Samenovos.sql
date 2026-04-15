@@ -10,7 +10,8 @@ FROM
     INNER JOIN paciente ON paciente.cd_paciente = atendime.cd_paciente
     LEFT JOIN same ON same.cd_paciente = paciente.cd_paciente
 WHERE
-    atendime.dt_atendimento BETWEEN TO_DATE('01/01/23', 'DD/MM/YY') AND TO_DATE('31/12/23', 'DD/MM/YY')
+        atendime.dt_atendimento >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
+    AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
     AND atendime.cd_cid LIKE 'C51%'
 GROUP BY
     atendime.cd_paciente,
@@ -41,9 +42,11 @@ FROM
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
     INNER JOIN tipo_sexo ON tipo_sexo.tp_sexo = paciente.tp_sexo
 WHERE
-    atendime.dt_atendimento BETWEEN TO_DATE('01/01/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
+        aatendime.dt_atendimento >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
+    AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
     AND atendime.cd_cid LIKE 'C51%'
-    AND same.dt_cadastro BETWEEN TO_DATE('01/01/25', 'DD/MM/YY') AND TO_DATE('31/12/25', 'DD/MM/YY')
+    AND same.dt_cadastro >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
+    AND same.dt_cadastro < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
     AND nr_volume LIKE '1'
 GROUP BY
     atendime.cd_paciente,
