@@ -57,4 +57,5 @@ FROM
     INNER JOIN fornecedor ON fornecedor.nr_cgc_cpf = prestador.nr_cpf_cgc
 ORDER BY
     empresa.codigo_do_prestador,
-    empresa.nome_do_prestador;
+    empresa.nome_do_prestador,
+    empresa.tipo_de_prestador;
