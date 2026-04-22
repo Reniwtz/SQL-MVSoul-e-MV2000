@@ -1,4 +1,4 @@
-    SELECT
+SELECT
     prestador.cd_prestador AS cad_prestador,
     prestador.nm_prestador AS prestador,
     prestador.nr_cns       AS cns,
@@ -21,3 +21,40 @@ GROUP BY
     cbo.ds_cbos
 order by 
     prestador.cd_prestador
+
+------------------------------------------------------------------------------------------
+-- Prestador
+WITH empresa AS (
+    SELECT DISTINCT
+        prestador.cd_prestador        AS codigo_do_prestador,
+        prestador.nm_prestador        AS nome_do_prestador,
+        prestador.cd_prestador_muitos AS codigo_do_chefe,
+        prestador.nr_cpf_cgc          AS cpf,
+        tip_presta.nm_tip_presta      AS tipo_de_prestador
+    FROM
+             prestador prestador
+        INNER JOIN tip_presta ON tip_presta.cd_tip_presta = prestador.cd_tip_presta
+    WHERE
+        prestador.tp_situacao LIKE 'A'
+        AND prestador.cd_tip_presta IN ( 8, 7, 12, 17, 20,
+                                      21, 22, 23, 24, 25,
+                                      26, 33, 38, 41, 44,
+                                      48 )
+)
+SELECT DISTINCT
+    empresa.codigo_do_prestador,
+    empresa.nome_do_prestador,
+    empresa.codigo_do_chefe,
+    empresa.cpf,
+    empresa.tipo_de_prestador,
+    prestador.nm_prestador AS nome_do_chefe,
+    prestador.nr_cpf_cgc   AS cnpj
+    /*fornecedor.cd_fornecedor,
+    fornecedor.nm_fantasia*/
+FROM
+    empresa
+    LEFT JOIN prestador ON prestador.cd_prestador = empresa.codigo_do_chefe
+    INNER JOIN fornecedor ON fornecedor.nr_cgc_cpf = prestador.nr_cpf_cgc
+ORDER BY
+    empresa.codigo_do_prestador,
+    empresa.nome_do_prestador;
