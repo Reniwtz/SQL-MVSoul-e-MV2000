@@ -39,4 +39,5 @@ WHERE NOT EXISTS (
     FROM usuario_unid_int x
     WHERE x.cd_id_usuario = u.cd_usuario
       AND NVL(x.cd_unid_int, -1) = NVL(cfg.cd_unid_int, -1)
-  
+      AND x.cd_setor = cfg.cd_setor
+);
