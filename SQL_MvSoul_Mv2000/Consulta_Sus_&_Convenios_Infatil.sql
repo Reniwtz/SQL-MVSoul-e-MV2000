@@ -1,36 +1,42 @@
  -- SUS - Consultas Médicas - Radioterapia e Ambulatorio - ADULTOS
-select 'Adulto - SUS', count(cd_atendimento) from atendime     where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Adulto - SUS', count(cd_atendimento) from atendime     where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate not in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde) 
    and cd_convenio = 2
    and tp_atendimento = 'A'
 union all
 -- Planos de Saúde - Consultas Médicas - Radioterapia e Ambulatorio  - ADULTOS
-select 'Adulto - P.Saude ', count(cd_atendimento)     from atendime     where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Adulto - P.Saude ', count(cd_atendimento)     from atendime     where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate not in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde)
    and cd_convenio not in (2,16)   -- (2 SUS Ambulatorio) (16 Particular)
    and tp_atendimento = 'A'
 union all
 -- Particular - Consultas Médicas - Radioterapia e Ambulatorio  - ADULTOS
-select 'Adulto - Particular', count(cd_atendimento) from atendime where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Adulto - Particular', count(cd_atendimento) from atendime where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate not in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde)
    and cd_convenio in (16)   -- (2 SUS Ambulatorio) (16 Particular)
    and tp_atendimento = 'A'
 union all
 -- PEDIATRIA
 -- SUS - Consultas Médicas - Radioterapia e Ambulatorio - ADULTOS
-select 'Pediatria - SUS', count(cd_atendimento) from atendime     where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Pediatria - SUS', count(cd_atendimento) from atendime     where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde) 
    and cd_convenio = 2
    and tp_atendimento = 'A'
 union all
 -- Planos de Saúde - Consultas Médicas - Radioterapia e Ambulatorio  - ADULTOS
-select 'Pediatria - P.Saude', count(cd_atendimento)     from atendime     where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Pediatria - P.Saude', count(cd_atendimento)     from atendime     where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde)
    and cd_convenio not in (2,16)   -- (2 SUS Ambulatorio) (16 Particular)
    and tp_atendimento = 'A'
 union all
 -- Particular - Consultas Médicas - Radioterapia e Ambulatorio  - ADULTOS
-select 'Pediatria - Particular', count(cd_atendimento) from atendime where dt_atendimento between '01/08/2022' and '31/08/2022'
+select 'Pediatria - Particular', count(cd_atendimento) from atendime where atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+   AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
    and cd_ori_ate in (30)   -- (12 Ambulatorial) (30 Pediatria) (14 Radio Consulta) (31 Planos de Saúde)
    and cd_convenio in (16)   -- (2 SUS Ambulatorio) (16 Particular)
    and tp_atendimento = 'A'
