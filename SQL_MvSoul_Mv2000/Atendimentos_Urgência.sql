@@ -1,14 +1,24 @@
-SELECT decode(ATENDIME . CD_CONVENIO , '1', 'SUS - INT', '2', 'SUS - AMB', '16', 'Particular', 'P.Saude') Convenio, substr(to_CHAR(atendime.dt_Atendimento, 'MONTH'),0,3) Mes_Atend, COUNT ( ATENDIME . CD_CONVENIO ) CONT_CONV
-  FROM Dbamv . ATENDIME, Dbamv . CONVENIO
- WHERE CONVENIO . CD_CONVENIO(+) = ATENDIME . CD_CONVENIO
-   AND TRUNC(ATENDIME . DT_ATENDIMENTO) BETWEEN '01/08/2022' AND '31/08/2022'
-   and DBAMV . FNC_MV_USUARIO_UNIDADE_SETOR(null,
-                                    null,
-                                    ATENDIME . cd_ori_ate,
-                                    ATENDIME . cd_leito) = 'S'
-   AND ATENDIME.TP_ATENDIMENTO = 'U'
-GROUP BY ATENDIME . CD_CONVENIO , substr(to_CHAR(atendime.dt_Atendimento, 'MONTH'),0,3), CONVENIO . NM_CONVENIO
-ORDER BY Convenio, Mes_Atend
+SELECT
+    decode(atendime.cd_convenio, '1', 'SUS - INT', '2', 'SUS - AMB',
+           '16', 'Particular', 'P.Saude')                   convenio,
+    substr(to_char(atendime.dt_atendimento, 'MONTH'), 0, 3) mes_atend,
+    COUNT(atendime.cd_convenio)                             cont_conv
+FROM
+    dbamv.atendime,
+    dbamv.convenio
+WHERE
+        convenio.cd_convenio (+) = atendime.cd_convenio
+    AND atendime.dt_atendimento >= TO_DATE('01/04/2026', 'DD/MM/YYYY')
+    AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1
+    AND dbamv.fnc_mv_usuario_unidade_setor(NULL, NULL, atendime.cd_ori_ate, atendime.cd_leito) = 'S'
+    AND atendime.tp_atendimento = 'U'
+GROUP BY
+    atendime.cd_convenio,
+    substr(to_char(atendime.dt_atendimento, 'MONTH'), 0, 3),
+    convenio.nm_convenio
+ORDER BY
+    convenio,
+    mes_atend
 
 
 
