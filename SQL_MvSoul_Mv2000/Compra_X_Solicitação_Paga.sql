@@ -119,3 +119,75 @@ ORDER BY
     sol_com.cd_sol_com,
     ord_com.cd_ord_com,
     ent_pro.nr_documento
+
+-------------------------------------------------------------------------------------
+--Corrigido
+SELECT
+    sol_com.cd_sol_com                                           AS codigo_da_solic_de_compra,
+    sol_com.dt_sol_com                                           AS dt_solicitacao_de_compra,
+    sol_com.cd_usuario                                           AS usuario_da_solicitacao,
+    setor.nm_setor                                               AS setor_solicitante,
+    ord_com.cd_ord_com                                           AS ordem_de_compra,
+    ord_com.dt_ord_com                                           AS dt_ordem_de_compra,
+    ord_com.cd_usuario_criador_oc                                AS usuario_criador_da_oc,
+    ord_com.dt_prev_entrega_intervalo                            AS previsao_de_entrega,
+    ord_com.cd_fornecedor                                        AS codigo_do_fornecedor,
+    fornecedor.nm_fornecedor                                     AS nome_do_fornecedor,
+    itord_pro.cd_produto                                         AS codigo_do_produto,
+    produto.ds_produto                                           AS descricao_do_produto,
+    nvl(est_pro.qt_estoque_atual, 0)                             AS quantidade_atual_de_estoque,
+    estoque.ds_estoque                                           AS descricao_do_estoque,
+    itord_pro.qt_comprada                                        AS quantidade_comprada,
+    itord_pro.qt_recebida                                        AS quantidade_recebida,
+    itord_pro.qt_atendida                                        AS quantidade_atendida,
+    itord_pro.vl_unitario                                        AS valor_unitario,
+    itord_pro.vl_total                                           AS valor_total_do_item,
+    ord_com.vl_total                                             AS valor_total_da_ordem,
+    decode(ord_com.tp_situacao, 'U', 'AUTORIZADA', 'T', 'ATENDIDA',
+           'A', 'AGUARDANDO PROXIMO NIVEL', ord_com.tp_situacao) AS status_da_solic_compra,
+    (
+        SELECT
+            LISTAGG(aoc.cd_usuario
+                    || ' - '
+                    || to_char(aoc.dt_autorizacao, 'DD/MM/YYYY HH24:MI:SS'), ' | ') WITHIN GROUP(
+            ORDER BY
+                aoc.dt_autorizacao
+            )
+        FROM
+            autorizador_ordem_compra aoc
+        WHERE
+            aoc.cd_ord_com = ord_com.cd_ord_com
+    )                                                            AS autorizadores_com_datas,
+    ent_pro.cd_ent_pro                                           AS codigo_da_entrada_do_produto,
+    ent_pro.cd_estoque                                           AS estoque_de_entrada,
+    ent_pro.hr_entrada                                           AS data_da_entrada,
+    ent_pro.nr_documento                                         AS nota_fiscal,
+    ent_pro.vl_total                                             AS valor_total_da_nota,
+    con_pag.cd_con_pag                                           AS codigo_contas_a_pagar,
+    con_pag.dt_lancamento                                        AS dt_lancamento,
+    con_pag.cd_reduzido                                          AS conta_contabil,
+    lcto_contabil.cd_lcto_contabil                               AS código_contabil,
+    lcto_contabil.dt_lcto                                        AS data_contabil,
+    lcto_contabil.cd_reduzido_credito                            AS cd_reduzido,
+    lcto_contabil.cd_reduzido_debito                             AS cd_reduzido_debito,
+    lcto_contabil.vl_lancado                                     AS valor_lancado
+FROM
+         ord_com
+    INNER JOIN fornecedor ON fornecedor.cd_fornecedor = ord_com.cd_fornecedor
+    INNER JOIN itord_pro ON itord_pro.cd_ord_com = ord_com.cd_ord_com
+    INNER JOIN produto ON produto.cd_produto = itord_pro.cd_produto
+    INNER JOIN sol_com ON sol_com.cd_sol_com = ord_com.cd_sol_com
+    INNER JOIN setor ON setor.cd_setor = sol_com.cd_setor
+    LEFT JOIN ent_pro ON ent_pro.cd_ord_com = ord_com.cd_ord_com
+    LEFT JOIN con_pag ON con_pag.cd_con_pag = ent_pro.cd_con_pag
+    LEFT JOIN est_pro ON est_pro.cd_produto = produto.cd_produto
+    LEFT JOIN estoque ON estoque.cd_estoque = est_pro.cd_estoque
+    LEFT JOIN lcto_contabil ON lcto_contabil.cd_lcto_movimento = con_pag.cd_lcto_movimento
+WHERE
+        itord_pro.cd_produto = '13030'
+    AND nvl(est_pro.qt_estoque_atual, 0) > 0
+ORDER BY
+    sol_com.dt_sol_com DESC,
+    sol_com.cd_sol_com,
+    ord_com.cd_ord_com,
+    ent_pro.nr_documento;
