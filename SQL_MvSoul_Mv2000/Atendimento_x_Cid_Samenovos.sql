@@ -42,7 +42,7 @@ FROM
     INNER JOIN cidade ON cidade.cd_cidade = paciente.cd_cidade
     INNER JOIN tipo_sexo ON tipo_sexo.tp_sexo = paciente.tp_sexo
 WHERE
-        aatendime.dt_atendimento >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
+        atendime.dt_atendimento >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
     AND atendime.dt_atendimento < TO_DATE('30/04/2026', 'DD/MM/YYYY') + 1 
     AND atendime.cd_cid LIKE 'C51%'
     AND same.dt_cadastro >= TO_DATE('01/01/2026', 'DD/MM/YYYY')
