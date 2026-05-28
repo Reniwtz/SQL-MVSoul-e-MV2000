@@ -123,9 +123,10 @@ contagem AS (
     SELECT
         e.cd_procedimento_sia AS cd_procedimento,
         COUNT(*) AS qtd
-    FROM ped_rx p
-    INNER JOIN exa_rx e
-        ON e.cd_exa_rx = p.cd_exa_rx
+    FROM 
+        ped_rx p
+        INNER JOIN itped_rx i ON i.cd_ped_rx = p.cd_ped_rx
+        INNER JOIN exa_rx   e ON e.cd_exa_rx = i.cd_exa_rx
     WHERE p.dt_pedido >= TO_DATE('01/01/2025', 'DD/MM/YYYY')
       AND p.dt_pedido <  TO_DATE('31/01/2025', 'DD/MM/YYYY') + 1
       AND p.cd_convenio in ('1', '2')
