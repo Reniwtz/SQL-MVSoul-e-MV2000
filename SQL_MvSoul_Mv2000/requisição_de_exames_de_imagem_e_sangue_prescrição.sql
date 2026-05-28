@@ -62,3 +62,47 @@ SELECT
             ORDER BY
                 vw_res_exames_pssd.cd_atendimento,
                 vw_res_exames_pssd.cd_ped_lab
+
+----------------------------------------------------------------------
+WITH lista AS (
+    SELECT
+        LEVEL AS ordem,
+        REGEXP_SUBSTR(codigos, '[^[:space:]]+', 1, LEVEL) AS cd_procedimento
+    FROM (
+        SELECT q'[
+0201010410
+0201010470
+0201010542
+  .....
+]' AS codigos
+        FROM dual
+    )
+    CONNECT BY REGEXP_SUBSTR(codigos, '[^[:space:]]+', 1, LEVEL) IS NOT NULL
+),
+contagem AS (
+    SELECT
+        e.cd_procedimento_sia AS cd_procedimento,
+        COUNT(*) AS qtd
+    FROM vw_res_exames_pssd p
+    INNER JOIN itped_lab i
+        ON i.cd_ped_lab = p.cd_ped_lab
+    INNER JOIN exa_lab e
+        ON e.cd_exa_lab = i.cd_exa_lab
+    WHERE p.dt_pedido >= TO_DATE('01/01/2025', 'DD/MM/YYYY')
+      AND p.dt_pedido <  TO_DATE('31/01/2025', 'DD/MM/YYYY') + 1
+      AND p.cd_convenio IN ('1', '2')
+      AND e.cd_procedimento_sia IN (
+            SELECT cd_procedimento
+            FROM lista
+      )
+    GROUP BY
+        e.cd_procedimento_sia
+)
+SELECT
+    l.cd_procedimento,
+    NVL(c.qtd, 0) AS qtd
+FROM lista l
+LEFT JOIN contagem c
+    ON c.cd_procedimento = l.cd_procedimento
+ORDER BY
+    l.ordem;
