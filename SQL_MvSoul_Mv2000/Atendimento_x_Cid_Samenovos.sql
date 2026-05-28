@@ -62,3 +62,41 @@ ORDER BY
     atendime.cd_paciente,
     atendime.cd_cid
     
+----------------------------------------------------------------------------------------
+-- Avaliar a fpo pela ordem de uma planilha em determinado periodo
+WITH lista AS (
+    SELECT
+        LEVEL AS ordem,
+        REGEXP_SUBSTR(codigos, '[^[:space:]]+', 1, LEVEL) AS cd_procedimento
+    FROM (
+        SELECT q'[
+0201010410
+0201010470
+0201010542
+.....
+]' AS codigos
+        FROM dual
+    )
+    CONNECT BY REGEXP_SUBSTR(codigos, '[^[:space:]]+', 1, LEVEL) IS NOT NULL
+),
+contagem AS (
+    SELECT
+        a.cd_procedimento,
+        COUNT(*) AS qtd
+    FROM atendime a
+    WHERE a.cd_procedimento IN (
+        SELECT cd_procedimento
+        FROM lista
+    )
+    AND a.dt_atendimento >= TO_DATE('01/01/2025', 'DD/MM/YYYY')
+    AND a.dt_atendimento <  TO_DATE('31/01/2025', 'DD/MM/YYYY') + 1
+    GROUP BY a.cd_procedimento
+)
+SELECT
+    l.cd_procedimento,
+    NVL(c.qtd, 0) AS qtd
+FROM lista l
+LEFT JOIN contagem c
+    ON c.cd_procedimento = l.cd_procedimento
+ORDER BY
+    l.ordem;
